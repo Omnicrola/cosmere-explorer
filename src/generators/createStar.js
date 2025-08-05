@@ -1,9 +1,8 @@
 import * as THREE from 'three';
-import { getFresnelMat } from "./getFresnelMat.js";
+import { getFresnelMat } from "../getFresnelMat.js";
 import { ImprovedNoise } from 'jsm/math/ImprovedNoise.js';
-// sun
 
-function getCorona() {
+function createStarCorona() {
     const radius = 0.9;
     const material = new THREE.MeshBasicMaterial({
         color: 0xffff99,
@@ -34,23 +33,26 @@ function getCorona() {
     mesh.userData.update = update;
     return mesh;
 }
-function getSun() {
+function createStar({
+    starRadius = 1,
+    starColor = 0xffff99
+}) {
     
     const sunMat = new THREE.MeshStandardMaterial({
-        emissive: 0xff0000,
+        emissive: starColor,
     });
-    const geo = new THREE.IcosahedronGeometry(1, 6);
+    const geo = new THREE.IcosahedronGeometry(starRadius, 6);
     const sun = new THREE.Mesh(geo, sunMat);
 
-    const sunRimMat = getFresnelMat({ rimHex: 0xffff99, facingHex: 0x000000 });
+    const sunRimMat = getFresnelMat({ rimHex: starColor, facingHex: 0x000000 });
     const rimMesh = new THREE.Mesh(geo, sunRimMat);
     rimMesh.scale.setScalar(1.01);
     sun.add(rimMesh);
 
-    const coronaMesh = getCorona();
+    const coronaMesh = createStarCorona();
     sun.add(coronaMesh);
 
-    const sunLight = new THREE.PointLight(0xffff99, 10);
+    const sunLight = new THREE.PointLight(starColor, 10);
     sun.add(sunLight);
     sun.userData.update = (t) => {
         sun.rotation.y = t;
@@ -58,4 +60,4 @@ function getSun() {
     };
     return sun;
 }
-export default getSun;
+export {createStar};

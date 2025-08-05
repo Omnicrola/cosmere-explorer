@@ -30,7 +30,7 @@ function getLine({ width }) {
     return mesh;
 }
 
-function getRing({ distance, hue = 0, lightness = 1.0, width = 2 }) {
+function createRing( distance, hue = 0, lightness = 1.0, width = 2 ) {
     function getRingVerts(radius = distance) {
         const positions = [];
         const numVerts = 128;
@@ -61,7 +61,7 @@ function getElipticLines() {
         const hue = 0.25 - i / 20 * 0.27;
         const lightness = 0.5 - i / 20 * 0.5;
         const width = 0.5 + Math.random() * 1;
-        const ring = getRing({ distance: 1.1 + i * gap, hue, lightness, width });
+        const ring = createRing({ distance: 1.1 + i * gap, hue, lightness, width });
         ringGroup.add(ring);
     }
     for (let i = 0; i < 40; i += 1) {
@@ -72,3 +72,4 @@ function getElipticLines() {
     return ringGroup;
 }
 export default getElipticLines;
+export {getElipticLines, createRing}

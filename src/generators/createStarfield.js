@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
-export default function getStarfield({ numStars = 500, size = 0.2 } = {}) {
+ function createStarfield({ numStars = 2500, size = 0.2, shellRadius = 100 } = {}) {
   function randomSpherePoint() {
-    const radius = Math.random() * 25 + 25;
+    const radius = Math.random() * shellRadius * 25 + 25  ;
     const u = Math.random();
     const v = Math.random();
     const theta = 2 * Math.PI * u;
@@ -42,3 +42,5 @@ export default function getStarfield({ numStars = 500, size = 0.2 } = {}) {
   const points = new THREE.Points(geo, mat);
   return points;
 }
+
+export { createStarfield };
