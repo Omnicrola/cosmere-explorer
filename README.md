@@ -1,7 +1,7 @@
-# Build the Solar System with Three.js
+# Cosmere Explorer
+Let's explore the Cosmere!
 
-Lets sculpt the Sun, planets, and stars, not merely as they exist in the cold void of space, but as they bloom in the wild garden of our imagination.
+ -- Under Construction --
 
-Watch the tutorial on [YouTube](https://youtu.be/5Wj3TnktlGc)
+The Cosmere is the name for the shared fictional universe of many of Bradon Sanderson's books. This interconnected cosmology describes many planets, star systems, and other astrological bodies. This repository contains code to allow fans of the Cosmere to browse through a stellar system (just Roshar for now) and learn a little about each planet.
 
-Also, fork and create something cool!
