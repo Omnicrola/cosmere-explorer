@@ -8,7 +8,7 @@ const ashyn = createPlanetData({
     orbitalStart : 10,
     axialTilt : 21.5,
     name : "Ashyn",
-    icon : "",
+    icon : "icon-planet.svg",
     description : "Ashyn, formerly known as Alaswha, is the closest planet to the Rosharan system's sun. ",
     coppermind : ""
 });
@@ -21,7 +21,6 @@ const roshar = createPlanetData({
     orbitalStart : 30,
     axialTilt : 0,
     name : "Roshar",
-    icon : "",
     description : "Roshar is the second planet and is the eponymous planet of Greater Roshar. The Shards of Honor and Cultivation can be found here. Roshar features a single supercontinent, also called Roshar, on which its inhabitants live.",
     coppermind : ""
 });
@@ -34,7 +33,6 @@ const braize = createPlanetData({
     orbitalStart : 90,
     axialTilt : 0,
     name : "Braize",
-    icon : "",
     description : "Braize is the third planet from the Rosharn system's sun. It is a cold planet, perhaps outside the habitable zone. While no humans live here, there do exist self-aware Splinters that inhabit either the planet or its Cognitive manifestation. Braize is where the Shard of Odium resides, and its name is derived from that of the Shard's first Vessel, Rayse. In Rosharan mythology, Braize is referred to as Damnation, and is where Rosharan Heralds returned to between Desolations.",
     coppermind : ""
 });
@@ -53,8 +51,8 @@ const ishi = createPlanetData({orbitalRadius : 440, planetRadius : 7.5, name : "
 const rosharStellarSystem = {
     starRadius : 10,
     starColor: 0xEEEEFF,
-    name : "Star",
-    icon : "",
+    name : "Rosharan System",
+    icon : "icon-stellar-system.svg",
     description : "The Rosharan system's central star is a large white sun.",
     coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
     planets : [

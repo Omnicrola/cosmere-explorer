@@ -1,15 +1,29 @@
 import * as THREE from 'three';
 import { getFresnelMat } from '../getFresnelMat.js';
 import { createRing } from '../getElipticLines.js';
+import { fonts } from '../mainScene.js';
+import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
 
-const TEXT_MAT = new THREE.MeshLambertMaterial({color:0xffffff, flatShading:true });
+function createPlanetText(planetName) {
+  const textMat = getFresnelMat({ rimHex: 0xffffff, facingHex: 0xffaaff });
 
-function createLabel(planetName) {
+    let geo = new TextGeometry(planetName, {
+		font: fonts.roboto_regular,
+		size: 10,
+		depth: .1,
+		curveSegments: 12,
+		bevelEnabled: true,
+		bevelThickness: 1,
+		bevelSize: 4,
+		bevelOffset: 0,
+		bevelSegments: 5
+	} );
+  return new THREE.Mesh(geo, textMat);
 }
 
 const texLoader = new THREE.TextureLoader();
 const geo = new THREE.IcosahedronGeometry(1, 6);
-function createPlanet(p, children = []) {
+function createPlanet(p, index, children = []) {
     const orbitGroup = new THREE.Group();
     orbitGroup.userData.stats = p;
 
@@ -22,6 +36,8 @@ function createPlanet(p, children = []) {
         emissive: p.planetColor,
     });
     const planet = new THREE.Mesh(geo, planetMat);
+    planet.name = 'planet' + index; // need this to find and focus the camera later
+
     planet.scale.setScalar(p.planetRadius);
 
     planet.position.x =  p.orbitalRadius;
@@ -31,6 +47,13 @@ function createPlanet(p, children = []) {
     planetRimMesh.scale.setScalar(1.01);
     planet.add(planetRimMesh);
 
+    let planetText = createPlanetText(p.name);
+    planetText.scale.multiplyScalar(0.2);
+    planetText.position.y = p.planetRadius * 1.5;
+    planetText.position.x = p.orbitalRadius;
+    orbitGroup.add(planetText);
+
+    // TODO: moons
     // children.forEach((child) => {
     //   child.position.x = Math.cos(startAngle) * p.orbitalRadius;
     //   child.position.z = Math.sin(startAngle) * p.orbitalRadius;
@@ -39,7 +62,7 @@ function createPlanet(p, children = []) {
 
     // orbital grouping
     orbitGroup.userData.update = (t) => {
-      orbitGroup.rotation.y = t * p.orbitalSpeed / 10 + p.orbitalStart;
+      orbitGroup.rotation.y = t * p.orbitalSpeed / 100 + p.orbitalStart;
       children.forEach((child) => {
         child.userData.update?.(t);
       });

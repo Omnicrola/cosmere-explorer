@@ -8,8 +8,70 @@
       body {
         margin: 0;
       }
+      #controls {
+        p, ul, li, h1, h2, h3, h4 { margin:0; padding:0; }
+        li { list-style-type: none; }
+
+        position:absolute;
+        top: 0;
+        right: 0;
+        margin : 10px;
+        padding : 10px;
+        border-radius: 3px;
+        width: 350px;
+        background : rgb(17, 17, 17);
+        color: white;
+        font-family:Arial, Helvetica, sans-serif;
+        
+        .scroll-container {
+          scroll-behavior: smooth;
+          overflow: scroll;
+          height: 500px;
+          scrollbar-width: 20px;
+          padding-right:10px;
+        }
+
+        #planet-list {
+          margin : 0;
+          padding : 0;
+          scroll-behavior: auto;
+
+          h1 { font-size: 1.2em; }
+
+          li:hover { background-color: rgb(33,33,33); transition: background-color 0.5s ease-in; }
+          li:active { background-color: rgb(66,66,66); transition: background-color 0.25s ease-in; }
+          .planet {
+            border : 1px solid darkgray;
+            border-radius: 5px;
+            margin : 4px;
+            padding : 8px;
+            display : flex;
+            flex-direction: row;
+            cursor: pointer;
+
+            .planet-icon {
+              width : 32px;
+              height : 32px;
+              padding : 5px;
+              border-radius: 3px;
+              display : inline-block;
+              margin-right : 10px;
+              background-color: white;
+            }
+
+            .name {
+              font-size: 1.1em;
+              display : flex;
+              align-items: center;
+              flex-grow : 1;
+              vertical-align : middle;
+            }
+          }
+        }
+      }
     </style>
-    <script type="importmap">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script type="importmap">
       {
 				"imports": {
 					"three": "https://cdn.jsdelivr.net/npm/three@0.161/build/three.module.js",
@@ -17,6 +79,18 @@
         }
 			}
     </script>
+    <div id="controls">
+      <h1 id="system-name">System Name</h1>
+      <div class="scroll-container">
+        <ul id="planet-list">
+          <li class="planet">
+              <img class="planet-icon" src="" />
+              <p class="name">planet #1</p>
+          </li>
+          <li>planet #2</li>
+        </ul>
+      </div>
+    </div>
   </head>
   <body>
     <script type="module" src="index.js"></script>

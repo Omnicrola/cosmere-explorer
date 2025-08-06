@@ -15,10 +15,13 @@ function createStellarSystem(stellarData) {
     // star
     stellarSystem.add(createStar(stellarData));
 
+
     // planets
-    stellarData.planets.forEach((p) => {
-        stellarSystem.add(createPlanet(p));
+    stellarData.planets.forEach((p, index) => {
+        let planet = createPlanet(p, index);
+        stellarSystem.add(planet);
     })
+
 
     return stellarSystem;
 }
