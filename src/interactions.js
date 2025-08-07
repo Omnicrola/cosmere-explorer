@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { scene, controls, camera } from "./mainScene.js";
+import { ui } from "./ui/ui-tools.js";
 
 function updateInteractions(raycaster, scene) {
     const intersects = raycaster.intersectObjects( scene.children );
@@ -17,6 +18,8 @@ function focusOnPlanet(planetIndex) {
     let aabb = new THREE.Box3().setFromObject( planet );
     let center = aabb.getCenter( new THREE.Vector3() );
     let size = aabb.getSize( new THREE.Vector3() );
+
+    ui.showPlanetInfo(planet);
 
     gsap.to(camera.position, {
         duration : 1,

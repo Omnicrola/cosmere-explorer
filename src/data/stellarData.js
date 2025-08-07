@@ -1,28 +1,39 @@
 function createPlanetData({
+    system = '',
     planetRadius = 1,
     planetColor = 0xffffff,
     textureMap = null,
     orbitalRadius = 5,
     orbitalSpeed = 1,
+    orbitalEccentricity = 0,
     orbitalStart = 0,
     axialTilt = 10,
+    radius,
+    gravity,
+    perpendicularity,
     name = 'default',
     icon = 'icon-planet.svg',
     description = 'Lorem ipsum',
     coppermind = 'https://coppermind.net/wiki'
 }){
     return {
-        planetRadius : planetRadius,
-        planetColor : planetColor,
-        textureMap : textureMap,
-        orbitalRadius : orbitalRadius,
-        orbitalSpeed : orbitalSpeed,
-        orbitalStart : orbitalStart,
-        axialTilt : axialTilt,
-        name : name,
-        icon : icon,
-        description : description,
-        coppermind : coppermind
+        system,
+        description,
+        planetRadius,
+        planetColor,
+        textureMap,
+        orbitalRadius,
+        orbitalSpeed,
+        orbitalStart,
+        orbitalEccentricity,
+        axialTilt,
+        radius,
+        gravity,
+        perpendicularity,
+        name,
+        icon,
+        description,
+        coppermind
     };
 }
 function createStellarData({

@@ -15,8 +15,8 @@ const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 5000);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(w, h);
 
-// renderer.toneMapping = THREE.ACESFilmicToneMapping;
-// renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.body.appendChild(renderer.domElement);
 
 // const wireMat = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true});
@@ -65,7 +65,6 @@ function initScene(data) {
                 obj.userData.update(time, {camera});
             }
         })
-        // stellarSystem.userData.update(time);
 
         raycaster.setFromCamera(pointer, camera);
         updateInteractions(raycaster, scene);

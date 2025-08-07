@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OBJLoader } from "jsm/loaders/OBJLoader.js";
 import { initScene, camera, pointer, renderer } from "./src/mainScene.js";
+import { ui } from "./src/ui/ui-tools.js";
 
 //////// attach scene data /////////
 const sceneData = {
@@ -9,7 +10,8 @@ const sceneData = {
 
 const manager = new THREE.LoadingManager();
 manager.onLoad = () => {
-    initScene(sceneData);
+  ui.init();
+  initScene(sceneData);
 };
 
 // why does this break everything if I remove it?

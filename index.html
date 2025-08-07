@@ -7,36 +7,65 @@
     <style>
       body {
         margin: 0;
+        overflow: hidden;
       }
-      #controls {
-        p, ul, li, h1, h2, h3, h4 { margin:0; padding:0; }
-        li { list-style-type: none; }
+      p, ul, li, h1, h2, h3, h4 { margin:0; padding:0; }
+      li { list-style-type: none; }
+      button {
+        background: rgb(67, 67, 67);
+        color:white;
+        border: 1px solid white;
+        border-radius: 3px;
+        padding: 4px 8px;
+      }
+      button:hover {cursor: pointer; }
 
+      .panel {
+        margin : 10px;
+        padding : 10px;
+        border-radius: 8px;
+        background : rgb(35, 35, 35);
+        color: white;
+        font-family:Arial, Helvetica, sans-serif;
+      }
+      .hidden {
+        height:0 !important;
+        transition:height 0.25 ease-out;
+      }
+
+      #system-panel {
         position:absolute;
         top: 0;
         right: 0;
-        margin : 10px;
-        padding : 10px;
-        border-radius: 3px;
-        width: 350px;
-        background : rgb(17, 17, 17);
-        color: white;
-        font-family:Arial, Helvetica, sans-serif;
+        width: 400px;
         
         .scroll-container {
           scroll-behavior: smooth;
           overflow: scroll;
           height: 500px;
           scrollbar-width: 20px;
-          padding-right:10px;
+          padding-right: 10px;
+          transition:height 0.25s ease-in;
+          transition-delay: 0.5s;
+          
+        }
+
+        .system-title {
+          font-size:1.5em;
+          display:flex;
+          flex-direction: row;
+          justify-content: space-around;
+
+          .toggle-flyout {
+            margin-left: auto;
+            display:inline-block;
+          }
         }
 
         #planet-list {
           margin : 0;
           padding : 0;
           scroll-behavior: auto;
-
-          h1 { font-size: 1.2em; }
 
           li:hover { background-color: rgb(33,33,33); transition: background-color 0.5s ease-in; }
           li:active { background-color: rgb(66,66,66); transition: background-color 0.25s ease-in; }
@@ -69,6 +98,36 @@
           }
         }
       }
+      #info-panel {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 400px;
+        overflow: hidden;
+        transition: top 0.5s ease;
+        transition-delay: 0.5s;
+
+        &.hidden {
+          top:2000px;
+          transition: top 0.5s ease;
+        }
+
+        .name { margin-bottom: 10px; }
+        .description { margin-bottom: 10px; }
+        .stats {
+          li {
+            margin:6px 4px;
+          }
+          a { color: white; }
+          a:hover{color: rgb(0,255,0); }
+          a:visited{color: white; }
+        }
+        button.close {
+          position:absolute;
+          top:10px;
+          right:10px;
+        }
+      }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script type="importmap">
@@ -79,9 +138,23 @@
         }
 			}
     </script>
-    <div id="controls">
-      <h1 id="system-name">System Name</h1>
-      <div class="scroll-container">
+    <div id="info-panel" class="panel hidden">
+      <h1 class="name">Roshar<button id="close-info-panel" class="close">X</button></h1>
+      <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <ul class="stats">
+        <li><b>System:</b> Roshar</li>
+        <li><b>Orbital Distance:</b> 1 AU</li>
+        <li><b>Orbital Eccentricity:</b> 0.0167</li>
+        <li><b>Axial Tilt:</b> 10 deg</li>
+        <li><b>Radius:</b> 0.9 standard</li>
+        <li><b>Surface Gravity:</b> 0.7 standard</li>
+        <li><b>Known Perpendicularities:</b> None</li>
+        <li><a href="">Coppermind Link</a></li>
+      </ul>
+    </div>
+    <div id="system-panel" class="panel">
+      <h1 class="system-title"><div id="system-name">System Name</div><button id="system-flyout-toggle" class="toggle-flyout">&gt;</button></h1>
+      <div id="system-toggle" class="scroll-container">
         <ul id="planet-list">
           <li class="planet">
               <img class="planet-icon" src="" />

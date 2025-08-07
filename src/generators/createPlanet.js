@@ -52,6 +52,7 @@ function createPlanet(planetData, index, children = []) {
 
     const planet = new THREE.Mesh(geo, createPlanetMaterial(planetData));
     planet.name = 'planet' + index; // need this to find and focus the camera later
+    planet.userData.info = planetData;
     planet.scale.setScalar(planetData.planetRadius);
     planet.position.x =  planetData.orbitalRadius;
     
@@ -72,7 +73,7 @@ function createPlanet(planetData, index, children = []) {
       });
     };
     orbitGroup.add(planet);
-    orbitGroup.add(createRing(planetData.orbitalRadius));
+    orbitGroup.add(createRing(planetData.orbitalRadius, 0.5));
     // orbitGroup.add(createLabel(planetName, p.orbitalRadius))
     
     return orbitGroup;
