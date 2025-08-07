@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OBJLoader } from "jsm/loaders/OBJLoader.js";
 import { initScene, camera, pointer, renderer } from "./src/mainScene.js";
-import { ui } from "./src/ui/ui-tools.js";
+import { ui } from "./src/ui/userInterface.js";
 
 //////// attach scene data /////////
 const sceneData = {
@@ -18,7 +18,7 @@ manager.onLoad = () => {
 const loader = new OBJLoader(manager);
 const objs = ['Rock1'];
 objs.forEach((name) => {
-  let path = `./rocks/${name}.obj`;
+  let path = `./resources/rocks/${name}.obj`;
   loader.load(path, (obj) => {
   //   // obj.traverse((child) => {
   //   //   // if (child.isMesh) {

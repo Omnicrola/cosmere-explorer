@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { scene, controls, camera } from "./mainScene.js";
-import { ui } from "./ui/ui-tools.js";
+import { scene, controls, camera } from "../mainScene.js";
+import { ui } from "./userInterface.js";
 
 function updateInteractions(raycaster, scene) {
     const intersects = raycaster.intersectObjects( scene.children );

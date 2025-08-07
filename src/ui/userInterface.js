@@ -1,4 +1,4 @@
-import { focusOnPlanet } from "../interactions.js";
+import { focusOnPlanet } from "./interactions.js";
 import { FontLoader } from 'jsm/loaders/FontLoader.js';
 
 const fontLoader = new FontLoader();
@@ -10,15 +10,15 @@ function fontPromise(path) {
 }
 
 const fonts = {
-    RobotoRegular : fontPromise('fonts/Roboto_Regular.json'),
-    RobotoBold : fontPromise('fonts/Roboto_Bold.json'),
+    RobotoRegular : fontPromise('resources/fonts/Roboto_Regular.json'),
+    RobotoBold : fontPromise('resources/fonts/Roboto_Bold.json'),
 }
 
 function createPlanetElement(planet, index) {
     let listItem = document.createElement('li');
     listItem.innerHTML = 
     `<div class="planet">
-        <img class="planet-icon" src="icons/${planet.icon}" />
+        <img class="planet-icon" src="resources/icons/${planet.icon}" />
         <p class="name">${planet.name}</p>
     </div>
     `;

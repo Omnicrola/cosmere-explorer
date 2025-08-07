@@ -30,3 +30,12 @@ There's a lot of features I'd still like to add, here's whats on the current roa
 * Better background stars
 * Hidden lore
 * Gamified exploration badges
+
+## Tools Used
+* VS Code
+* Blender
+* [Textures for Planets](https://www.texturesforplanets.com/)
+
+## Attributions
+* @plantlassie on Discord for the idea
+* This repository forked from https://github.com/bobbyroe/solar-system

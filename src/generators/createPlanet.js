@@ -1,12 +1,16 @@
 import * as THREE from 'three';
-import { getFresnelMat } from '../getFresnelMat.js';
-import { createRing } from '../getElipticLines.js';
-import { fonts } from '../ui/ui-tools.js';
+import { getFresnelMat } from './createMaterials.js';
+import { fonts } from '../ui/userInterface.js';
 import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
+import { LineMaterial } from "jsm/lines/LineMaterial.js";
+import { Line2 } from "jsm/lines/Line2.js";
+import { LineGeometry } from "jsm/lines/LineGeometry.js";
 
 // reusable constants
 const texLoader = new THREE.TextureLoader();
 const geo = new THREE.IcosahedronGeometry(1, 6);
+const w = window.innerWidth;
+const h = window.innerHeight;
 
 // create 3d planet text
 function createPlanetText(planetData, parentPlanet) {
@@ -38,7 +42,7 @@ function createPlanetText(planetData, parentPlanet) {
 // make a material for a planet
 function createPlanetMaterial(planetData) {
   if(planetData.textureMap){
-    const path = `./textures/${planetData.textureMap}`;
+    const path = `./resources/textures/${planetData.textureMap}`;
     const map = texLoader.load(path);
     return new THREE.MeshStandardMaterial({map});
   } else {
@@ -77,6 +81,31 @@ function createPlanet(planetData, index, children = []) {
     // orbitGroup.add(createLabel(planetName, p.orbitalRadius))
     
     return orbitGroup;
-  }
+}
+
+// orbital path ring
+function createRing( distance, hue = 0, lightness = 1.0, width = 2 ) {
+    function getRingVerts(radius = distance) {
+        const positions = [];
+        const numVerts = 128;
+        for (let i = 0; i <= numVerts; i += 1) {
+            const angle = i / numVerts * Math.PI * 2;
+            positions.push(radius * Math.cos(angle), radius * Math.sin(angle), 0);
+        }
+        return positions;
+    }
+    const color = new THREE.Color().setHSL(hue, 1, lightness);
+    const ringMat = new LineMaterial({
+        color,
+        linewidth: width,
+    });
+    ringMat.resolution.set(w, h); // resolution of the viewport
+    const lineGeo = new LineGeometry();
+    lineGeo.setPositions(getRingVerts());
+    const orbitRing = new Line2(lineGeo, ringMat);
+    orbitRing.rotation.x = Math.PI * 0.5;
+    orbitRing.computeLineDistances();
+    return orbitRing;
+}
 
   export {createPlanet};

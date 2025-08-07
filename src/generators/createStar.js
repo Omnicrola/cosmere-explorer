@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { getFresnelMat } from "../getFresnelMat.js";
 import { ImprovedNoise } from 'jsm/math/ImprovedNoise.js';
+import { getFresnelMat } from './createMaterials.js';
 
 function coronaTurbulence(geo, radius) {
     let p = new THREE.Vector3()

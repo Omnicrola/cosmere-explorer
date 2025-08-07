@@ -3,8 +3,8 @@ import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 import { createStarfield } from "./generators/createStarfield.js";
 import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { rosharStellarSystem } from "./data/roshar-system-data.js";
-import { updateInteractions } from "./interactions.js";
-import { ui } from "./ui/ui-tools.js";
+import { updateInteractions } from "./ui/interactions.js";
+import { ui } from "./ui/userInterface.js";
 
 
 // Camera Setup //
