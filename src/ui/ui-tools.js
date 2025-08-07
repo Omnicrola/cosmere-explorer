@@ -1,4 +1,18 @@
-import { focusOnPlanet } from "../mainScene.js";
+import { focusOnPlanet } from "../interactions.js";
+import { FontLoader } from 'jsm/loaders/FontLoader.js';
+
+const fontLoader = new FontLoader();
+
+function fontPromise(path) {
+    return new Promise((resolve, reject) => {
+        fontLoader.load(path, resolve);
+    });
+}
+
+const fonts = {
+    RobotoRegular : fontPromise('fonts/Roboto_Regular.json'),
+    RobotoBold : fontPromise('fonts/Roboto_Bold.json'),
+}
 
 function createPlanetElement(planet, index) {
     let listItem = document.createElement('li');
@@ -33,4 +47,4 @@ let ui = {
     createPlanetList,
     setSystemName
 };
-export { ui }
+export { ui, fonts }

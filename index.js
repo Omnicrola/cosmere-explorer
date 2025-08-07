@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OBJLoader } from "jsm/loaders/OBJLoader.js";
-import { initScene, preloadScene, camera, pointer, renderer } from "./src/mainScene.js";
+import { initScene, camera, pointer, renderer } from "./src/mainScene.js";
 
 //////// attach scene data /////////
 const sceneData = {
@@ -12,16 +12,17 @@ manager.onLoad = () => {
     initScene(sceneData);
 };
 
+// why does this break everything if I remove it?
 const loader = new OBJLoader(manager);
-const objs = ['Rock1', 'Rock2', 'Rock3'];
+const objs = ['Rock1'];
 objs.forEach((name) => {
   let path = `./rocks/${name}.obj`;
   loader.load(path, (obj) => {
-    obj.traverse((child) => {
-      if (child.isMesh) {
-        sceneData.objs.push(child);
-      }
-    });
+  //   // obj.traverse((child) => {
+  //   //   // if (child.isMesh) {
+  //   //   //   // sceneData.objs.push(child);
+  //   //   // }
+  //   // });
   });
 });
 

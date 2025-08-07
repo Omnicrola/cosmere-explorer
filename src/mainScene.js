@@ -5,7 +5,6 @@ import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { rosharStellarSystem } from "./data/roshar-system-data.js";
 import { updateInteractions } from "./interactions.js";
 import { ui } from "./ui/ui-tools.js";
-import { FontLoader } from 'jsm/loaders/FontLoader.js';
 
 
 // Camera Setup //
@@ -27,24 +26,12 @@ const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
 // if this is set to an object, the camera will auto-track it until set to undefined/false
-let cameraFollowTarget = undefined;
+camera.cameraFollowTarget = null;
 let worldPosition = new THREE.Vector3();
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.03;
-
-// load fonts for use in TextGeometry elsewhere
-const loader = new FontLoader();
-let fonts = {};
-
-
-// preload scene
-function preloadScene(callback) {
-    // TODO : promises!
-    loader.load( 'fonts/Roboto_Regular.json', (font1) => { fonts.roboto_regular = font1;});
-    loader.load( 'fonts/Roboto_Bold.json', (font2) => { fonts.roboto_bold = font2;});    
-}
 
 // setup the initial scene
 function initScene(data) {
@@ -57,10 +44,12 @@ function initScene(data) {
     const starfield = createStarfield({ numStars: 500, size: 0.35 });
     scene.add(starfield);
 
-    const dirLight = new THREE.DirectionalLight(0x0099ff, 1);
-    const starLight = new THREE.PointLight(0xffffff, 1);
-    starLight.position.set(0, 12, 0);
+    const starLight = new THREE.PointLight(0xffffff, 10, 0, 0.2);
+    starLight.position.set(0,0,0);
     scene.add(starLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
+    scene.add(ambientLight);
 
     ui.setSystemName(rosharStellarSystem.name);
     ui.createPlanetList(rosharStellarSystem.planets);
@@ -71,14 +60,19 @@ function initScene(data) {
     function animate(t = 0) {
         const time = t * 0.0002;
         requestAnimationFrame(animate);
-        stellarSystem.userData.update(time);
+        scene.traverse((obj) => {
+            if(obj.userData.update) {
+                obj.userData.update(time, {camera});
+            }
+        })
+        // stellarSystem.userData.update(time);
 
         raycaster.setFromCamera(pointer, camera);
         updateInteractions(raycaster, scene);
 
         // follow a target planet if a target is active
-        if(cameraFollowTarget) {
-            cameraFollowTarget.getWorldPosition(worldPosition);
+        if(camera.cameraFollowTarget) {
+            camera.cameraFollowTarget.getWorldPosition(worldPosition);
             controls.target = worldPosition;
         }
 
@@ -89,35 +83,11 @@ function initScene(data) {
     animate();
 }
 
-function focusOnPlanet(planetIndex) {
-    let planet = scene.getObjectByName('planet'+planetIndex);
-
-    let aabb = new THREE.Box3().setFromObject( planet );
-    let center = aabb.getCenter( new THREE.Vector3() );
-    let size = aabb.getSize( new THREE.Vector3() );
-
-    gsap.to(camera.position, {
-        duration : 1,
-        x: center.x,
-        y: center.y,
-        z: center.z + size.z,
-        onUpdate: () => { camera.lookAt(center); },
-        onComplete: () => { 
-            controls.target = center;
-            controls.autoRotate = true;
-            cameraFollowTarget = planet;
-        }
-    });
-}
-
 export { 
     initScene, 
-    preloadScene,
     scene, 
     camera, 
     controls,
     renderer, 
     pointer, 
-    focusOnPlanet,
-    fonts
 }
