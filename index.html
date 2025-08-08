@@ -161,7 +161,9 @@
           "jsm/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
         }
 			}
-    </script>
+  </script>
+  </head>
+  <body>
     <div id="system-select-panel" class="panel">
         <label>Current System : </label>
         <select id="system-selector">
@@ -194,8 +196,29 @@
         </ul>
       </div>
     </div>
-  </head>
-  <body>
-    <script type="module" src="index.js"></script>
+    <div id="render-container"></div>
+  <script type="module">
+      import { init, camera, pointer, renderer } from "./src/mainScene.js";
+
+      init();
+
+      // window resize
+      window.addEventListener('resize', () => { 
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      // mouse move
+      window.addEventListener('pointermove', (event) => {
+
+        // calculate pointer position in normalized device coordinates
+        // (-1 to +1) for both components
+
+        pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+      });
+    </script>
   </body>
 </html>

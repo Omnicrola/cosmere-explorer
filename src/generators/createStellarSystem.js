@@ -9,9 +9,9 @@ function createStellarSystem(stellarData) {
 
     // init
     const stellarSystem = new THREE.Group();
-    stellarSystem.userData.update = (t) => {
+    stellarSystem.userData.update = (deltaTime) => {
         stellarSystem.children.forEach((child) => {
-            child.userData.update?.(t);
+            child.userData.update?.(deltaTime);
         });
     };
 

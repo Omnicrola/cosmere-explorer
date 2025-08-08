@@ -4,62 +4,109 @@ import { createStarfield } from "./generators/createStarfield.js";
 import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { updateInteractions } from "./ui/interactions.js";
 import { ui } from "./ui/userInterface.js";
+import Stats from 'jsm/libs/stats.module.js';
+import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
+import { allStellarSystems } from "./data/all-systems.js";
 
-
-// Camera Setup //
 const w = window.innerWidth;
 const h = window.innerHeight;
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 10000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(w, h);
-
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-document.body.appendChild(renderer.domElement);
-
-// const wireMat = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true});
-// scene.overrideMaterial = wireMat;
-
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
-// if this is set to an object, the camera will auto-track it until set to undefined/false
-camera.cameraFollowTarget = null;
-let worldPosition = new THREE.Vector3();
+let scene, camera, stats;
+let composer, renderer, mixer, clock;
+let controls;
 
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.03;
+const params = {
+    threshold: 0.5,
+    strength: 0.5,
+    radius: 0.0,
+    exposure: 1.0
+};
 
-// setup the initial scene
-function initScene(data) {
-    const { objs } = data;
 
-    // main render loop
-    function animate(t = 0) {
-        const time = t * 0.0002;
-        requestAnimationFrame(animate);
-        scene.traverse((obj) => {
-            if(obj.userData.update) {
-                obj.userData.update(time, {camera});
-            }
-        })
+/// Init
+async function init() {
+    const container = document.getElementById('render-container');
 
-        raycaster.setFromCamera(pointer, camera);
-        updateInteractions(raycaster, scene);
+    clock = new THREE.Clock();
+    scene = new THREE.Scene();
 
-        // follow a target planet if a target is active
-        if(camera.cameraFollowTarget) {
-            camera.cameraFollowTarget.getWorldPosition(worldPosition);
-            controls.target = worldPosition;
-        }
+    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera.position.set( - 5, 2.5, - 3.5 );
+    scene.add( camera );
 
-        renderer.render(scene, camera);
-        controls.update();
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setAnimationLoop( animate );
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild( renderer.domElement );
+
+    //
+
+    const renderScene = new RenderPass( scene, camera );
+
+    const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+    bloomPass.threshold = params.threshold;
+    bloomPass.strength = params.strength;
+    bloomPass.radius = params.radius;
+
+    const outputPass = new OutputPass();
+
+    composer = new EffectComposer( renderer );
+    composer.addPass( renderScene );
+    composer.addPass( bloomPass );
+    composer.addPass( outputPass );
+
+    //
+
+    stats = new Stats();
+    container.appendChild( stats.dom );
+
+    //
+
+    controls = new OrbitControls( camera, renderer.domElement );
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.03;
+    // 
+
+    resetScene(allStellarSystems[0]);
+    ui.init();
+
+}
+
+// main render loop
+const worldPosition = new THREE.Vector3();
+function animate() {
+    
+    const delta = clock.getDelta();
+    
+    scene.traverse(objectUpdate(delta, clock));
+    raycaster.setFromCamera(pointer, camera);
+    updateInteractions(raycaster, scene);
+
+    if(camera.cameraFollowTarget) {
+        camera.cameraFollowTarget.getWorldPosition(worldPosition);
+        controls.target = worldPosition;
+        controls.autoRotate = true;
     }
 
-    animate();
+    stats.update();
+    controls.update();
+    composer.render();
+}
+
+function objectUpdate(delta, clock) {
+    return (obj) => {
+        if(obj.userData.update) {
+            obj.userData.update(delta, {clock, camera});
+        }
+    }
 }
 
 function resetScene(stellarSystem) {
@@ -75,7 +122,7 @@ function resetScene(stellarSystem) {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
     scene.add(ambientLight);
 
-    // load the new system
+    // load the new star system
     let newSystemGraph = createStellarSystem(stellarSystem);
 
     ui.resetUi();
@@ -106,7 +153,7 @@ function resetScene(stellarSystem) {
 }
 
 export { 
-    initScene, 
+    init, 
     resetScene,
     scene, 
     camera, 

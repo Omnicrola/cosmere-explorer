@@ -1,10 +1,10 @@
 import * as THREE from 'three';
-import { getFresnelMat } from './createMaterials.js';
 import { fonts } from '../ui/userInterface.js';
 import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
 import { LineMaterial } from "jsm/lines/LineMaterial.js";
 import { Line2 } from "jsm/lines/Line2.js";
 import { LineGeometry } from "jsm/lines/LineGeometry.js";
+import { createFresnelMaterial } from '../../resources/materials.js';
 
 // reusable constants
 const texLoader = new THREE.TextureLoader();
@@ -14,7 +14,7 @@ const h = window.innerHeight;
 
 // create 3d planet text
 function createPlanetText(planetData, parentPlanet) {
-  const textMat = getFresnelMat({ rimHex: 0xffffff, facingHex: 0xffaaff });
+  const textMat = createFresnelMaterial({ rimHex: 0xffffff, facingHex: 0xffaaff });
 
   fonts.RobotoRegular.then((font) => {
     let geo = new TextGeometry(planetData.name, {
@@ -77,7 +77,7 @@ function createPlanet(planetData, index, children = []) {
       });
     };
     orbitGroup.add(planet);
-    orbitGroup.add(createRing(planetData.orbitalRadius, 0.5));
+    orbitGroup.add(createRing(planetData.orbitalRadius, 0, 0.1));
     // orbitGroup.add(createLabel(planetName, p.orbitalRadius))
     
     return orbitGroup;
@@ -94,7 +94,7 @@ function createRing( distance, hue = 0, lightness = 1.0, width = 2 ) {
         }
         return positions;
     }
-    const color = new THREE.Color().setHSL(hue, 1, lightness);
+    const color = new THREE.Color().setRGB(lightness, lightness, lightness);
     const ringMat = new LineMaterial({
         color,
         linewidth: width,

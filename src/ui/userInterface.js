@@ -105,7 +105,7 @@ function init() {
     });
 
     systemSelector.addEventListener('change', (e) => {
-        console.log(e.target.value)
+        
         let selectedSystem = allStellarSystems[e.target.value];
         if(selectedSystem) {
             resetScene(selectedSystem);
