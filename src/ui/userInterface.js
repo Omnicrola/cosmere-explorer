@@ -1,3 +1,6 @@
+import { resetScene } from "../mainScene.js";
+import { allStellarSystems } from "../data/all-systems.js";
+import { createStellarSystem } from "../generators/createStellarSystem.js";
 import { focusOnPlanet } from "./interactions.js";
 import { FontLoader } from 'jsm/loaders/FontLoader.js';
 
@@ -28,6 +31,7 @@ function createPlanetElement(planet, index) {
     }
     return listItem;
 }
+
 
 function showPlanetInfo(planet) {
     setElementHidden('system-toggle', true);
@@ -88,13 +92,41 @@ function init() {
     systemPanelToggle.addEventListener('click', (e) => {
         setElementHidden('system-toggle', !systemPanel.classList.contains('hidden'));
     });
-    
+
+    let systemSelector = document.getElementById('system-selector');
+    systemSelector.innerHTML = "";
+
+    let newOption = null;
+    allStellarSystems.forEach((system, index) => {
+        newOption = document.createElement('option');
+        newOption.value = index;
+        newOption.textContent = system.name;
+        systemSelector.appendChild(newOption);
+    });
+
+    systemSelector.addEventListener('change', (e) => {
+        console.log(e.target.value)
+        let selectedSystem = allStellarSystems[e.target.value];
+        if(selectedSystem) {
+            resetScene(selectedSystem);
+        }
+    });
+
+    systemSelector.dispatchEvent(new Event('change'));
+
 }
+
+function resetUi() {
+    setElementHidden('system-toggle', false);
+    setElementHidden('info-panel', true);
+}
+
 
 let ui = {
     init,
     createPlanetList,
     setSystemName,
-    showPlanetInfo
+    showPlanetInfo,
+    resetUi
 };
 export { ui, fonts }

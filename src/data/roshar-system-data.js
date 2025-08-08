@@ -1,4 +1,4 @@
-import { createPlanetData } from "./stellarData.js";
+import { createPlanetData,createStellarData } from "./stellarData.js";
 
 const ashyn = createPlanetData({
     planetRadius : 1.2,
@@ -94,7 +94,7 @@ const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : 
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 
-const rosharStellarSystem = {
+const rosharStellarSystem = createStellarData({
     starRadius : 10,
     starColor: 0xEEEEFF,
     name : "Rosharan System",
@@ -116,6 +116,6 @@ const rosharStellarSystem = {
         tanat,
         ishi
     ]
-}
+});
 
 export { rosharStellarSystem };

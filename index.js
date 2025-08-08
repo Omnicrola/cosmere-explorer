@@ -35,11 +35,6 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// mouse down
-window.addEventListener('mousedown', () => {
-
-});
-
 // mouse move
 window.addEventListener('pointermove', (event) => {
 

@@ -36,6 +36,7 @@ function createPlanetData({
         coppermind
     };
 }
+
 function createStellarData({
     starRadius = 2,
     starColor = 0xffff99,
@@ -43,19 +44,18 @@ function createStellarData({
     icon = "icon-stellar-system.svg",
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     coppermind = "https://coppermind.net/wiki",
-    planets: [],
+    planets = [],
 }){
     return {
-        starRadius : starRadius,
-        starColor : starColor,
-        name : name,
-        icon : icon,
-        description : description,
-        coppermind : coppermind,
-        planets: [],
+        starRadius,
+        starColor,
+        name,
+        icon,
+        description,
+        coppermind,
+        planets,
     };
 }
-
 
 export {
     createPlanetData,
