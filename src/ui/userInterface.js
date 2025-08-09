@@ -1,7 +1,7 @@
 import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
 import { createStellarSystem } from "../generators/createStellarSystem.js";
-import { focusOnPlanet } from "./interactions.js";
+import { focusOnPlanet, stopFollowingPlanet } from "./interactions.js";
 import { FontLoader } from 'jsm/loaders/FontLoader.js';
 
 const fontLoader = new FontLoader();
@@ -58,6 +58,7 @@ function showPlanetInfo(planet) {
     closeInfoPanel.addEventListener('click', (e) => {
         setElementHidden('system-toggle', false);
         setElementHidden('info-panel', true);
+        stopFollowingPlanet();
     });
 
 }

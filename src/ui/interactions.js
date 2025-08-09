@@ -12,6 +12,11 @@ function updateInteractions(raycaster, scene) {
 	}
 }
 
+function stopFollowingPlanet() {
+    controls.autoRotate = false;
+    camera.cameraFollowTarget = null;
+}
+
 function focusOnPlanet(planetIndex) {
     let planet = scene.getObjectByName('planet' + planetIndex);
 
@@ -40,4 +45,4 @@ function focusOnPlanet(planetIndex) {
     });
 }
 
-export { updateInteractions, focusOnPlanet };
+export { updateInteractions, focusOnPlanet, stopFollowingPlanet };
