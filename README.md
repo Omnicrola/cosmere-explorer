@@ -34,7 +34,8 @@ There's a lot of features I'd still like to add, here's whats on the current roa
 ## Tools Used
 * VS Code
 * Blender
-* [Textures for Planets](https://www.texturesforplanets.com/)
+* [Textures for Planets](https://www.texturesforplanets.com/) procedural planet texture generator
+* [Space 3D](https://tools.wwwtyro.net/space-3d/index.html) skybox generator
 
 ## Attributions
 * @plantlassie on Discord for the idea

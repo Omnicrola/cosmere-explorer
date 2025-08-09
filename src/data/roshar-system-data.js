@@ -99,6 +99,7 @@ const rosharStellarSystem = createStellarData({
     starRadius : 10,
     luminosity : 5,
     starColor: 0xEEEEFF,
+    skyboxTexture : 'Roshar/sky_roshar',
     name : "Rosharan System",
     icon : "icon-stellar-system.svg",
     description : "The Rosharan system's central star is a large white sun.",
