@@ -13,7 +13,7 @@ const h = window.innerHeight;
 
 // create 3d planet text
 function createPlanetText(planetData, parentPlanet) {
-  const textMat = createFresnelMaterial({ rimHex: 0xffffff, facingHex: 0xffaaff });
+  const textMat = createFresnelMaterial({ rimHex: 0xffffff, facingHex: 0xaaaaff });
 
   fonts.RobotoRegular.then((font) => {
     let geo = new TextGeometry(planetData.name, {
@@ -24,8 +24,8 @@ function createPlanetText(planetData, parentPlanet) {
     let planetText = new THREE.Mesh(geo, textMat);
     let aabb = new THREE.Box3().setFromObject(planetText);
     let size = aabb.getSize(new THREE.Vector3());
-    planetText.position.x = size.x / -2;
-    planetText.position.y = 1.2;
+    planetText.position.x = size.x * -1.6 ;
+    planetText.position.y = -1.0;
     
     let centerOffset = new THREE.Object3D();
     centerOffset.add(planetText);
