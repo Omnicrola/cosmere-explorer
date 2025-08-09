@@ -4,10 +4,9 @@ import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
 import { LineMaterial } from "jsm/lines/LineMaterial.js";
 import { Line2 } from "jsm/lines/Line2.js";
 import { LineGeometry } from "jsm/lines/LineGeometry.js";
-import { createFresnelMaterial } from '../../resources/materials.js';
+import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
 
 // reusable constants
-const texLoader = new THREE.TextureLoader();
 const geo = new THREE.IcosahedronGeometry(1, 6);
 const w = window.innerWidth;
 const h = window.innerHeight;
@@ -39,17 +38,6 @@ function createPlanetText(planetData, parentPlanet) {
   })
 }
 
-// make a material for a planet
-function createPlanetMaterial(planetData) {
-  if(planetData.textureMap){
-    const path = `./resources/textures/${planetData.textureMap}`;
-    const map = texLoader.load(path);
-    return new THREE.MeshStandardMaterial({map});
-  } else {
-    return new THREE.MeshStandardMaterial({color: planetData.planetColor});
-  }
-}
-
 function createPlanet(planetData, index, children = []) {
     const orbitGroup = new THREE.Group();
     orbitGroup.userData.stats = planetData;
@@ -59,6 +47,18 @@ function createPlanet(planetData, index, children = []) {
     planet.userData.info = planetData;
     planet.scale.setScalar(planetData.planetRadius);
     planet.position.x =  planetData.orbitalRadius;
+
+    // const atmosphere = new THREE.Mesh(geo, createFresnelMaterial({
+    //   rimHex: 0x9999cc, 
+    //   facingHex: 0x000000,
+    //   bias : 0.05,
+    //   scale : 2.5,
+    //   power : 6,
+    //   invert:true
+    // }));
+    const atmosphere = new THREE.Mesh(geo, createAtmosphericShader(planetData));
+    atmosphere.scale.setScalar(1.05);
+    planet.add(atmosphere);
     
     createPlanetText(planetData, planet, orbitGroup);
 

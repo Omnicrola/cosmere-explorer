@@ -19,7 +19,8 @@ const ashyn = createPlanetData({
 const roshar = createPlanetData({
     planetRadius : 1,
     planetColor : 0x8888ff,
-    textureMap : 'Roshar/p_rosharan_roshar.jpg',
+    textureMap : 'Roshar/p_rosharan_roshar.png',
+    oceanMap : 'Roshar/p_rosharan_roshar_ocean.png',
     orbitalRadius : 100,
     orbitalEccentricity: 0.0167,
     orbitalSpeed : 8,
@@ -96,6 +97,7 @@ const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : 
 
 const rosharStellarSystem = createStellarData({
     starRadius : 10,
+    luminosity : 5,
     starColor: 0xEEEEFF,
     name : "Rosharan System",
     icon : "icon-stellar-system.svg",

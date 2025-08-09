@@ -18,6 +18,10 @@ function createStellarSystem(stellarData) {
     // star
     stellarSystem.add(createStar(stellarData));
 
+    const starLight = new THREE.PointLight(0xffffff, stellarData.luminosity, 0, 0.2);
+    starLight.position.set(0,0,0);
+    scene.add(starLight);
+
     // planets
     stellarData.planets.forEach((p, index) => {
         let planet = createPlanet(p, index);

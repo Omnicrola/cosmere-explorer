@@ -115,9 +115,6 @@ function resetScene(stellarSystem) {
     scene.clear();
 
     // add standard lights back
-    const starLight = new THREE.PointLight(0xffffff, 10, 0, 0.2);
-    starLight.position.set(0,0,0);
-    scene.add(starLight);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
     scene.add(ambientLight);

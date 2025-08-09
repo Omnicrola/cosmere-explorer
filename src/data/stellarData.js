@@ -3,6 +3,7 @@ function createPlanetData({
     planetRadius = 1,
     planetColor = 0xffffff,
     textureMap = null,
+    oceanMap = null,
     orbitalRadius = 5,
     orbitalSpeed = 1,
     orbitalEccentricity = 0,
@@ -22,6 +23,7 @@ function createPlanetData({
         planetRadius,
         planetColor,
         textureMap,
+        oceanMap,
         orbitalRadius,
         orbitalSpeed,
         orbitalStart,
@@ -39,6 +41,7 @@ function createPlanetData({
 
 function createStellarData({
     starRadius = 2,
+    luminosity = 1,
     starColor = 0xffff99,
     name = "the star",
     icon = "icon-stellar-system.svg",
@@ -48,6 +51,7 @@ function createStellarData({
 }){
     return {
         starRadius,
+        luminosity,
         starColor,
         name,
         icon,
