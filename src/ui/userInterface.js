@@ -27,7 +27,7 @@ function createPlanetElement(planet, index) {
     `;
     
     listItem.onclick = () => {
-        focusOnPlanet(index)
+        focusOnPlanet({planetIndex:index});
     }
     return listItem;
 }

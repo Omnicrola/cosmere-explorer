@@ -56,6 +56,7 @@ function createPlanet(planetData, index, children = []) {
     const planet = new THREE.Mesh(geo, createPlanetMaterial(planetData));
     planet.name = 'planet' + index; // need this to find and focus the camera later
     planet.userData.info = planetData;
+    planet.userData.isSelectable = true;
     planet.scale.setScalar(planetData.planetRadius);
     planet.position.x =  planetData.orbitalRadius;
 
