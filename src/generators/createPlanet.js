@@ -21,15 +21,26 @@ function createPlanetText(planetData, parentPlanet) {
       size: 0.5,
       depth: 0.1
     } );
+    
     let planetText = new THREE.Mesh(geo, textMat);
     let aabb = new THREE.Box3().setFromObject(planetText);
     let size = aabb.getSize(new THREE.Vector3());
-    planetText.position.x = size.x * -1.6 ;
+
+    // offset so the text always appears below and to the left
+    planetText.position.x = (size.x * -1) -1 ;
     planetText.position.y = -1.0;
-    
+    planetText.scale.multiplyScalar(1 - planetData.planetRadius / 10);
+    planetText.visible = false;
+
+    // check if the text should currently be visible
+    planetText.userData.update = (t) => {
+      planetText.visible = parentPlanet.userData.isSelected?true:false || parentPlanet.userData.isHovered?true:false;
+    }
+        
     let centerOffset = new THREE.Object3D();
     centerOffset.add(planetText);
 
+    // always rotate to face the camera
     centerOffset.userData.update = (t, {camera}) => {
       centerOffset.lookAt(camera.position);
     }

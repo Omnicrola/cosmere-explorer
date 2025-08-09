@@ -14,6 +14,7 @@ function updateInteractions(raycaster, scene) {
 
 function stopFollowingPlanet() {
     controls.autoRotate = false;
+    camera.cameraFollowTarget.userData.isSelected = false;
     camera.cameraFollowTarget = null;
 }
 
@@ -41,6 +42,7 @@ function focusOnPlanet(planetIndex) {
             controls.target = center;
             controls.autoRotate = true;
             camera.cameraFollowTarget = planet;
+            planet.userData.isSelected = true;
         }
     });
 }
