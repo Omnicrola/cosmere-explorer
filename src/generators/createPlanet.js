@@ -5,9 +5,10 @@ import { LineMaterial } from "jsm/lines/LineMaterial.js";
 import { Line2 } from "jsm/lines/Line2.js";
 import { LineGeometry } from "jsm/lines/LineGeometry.js";
 import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
+import { createMoon } from './createMoon.js';
 
 // reusable constants
-const geo = new THREE.IcosahedronGeometry(1, 6);
+const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 const w = window.innerWidth;
 const h = window.innerHeight;
 
@@ -49,37 +50,27 @@ function createPlanetText(planetData, parentPlanet) {
   })
 }
 
-function createPlanet(planetData, index, children = []) {
+function createPlanet(planetData, planetIndex, children = []) {
     const orbitGroup = new THREE.Group();
     orbitGroup.userData.stats = planetData;
 
-    const planet = new THREE.Mesh(geo, createPlanetMaterial(planetData));
-    planet.name = 'planet' + index; // need this to find and focus the camera later
+    const planet = new THREE.Mesh(basic_1U_sphere, createPlanetMaterial(planetData));
+    planet.name = 'planet' + planetIndex; // need this to find and focus the camera later
     planet.userData.info = planetData;
     planet.userData.isSelectable = true;
     planet.scale.setScalar(planetData.planetRadius);
     planet.position.x =  planetData.orbitalRadius;
 
-    // const atmosphere = new THREE.Mesh(geo, createFresnelMaterial({
-    //   rimHex: 0x9999cc, 
-    //   facingHex: 0x000000,
-    //   bias : 0.05,
-    //   scale : 2.5,
-    //   power : 6,
-    //   invert:true
-    // }));
-    const atmosphere = new THREE.Mesh(geo, createAtmosphericShader(planetData));
+    const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
     atmosphere.scale.setScalar(1.05);
     planet.add(atmosphere);
     
+    // 3d label text that follows the planet and always faces the camera
     createPlanetText(planetData, planet, orbitGroup);
 
-    // TODO: moons
-    // children.forEach((child) => {
-    //   child.position.x = Math.cos(startAngle) * p.orbitalRadius;
-    //   child.position.z = Math.sin(startAngle) * p.orbitalRadius;
-    //   orbitGroup.add(child);
-    // });
+    planetData.moons.forEach((moonData, moonIndex) => {
+      planet.add(createMoon(moonData, moonIndex, planetIndex));
+    });
 
     // orbital grouping
     orbitGroup.userData.update = (t) => {

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createPlanetData,createStellarData } from "./stellarData.js";
+import { createMoonData, createPlanetData,createStellarData } from "./stellarData.js";
 
 const ashyn = createPlanetData({
     planetRadius : 1.2,
@@ -31,7 +31,36 @@ const roshar = createPlanetData({
     axialTilt : 0,
     name : "Roshar",
     description : "Roshar is the second planet and is the eponymous planet of Greater Roshar. The Shards of Honor and Cultivation can be found here. Roshar features a single supercontinent, also called Roshar, on which its inhabitants live.",
-    coppermind : "https://coppermind.net/wiki/Roshar"
+    coppermind : "https://coppermind.net/wiki/Roshar",
+    moons : [
+        createMoonData({
+            name : 'Salas',
+            radius : 0.05,
+            color : 0xffccff,
+            orbitalRadius : 3,
+            orbitalEccentricity : 0.1,
+            description : `Sals is the first and smallest of Roshar's 3 moons and appears to be a light violet color in the night sky.`,
+            coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
+        }),
+        createMoonData({
+            name : 'Nomon',
+            radius : 0.08,
+            color : 0xaaaaff,
+            orbitalRadius : 3.5,
+            orbitalEccentricity : 0.1,
+            description : `Nomon is the second and largest of Roshar's 3 moons and appears to be a pale blue color in the night sky.`,
+            coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
+        }),
+        createMoonData({
+            name : 'Mishim',
+            radius : 0.06,
+            color : 0xccffff,
+            orbitalRadius : 4,
+            orbitalEccentricity : 0.1,
+            description : `Mishim is the third moon and most distant of Roshar's 3 moons, and appears as a light green color in the night sky. `,
+            coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
+        })
+    ]
 });
 
 const braize = createPlanetData({

@@ -1,5 +1,35 @@
 import * as THREE from 'three';
 
+function createMoonData({
+    name = 'moon',
+    color = 0xffffff,
+    textureMap = null,
+    orbitalRadius = 1,
+    orbitalEccentricity = 0,
+    orbitalInclination = 0,
+    axialTilt = 0,
+    radius = 1.0,
+    gravity = 0,
+    icon = 'icon-planet.svg',
+    description = 'Lorem Ipsum',
+    coppermind = ""
+}) {
+    return {
+        name,
+        color,
+        textureMap,
+        orbitalRadius,
+        orbitalEccentricity,
+        orbitalInclination,
+        axialTilt,
+        radius,
+        gravity,
+        icon,
+        description,
+        coppermind,
+    };
+}
+
 function createPlanetData({
     system = '',
     planetRadius = 1,
@@ -18,7 +48,8 @@ function createPlanetData({
     name = 'default',
     icon = 'icon-planet.svg',
     description = 'Lorem ipsum',
-    coppermind = 'https://coppermind.net/wiki'
+    coppermind = 'https://coppermind.net/wiki',
+    moons = []
 }){
     return {
         system,
@@ -39,7 +70,8 @@ function createPlanetData({
         name,
         icon,
         description,
-        coppermind
+        coppermind,
+        moons
     };
 }
 
@@ -68,6 +100,7 @@ function createStellarData({
 }
 
 export {
+    createMoonData,
     createPlanetData,
     createStellarData,
 };
