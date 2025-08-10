@@ -77,7 +77,7 @@ function createPlanetList(planetData = []) {
     planetList.innerHTML = "";
 
     let planetSelect = document.getElementById('planet-select');
-    planetList.innerHTML = "";
+    planetSelect.innerHTML = "";
 
     planetData.forEach((p, index) => {
         planetList.appendChild(createPlanetElement(p, index));
@@ -108,7 +108,9 @@ function init() {
         setElementHidden('system-toggle', !systemPanel.classList.contains('hidden'));
     });
 
+    // planetary selection drop-down
     let planetSelect = document.getElementById('planet-select');
+    
     planetSelect.addEventListener('change', (e) => {
         let planetIndex = e.target.value;
         console.log(planetIndex)
