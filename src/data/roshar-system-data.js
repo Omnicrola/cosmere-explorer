@@ -1,9 +1,11 @@
+import * as THREE from 'three';
 import { createPlanetData,createStellarData } from "./stellarData.js";
 
 const ashyn = createPlanetData({
     planetRadius : 1.2,
     planetColor : 0x88ff88,
     textureMap : 'Roshar/p_rosharan_ashyn.png',
+    atmosphericColor : new THREE.Vector3(0.6, 0.6, 0.4),
     orbitalRadius : 40,
     orbitalSpeed : 10,
     orbitalStart : 10,
@@ -21,6 +23,7 @@ const roshar = createPlanetData({
     planetColor : 0x8888ff,
     textureMap : 'Roshar/p_rosharan_roshar.png',
     oceanMap : 'Roshar/p_rosharan_roshar_ocean.png',
+    atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 100,
     orbitalEccentricity: 0.0167,
     orbitalSpeed : 8,
@@ -35,6 +38,7 @@ const braize = createPlanetData({
     planetRadius : 1.15,
     planetColor : 0xff8888,
     textureMap : 'Roshar/p_rosharan_braize.png',
+    atmosphericColor : new THREE.Vector3(1.0, 0.4, 0.4),
     orbitalRadius : 150,
     orbitalSpeed : 6,
     orbitalStart : 90,
@@ -47,52 +51,62 @@ const braize = createPlanetData({
 const jes = createPlanetData({orbitalRadius : 250, planetRadius : 5, name : "Jes", orbitalSpeed : 4, orbitalStart : 80, planetColor : 0x666666,
     description : `Jes is the 4th planet from the Rosharan system's sun. It's name is derived from the Herald "Jezrien" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_jes.png',
+    atmosphericColor : new THREE.Vector3(0.4, 0.8, 1.0),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const nan = createPlanetData({orbitalRadius : 300, planetRadius : 6, name : "Nan", orbitalSpeed : 3, orbitalStart : 150, planetColor : 0x655666,
     description : `Nan is the 5th planet from the Rosharan system's sun. It's name is derived from the Herald "Nale" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_nan.png',
+    atmosphericColor : new THREE.Vector3(0.6, 0.4, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const chach = createPlanetData({orbitalRadius : 350, planetRadius : 5.5, name : "Chach", orbitalSpeed : 2, orbitalStart : 200, planetColor : 0x673666,
     description : `Chach is the 6th planet from the Rosharan system's sun. It's name is derived from the Herald "Chanarach" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_chach.png',
+    atmosphericColor : new THREE.Vector3(1.0, 0.4, 0.4),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const vev = createPlanetData({orbitalRadius : 400, planetRadius : 5.1, name : "Vev", orbitalSpeed : 1, orbitalStart : 90, planetColor : 0x666726,
     description : `Vev is the 7th planet from the Rosharan system's sun. It's name is derived from the Herald "Vedel" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_vev.png',
+    atmosphericColor : new THREE.Vector3(1.0, 0.8, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const palah = createPlanetData({orbitalRadius : 500, planetRadius : 6.15, name : "Palah", orbitalSpeed : 0.8, orbitalStart : 300, planetColor : 0x64666,
     description : `Palah is the 8th planet from the Rosharan system's sun. It's name is derived from the Herald "Pralla" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_palah.png',
+    atmosphericColor : new THREE.Vector3(0.5, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const shash = createPlanetData({orbitalRadius : 620, planetRadius : 7.5, name : "Shash", orbitalSpeed : 0.7, orbitalStart : 250, planetColor : 0x660366,
     description : `Shash is the 9th planet from the Rosharan system's sun. It's name is derived from the Herald "Shalash" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_shash.png',
-    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
+    atmosphericColor : new THREE.Vector3(1.0, 0.9, 0.8),
+   coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const betab = createPlanetData({orbitalRadius : 750, planetRadius : 3.5, name : "Betab", orbitalSpeed : 0.6, orbitalStart :190, planetColor : 0x667366,
     description : `Betab is the 10th planet from the Rosharan system's sun. It's name is derived from the Herald "Battar" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_betab.png',
+    atmosphericColor : new THREE.Vector3(0.8, 1.0, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const kak = createPlanetData({orbitalRadius : 880, planetRadius : 6.25, name : "Kak", orbitalSpeed : 0.5, orbitalStart : 220, planetColor : 0x662866,
     description : `Kak is the 11th planet from the Rosharan system's sun. It's name is derived from the Herald "Kalak" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_kak.png',
+    atmosphericColor : new THREE.Vector3(0.8, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const tanat = createPlanetData({orbitalRadius : 990, planetRadius : 4.78, name : "Tanat", orbitalSpeed : 0.4, orbitalStart : 45, planetColor : 0x602666,
     description : `Tanat is the 12th planet from the Rosharan system's sun. It's name is derived from the Herald "Talenel" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_tanat.png',
+    atmosphericColor : new THREE.Vector3(0.2, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : "Ishi", orbitalSpeed : 0.3, orbitalStart : 60, planetColor : 0x667666,
     description : `Ishi is the 13th planet from the Rosharan system's sun. It's name is derived from the Herald "Ishar" in Vorin mythology.`,
     textureMap : 'Roshar/p_rosharan_ishi.png',
-    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
+    atmosphericColor : new THREE.Vector3(0.5, 0.5, 0.8),
+   coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 
 const rosharStellarSystem = createStellarData({

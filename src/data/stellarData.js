@@ -1,8 +1,11 @@
+import * as THREE from 'three';
+
 function createPlanetData({
     system = '',
     planetRadius = 1,
     planetColor = 0xffffff,
     textureMap = null,
+    atmosphericColor = new THREE.Vector3(0.4, 0.4, 1.0),
     oceanMap = null,
     orbitalRadius = 5,
     orbitalSpeed = 1,
@@ -23,6 +26,7 @@ function createPlanetData({
         planetRadius,
         planetColor,
         textureMap,
+        atmosphericColor,
         oceanMap,
         orbitalRadius,
         orbitalSpeed,

@@ -101,21 +101,20 @@ function createPlanetMaterial(planetData) {
     return new THREE.MeshStandardMaterial({color: planetData.planetColor});
   }
 }
+
+// planetary atmosphere halo
 function createAtmosphericShader(planetData) {
 
-  const params = {
-    atmOpacity: { value: 0.7 },
-    atmPowFactor: { value: 4.1 },
-    atmMultiplier: { value: 9.5 },
-  }
+  let atmosphereColor = planetData.atmosphericColor;
 
   let atmosMat = new THREE.ShaderMaterial({
     vertexShader: atmo_vertexShader,
     fragmentShader: atmo_fragmentShader,
     uniforms: {
-      atmOpacity: params.atmOpacity,
-      atmPowFactor: params.atmPowFactor,
-      atmMultiplier: params.atmMultiplier
+      atmOpacity: { value: 0.7 },
+      atmPowFactor: { value: 4.1 },
+      atmMultiplier: { value: 9.5 },
+      atmo_rgb : { value: atmosphereColor },
     },
     blending: THREE.AdditiveBlending, 
     side: THREE.BackSide 
