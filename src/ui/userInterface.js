@@ -12,30 +12,13 @@ function fontPromise(path) {
     });
 }
 
+// fonts for use in mesh geometry
 const fonts = {
     RobotoRegular : fontPromise('resources/fonts/Roboto_Regular.json'),
     RobotoBold : fontPromise('resources/fonts/Roboto_Bold.json'),
 }
 
-function createPlanetElement(planet, index) {
-
-    let listItem = document.createElement('li');
-    listItem.innerHTML = 
-    `<div class="planet">
-        <img class="planet-icon" src="resources/icons/${planet.icon}" />
-        <p class="name">${planet.name}</p>
-    </div>
-    `;
-    
-    listItem.onclick = () => {
-        focusOnPlanet({planetIndex:index});
-    }
-    return listItem;
-}
-
-
 function showPlanetInfo(planet) {
-    setElementHidden('system-toggle', true);
     setElementHidden('info-panel', false);
 
     let infoPanel = document.getElementById('info-panel');
@@ -57,7 +40,6 @@ function showPlanetInfo(planet) {
 
     let closeInfoPanel = document.getElementById('close-info-panel');
     closeInfoPanel.addEventListener('click', (e) => {
-        setElementHidden('system-toggle', false);
         setElementHidden('info-panel', true);
         stopFollowingPlanet();
     });
@@ -73,14 +55,10 @@ function createPlanetOption(planetData, index) {
 }
 
 function createPlanetList(planetData = []) {
-    let planetList = document.getElementById('planet-list');
-    planetList.innerHTML = "";
-
     let planetSelect = document.getElementById('planet-select');
     planetSelect.innerHTML = "";
 
     planetData.forEach((p, index) => {
-        planetList.appendChild(createPlanetElement(p, index));
         planetSelect.appendChild(createPlanetOption(p, index));
     });
 }
@@ -100,13 +78,6 @@ function setElementHidden(id, isHidden){
 }
 
 function init() {
-    let systemPanelToggle = document.getElementById('system-flyout-toggle');
-    let systemPanel = document.getElementById('system-toggle');
-    
-    
-    systemPanelToggle.addEventListener('click', (e) => {
-        setElementHidden('system-toggle', !systemPanel.classList.contains('hidden'));
-    });
 
     // planetary selection drop-down
     let planetSelect = document.getElementById('planet-select');
@@ -161,7 +132,6 @@ function init() {
 }
 
 function resetUi() {
-    setElementHidden('system-toggle', false);
     setElementHidden('info-panel', true);
 }
 

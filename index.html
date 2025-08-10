@@ -85,7 +85,7 @@
         top: 5px;
         width: 100%;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
 
         .panel-button {
           display:inline-block;
@@ -101,77 +101,11 @@
         
       }
 
-      #system-panel {
-        position:absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        width: 400px;
-        
-        .scroll-container {
-          scroll-behavior: smooth;
-          overflow: scroll;
-          height: 500px;
-          scrollbar-width: 20px;
-          padding-right: 10px;
-          transition:height 0.25s ease-in;
-          transition-delay: 0.5s;
-          
-        }
-
-        .system-title {
-          font-size:1.5em;
-          display:flex;
-          flex-direction: row;
-          justify-content: space-around;
-
-          .toggle-flyout {
-            margin-left: auto;
-            display:inline-block;
-          }
-        }
-
-        #planet-list {
-          margin : 0;
-          padding : 0;
-          scroll-behavior: auto;
-
-          li:hover { background-color: rgb(66,66,66); transition: background-color 0.5s ease-in; }
-          li:active { background-color: rgb(99,99,99); transition: background-color 0.25s ease-in; }
-          .planet {
-            border : 1px solid darkgray;
-            border-radius: 5px;
-            margin : 4px;
-            padding : 8px;
-            display : flex;
-            flex-direction: row;
-            cursor: pointer;
-
-            .planet-icon {
-              width : 32px;
-              height : 32px;
-              padding : 5px;
-              border-radius: 3px;
-              display : inline-block;
-              margin-right : 10px;
-              background-color: white;
-            }
-
-            .name {
-              font-size: 1.1em;
-              display : flex;
-              align-items: center;
-              flex-grow : 1;
-              vertical-align : middle;
-            }
-          }
-        }
-      }
       #info-panel {
         position: absolute;
-        top: 60px;
+        top: 80px;
         right: 0;
-        width: 400px;
+        width: 450px;
         overflow: hidden;
         transition: top 0.5s ease;
         transition-delay: 0.5s;
@@ -197,13 +131,6 @@
           right:10px;
         }
       }
-      #system-select-panel {
-        position:absolute;
-        top:10px;
-        left:10px;
-        font-size: 0.8em;
-      }
-    
     </style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script type="importmap">
@@ -218,6 +145,13 @@
   <body>
     <div id="navbar">
       <div class="panel">
+          <label>Current System : </label>
+          <select id="system-selector" class="panel-select">
+            <option value="1">Stellar System Name</option>
+          </select>
+      </div>
+      <div class="panel"><h1 id="system-name">System Name</h1></div>
+      <div class="panel">
         <button id="previous-planet" class="panel-button">&lt; Previous</button>
         <select id="planet-select" class="panel-select">
           <option value="1">Planet 1</option>
@@ -225,12 +159,7 @@
         <button id="next-planet" class="panel-button">&gt; Next</button>
       </div>
     </div>
-    <div id="system-select-panel" class="panel">
-        <label>Current System : </label>
-        <select id="system-selector" class="panel-select">
-          <option value="1">Stellar System Name</option>
-        </select>
-    </div>
+    
     <div id="info-panel" class="panel hidden">
       <h1 class="name">Roshar<button id="close-info-panel" class="close">X</button></h1>
       <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -245,25 +174,13 @@
         <li><a href="">Coppermind Link</a></li>
       </ul>
     </div>
-    <div id="system-panel" class="panel">
-      <h1 class="system-title"><div id="system-name">System Name</div><button id="system-flyout-toggle" class="toggle-flyout">&gt;</button></h1>
-      <div id="system-toggle" class="scroll-container">
-        <ul id="planet-list">
-          <li class="planet">
-              <img class="planet-icon" src="" />
-              <p class="name">planet #1</p>
-          </li>
-          <li>planet #2</li>
-        </ul>
-      </div>
-    </div>
     <div id="render-container"></div>
     <div class="footer">
       <ul>
         <li>Cosmere and related works are &copy; Brandon Sanderson</li>
         <li><a href="https://discord.gg/8kGurXw4vU">Discord</a></li>
         <li><a href="https://github.com/Omnicrola/cosmere-explorer">Github</a></li>
-        <li>last updated August 2025</li>
+        <li>v1.5 - last updated August 2025</li>
       </ul>
     </div>
   <script type="module">
