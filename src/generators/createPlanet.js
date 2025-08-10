@@ -59,7 +59,10 @@ function createPlanet(planetData, planetIndex, children = []) {
     planet.userData.info = planetData;
     planet.userData.isSelectable = true;
     planet.scale.setScalar(planetData.planetRadius);
-    planet.position.x =  planetData.orbitalRadius;
+    planet.rotation.y = Math.random() * 360;
+    planet.userData.update = (deltaTime) => {
+      planet.rotation.y += deltaTime * planetData.spinRate / 100;
+    }    
 
     const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
     atmosphere.scale.setScalar(1.05);
@@ -68,20 +71,31 @@ function createPlanet(planetData, planetIndex, children = []) {
     // 3d label text that follows the planet and always faces the camera
     createPlanetText(planetData, planet, orbitGroup);
 
+    // orbital grouping
+    const planetAnchor = new THREE.Group();
+    planetAnchor.position.x =  planetData.orbitalRadius;
+    planetAnchor.add(planet);
+    planetAnchor.userData.update = (deltaTime) => {
+      planetAnchor.rotation.y += deltaTime * planetData.spinRate / 100;
+    }
+
     planetData.moons.forEach((moonData, moonIndex) => {
-      planet.add(createMoon(moonData, moonIndex, planetIndex));
+      let moonOffset = new THREE.Group();
+      let moon = createMoon(moonData, moonIndex, planetIndex);
+      moonOffset.rotation.y = Math.random() * 360;
+      moonOffset.add(moon);
+      moonOffset.userData.update = (deltaTime) => {
+        moonOffset.rotation.y += deltaTime * moonData.orbitalSpeed / 100;
+      };
+      planetAnchor.add(moonOffset);
     });
 
-    // orbital grouping
-    orbitGroup.userData.update = (t) => {
-      orbitGroup.rotation.y = t * planetData.orbitalSpeed / 100 + planetData.orbitalStart;
-      children.forEach((child) => {
-        child.userData.update?.(t);
-      });
-    };
-    orbitGroup.add(planet);
+
+    orbitGroup.add(planetAnchor);
     orbitGroup.add(createRing(planetData.orbitalRadius, 0, 0.1));
-    // orbitGroup.add(createLabel(planetName, p.orbitalRadius))
+    orbitGroup.userData.update = (deltaTime) => {
+      orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
+    }
     
     return orbitGroup;
 }

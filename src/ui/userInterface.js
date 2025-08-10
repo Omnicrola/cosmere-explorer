@@ -84,7 +84,6 @@ function init() {
     
     planetSelect.addEventListener('change', (e) => {
         let planetIndex = e.target.value;
-        console.log(planetIndex)
         if(planetIndex) {
             focusOnPlanet({planetIndex});
         }        
@@ -100,7 +99,6 @@ function init() {
 
      document.getElementById('next-planet').addEventListener('click', (e) => {
         let planetSelect = document.getElementById('planet-select');
-        console.log(planetSelect.value);
         if(planetSelect.value < planetSelect.options.length -1) {
             planetSelect.value = Number(planetSelect.value) +1;
             planetSelect.dispatchEvent(new Event('change'));

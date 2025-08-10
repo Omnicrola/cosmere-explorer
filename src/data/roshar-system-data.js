@@ -39,6 +39,7 @@ const roshar = createPlanetData({
             color : 0xffccff,
             orbitalRadius : 3,
             orbitalEccentricity : 0.1,
+            orbitalSpeed : 0.9,
             description : `Sals is the first and smallest of Roshar's 3 moons and appears to be a light violet color in the night sky.`,
             coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
         }),
