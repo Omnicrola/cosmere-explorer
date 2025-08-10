@@ -18,6 +18,7 @@ const fonts = {
 }
 
 function createPlanetElement(planet, index) {
+
     let listItem = document.createElement('li');
     listItem.innerHTML = 
     `<div class="planet">
@@ -63,12 +64,24 @@ function showPlanetInfo(planet) {
 
 }
 
+function createPlanetOption(planetData, index) {
+    let option = document.createElement('option');
+    option.innerText = planetData.name;
+    option.value = index;
+    option.planet = planetData;
+    return option;
+}
+
 function createPlanetList(planetData = []) {
     let planetList = document.getElementById('planet-list');
     planetList.innerHTML = "";
 
+    let planetSelect = document.getElementById('planet-select');
+    planetList.innerHTML = "";
+
     planetData.forEach((p, index) => {
         planetList.appendChild(createPlanetElement(p, index));
+        planetSelect.appendChild(createPlanetOption(p, index));
     });
 }
 
@@ -90,13 +103,40 @@ function init() {
     let systemPanelToggle = document.getElementById('system-flyout-toggle');
     let systemPanel = document.getElementById('system-toggle');
     
+    
     systemPanelToggle.addEventListener('click', (e) => {
         setElementHidden('system-toggle', !systemPanel.classList.contains('hidden'));
     });
 
+    let planetSelect = document.getElementById('planet-select');
+    planetSelect.addEventListener('change', (e) => {
+        let planetIndex = e.target.value;
+        console.log(planetIndex)
+        if(planetIndex) {
+            focusOnPlanet({planetIndex});
+        }        
+    });
+
+    document.getElementById('previous-planet').addEventListener('click', (e) => {
+        let planetSelect = document.getElementById('planet-select');
+        if(planetSelect.value > 1) {
+            planetSelect.value = Number(planetSelect.value) -1;
+            planetSelect.dispatchEvent(new Event('change'));
+        }
+    });
+
+     document.getElementById('next-planet').addEventListener('click', (e) => {
+        let planetSelect = document.getElementById('planet-select');
+        console.log(planetSelect.value);
+        if(planetSelect.value < planetSelect.options.length -1) {
+            planetSelect.value = Number(planetSelect.value) +1;
+            planetSelect.dispatchEvent(new Event('change'));
+        }
+    });
+
+    // populate the stellar system selector options
     let systemSelector = document.getElementById('system-selector');
     systemSelector.innerHTML = "";
-
     let newOption = null;
     allStellarSystems.forEach((system, index) => {
         newOption = document.createElement('option');
@@ -105,14 +145,15 @@ function init() {
         systemSelector.appendChild(newOption);
     });
 
+    // handle switching stellar systems
     systemSelector.addEventListener('change', (e) => {
-        
         let selectedSystem = allStellarSystems[e.target.value];
         if(selectedSystem) {
             resetScene(selectedSystem);
         }
     });
 
+    // trigger initial load by simulating a selection from the system select dropdown
     systemSelector.dispatchEvent(new Event('change'));
 
 }

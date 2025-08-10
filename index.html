@@ -32,6 +32,18 @@
         background : var(--panel-bg);
         color: var(--text-color);
         font-family:Arial, Helvetica, sans-serif;
+
+        .panel-select {
+          border : none;
+          background : var(--panel-bg);
+          color: var(--text-color);
+          font-size: 1em;
+
+          option {
+            background : black;
+            cursor: pointer;
+          }
+        }
       }
       .hidden {
         height:0 !important;
@@ -68,8 +80,30 @@
         }
       }
 
+      #navbar {
+        position: absolute;
+        top: 5px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+
+        .panel-button {
+          display:inline-block;
+          margin: 2px 10px;
+          font-size:1.2em;
+        }
+        
+        .panel-select {
+          width:200px;
+          margin: 2px 10px;
+          font-size: 1.2em;
+        }
+        
+      }
+
       #system-panel {
         position:absolute;
+        z-index: 10;
         top: 0;
         right: 0;
         width: 400px;
@@ -168,18 +202,6 @@
         top:10px;
         left:10px;
         font-size: 0.8em;
-
-        select {
-          border : none;
-          background : var(--panel-bg);
-          color: var(--text-color);
-          font-size: 1em;
-
-          option {
-            background : black;
-            cursor: pointer;
-          }
-        }
       }
     
     </style>
@@ -196,9 +218,18 @@
   <body>
     <div id="system-select-panel" class="panel">
         <label>Current System : </label>
-        <select id="system-selector">
-          <option value="1">Roshar</option>
+        <select id="system-selector" class="panel-select">
+          <option value="1">Stellar System Name</option>
         </select>
+    </div>
+    <div id="navbar">
+      <div class="panel">
+        <button id="previous-planet" class="panel-button">&lt; Previous</button>
+        <select id="planet-select" class="panel-select">
+          <option value="1">Planet 1</option>
+        </select>
+        <button id="next-planet" class="panel-button">&gt; Next</button>
+      </div>
     </div>
     <div id="info-panel" class="panel hidden">
       <h1 class="name">Roshar<button id="close-info-panel" class="close">X</button></h1>
