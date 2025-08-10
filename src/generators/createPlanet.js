@@ -75,9 +75,6 @@ function createPlanet(planetData, planetIndex, children = []) {
     const planetAnchor = new THREE.Group();
     planetAnchor.position.x =  planetData.orbitalRadius;
     planetAnchor.add(planet);
-    planetAnchor.userData.update = (deltaTime) => {
-      planetAnchor.rotation.y += deltaTime * planetData.spinRate / 100;
-    }
 
     planetData.moons.forEach((moonData, moonIndex) => {
       let moonOffset = new THREE.Group();
@@ -93,6 +90,7 @@ function createPlanet(planetData, planetIndex, children = []) {
 
     orbitGroup.add(planetAnchor);
     orbitGroup.add(createRing(planetData.orbitalRadius, 0, 0.1));
+    orbitGroup.rotation.y = Math.random() * 360;
     orbitGroup.userData.update = (deltaTime) => {
       orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
     }
