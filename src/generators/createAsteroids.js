@@ -22,16 +22,41 @@ function randomizeTransform(orbitalRadius, orbitalSpread) {
 
 function createInstancedGroup(mesh, count, asteroidData) {
     const asteroidContainer = new THREE.Group();
+    
+    // move the entire group of instanced meshes around their orbital ring
     asteroidContainer.userData.update = (deltaTime) => {
-        asteroidContainer.rotation.y += deltaTime * (asteroidData.orbitalSpeed / 100);
+        asteroidContainer.rotation.y += deltaTime * (asteroidData.orbitalSpeed / 200);
     };
 
     const instanceMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, count);
     
     let randomizedMatrix;
+    const tumblers = [];
+    // generate a randomized transform for each asteroid instance
     for(let i=0; i<count; i++) {
         randomizedMatrix = randomizeTransform(asteroidData.orbitalRadius, asteroidData.orbitalSpread);
         instanceMesh.setMatrixAt(i, randomizedMatrix);
+        tumblers.push(Math.random());
+    }
+
+    // make all the asteroids 'tumble' as they orbit
+    instanceMesh.userData.update = (deltaTime) => {
+        const rotationMatrix = new THREE.Matrix4();
+        const axisX = new THREE.Vector3(0, 1, 0);
+        let angle = 0;
+
+        const extractionMatrix = new THREE.Matrix4();
+
+        for(let i=0; i<count; i++ ) {
+            instanceMesh.getMatrixAt(i, extractionMatrix);
+    
+            angle = tumblers[i] * deltaTime;
+            rotationMatrix.makeRotationAxis(axisX, angle);
+            extractionMatrix.multiply(rotationMatrix);
+
+            instanceMesh.setMatrixAt(i, extractionMatrix);
+        }
+        instanceMesh.instanceMatrix.needsUpdate = true;
     }
 
     asteroidContainer.add(instanceMesh);
