@@ -7,7 +7,7 @@ function createMoon(moonData, moonIndex, planetIndex) {
     const moonMat = new THREE.MeshStandardMaterial({color: moonData.color});
     
     const moon = new THREE.Mesh(basic_1U_sphere, moonMat);
-    moon.name = 'moon-' + planetIndex +'-' + moonIndex; 
+    moon.name = 'planet-' + (moonIndex+100);
     moon.userData.info = moonData;
     moon.userData.isSelectable = true;
     moon.scale.setScalar(moonData.radius);

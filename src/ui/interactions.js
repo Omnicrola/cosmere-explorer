@@ -53,7 +53,7 @@ function focusOnPlanet({planetIndex, planetObj}) {
     if(planetObj) {
         planetIndex = planetObj.userData.info.planetIndex;
     } else {
-        planetObj = scene.getObjectByName('planet' + planetIndex);
+        planetObj = scene.getObjectByName('planet-' + planetIndex);
     }
     camera.cameraFollowTarget = planetObj;
 

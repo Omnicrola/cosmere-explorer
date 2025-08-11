@@ -10,9 +10,13 @@ function showPlanetInfo(planet) {
     let infoPanel = document.getElementById('info-panel');
     let info = planet.userData.info;
 
-    infoPanel.innerHTML = `
+    let description = info.description.split('\n')
+        .map((substr) => `<p>${substr}</p>`)
+        .join(" ");
+
+        infoPanel.innerHTML = `
       <h1 class="name">${info.name} <button id="close-info-panel" class="close">X</button></h1>
-      <p class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${info.description}</p>
+      <div class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${description}</div>
       <ul class="stats">
         <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
         <li><b>Orbital Eccentricity:</b> ${info.orbitalEccentricity??0.0}</li>
@@ -34,9 +38,9 @@ function showPlanetInfo(planet) {
 
 }
 
-function createPlanetOption(planetData, index) {
+function createPlanetOption(planetData, name, index) {
     let option = document.createElement('option');
-    option.innerText = planetData.name;
+    option.innerText = name;
     option.value = index;
     option.planet = planetData;
     return option;
@@ -51,8 +55,11 @@ function createPlanetList(planetData = []) {
     emptyOption.value = -1;
     planetSelect.appendChild(emptyOption);
     
-    planetData.forEach((p, index) => {
-        planetSelect.appendChild(createPlanetOption(p, index));
+    planetData.forEach((planet, index) => {
+        planetSelect.appendChild(createPlanetOption(planet, planet.name, index));
+        planet.moons.forEach((moon, moonIndex) => {
+            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonIndex+100));
+        });
     });
 
     planetSelect.value = -1;

@@ -31,7 +31,10 @@ const roshar = createPlanetData({
     orbitalStart : 30,
     axialTilt : 0,
     name : "Roshar",
-    description : "Roshar is the second planet and is the eponymous planet of Greater Roshar. The Shards of Honor and Cultivation can be found here. Roshar features a single supercontinent, also called Roshar, on which its inhabitants live.",
+    description : `Roshar is the second planet and is the eponymous planet of Greater Roshar. The Shards of Honor and Cultivation can be found here. Roshar features a single supercontinent, also called Roshar, on which its inhabitants live. Its semi-major axis is such that it has an orbital period of approximately 1.1 years.
+Roshar has a surface gravity of approximately 0.7g, and a radius of approximately 5663 kilometres, just under 0.9 cosmere standard. The planet has a substantial atmosphere, and has a partial pressure of oxygen that is higher than standard cosmere.
+Roshar has no axial tilt. It has a solar day of twenty Rosharan hours, and rotates around five-hundred times every orbit.
+Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly eccentric orbits. The planet also used to have a fourth moon, which died and fell before Honor's arrival in the system, though fragments of it landed on Roshar.`,
     coppermind : "https://coppermind.net/wiki/Roshar",
     moons : [
         createMoonData({
