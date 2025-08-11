@@ -103,6 +103,7 @@ function createStellarData({
     planets = [],
     asteroidBelt = null,
 }){
+    planets.forEach((p, index) => p.planetIndex = index);
     return {
         starRadius,
         luminosity,

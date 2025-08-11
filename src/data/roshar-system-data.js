@@ -7,7 +7,7 @@ const ashyn = createPlanetData({
     icon : 'Roshar/icon-ashyn.png',
     textureMap : 'Roshar/p_rosharan_ashyn.png',
     atmosphericColor : new THREE.Vector3(0.6, 0.6, 0.4),
-    orbitalRadius : 40,
+    orbitalRadius : 100,
     orbitalSpeed : 10,
     orbitalStart : 10,
     radius: 0.9,
@@ -25,7 +25,7 @@ const roshar = createPlanetData({
    textureMap : 'Roshar/p_rosharan_roshar.png',
     oceanMap : 'Roshar/p_rosharan_roshar_ocean.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
-    orbitalRadius : 100,
+    orbitalRadius : 175,
     orbitalEccentricity: 0.0167,
     orbitalSpeed : 8,
     orbitalStart : 30,
@@ -71,7 +71,7 @@ const braize = createPlanetData({
     icon : 'Roshar/icon-braise.png',
     textureMap : 'Roshar/p_rosharan_braize.png',
     atmosphericColor : new THREE.Vector3(1.0, 0.4, 0.4),
-    orbitalRadius : 150,
+    orbitalRadius : 290,
     orbitalSpeed : 6,
     orbitalStart : 90,
     axialTilt : 0,
@@ -80,70 +80,76 @@ const braize = createPlanetData({
     coppermind : "https://coppermind.net/wiki/Braize"
 });
 
-const jes = createPlanetData({orbitalRadius : 250, planetRadius : 5, name : "Jes", orbitalSpeed : 4, orbitalStart : 80, planetColor : 0x666666,
+const asteroidBelt = createAsteroidBeltData({
+    orbitalRadius : 370,
+    orbitalSpread : 25,
+    density : 100
+});
+
+const jes = createPlanetData({orbitalRadius : 500, planetRadius : 5, name : "Jes", orbitalSpeed : 4, orbitalStart : 80, planetColor : 0x666666,
     description : `Jes is the 4th planet from the Rosharan system's sun. It's name is derived from the Herald "Jezrien" in Vorin mythology.`,
     icon : 'Roshar/icon-jes.png',
     textureMap : 'Roshar/p_rosharan_jes.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.8, 1.0),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const nan = createPlanetData({orbitalRadius : 300, planetRadius : 6, name : "Nan", orbitalSpeed : 3, orbitalStart : 150, planetColor : 0x655666,
+const nan = createPlanetData({orbitalRadius : 800, planetRadius : 6, name : "Nan", orbitalSpeed : 3, orbitalStart : 150, planetColor : 0x655666,
     description : `Nan is the 5th planet from the Rosharan system's sun. It's name is derived from the Herald "Nale" in Vorin mythology.`,
     icon : 'Roshar/icon-nan.png',
     textureMap : 'Roshar/p_rosharan_nan.png',
     atmosphericColor : new THREE.Vector3(0.6, 0.4, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const chach = createPlanetData({orbitalRadius : 350, planetRadius : 5.5, name : "Chach", orbitalSpeed : 2, orbitalStart : 200, planetColor : 0x673666,
+const chach = createPlanetData({orbitalRadius : 1200, planetRadius : 5.5, name : "Chach", orbitalSpeed : 2, orbitalStart : 200, planetColor : 0x673666,
     description : `Chach is the 6th planet from the Rosharan system's sun. It's name is derived from the Herald "Chanarach" in Vorin mythology.`,
     icon : 'Roshar/icon-chach.png',
     textureMap : 'Roshar/p_rosharan_chach.png',
     atmosphericColor : new THREE.Vector3(1.0, 0.4, 0.4),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const vev = createPlanetData({orbitalRadius : 400, planetRadius : 5.1, name : "Vev", orbitalSpeed : 1, orbitalStart : 90, planetColor : 0x666726,
+const vev = createPlanetData({orbitalRadius : 1557, planetRadius : 5.1, name : "Vev", orbitalSpeed : 1, orbitalStart : 90, planetColor : 0x666726,
     description : `Vev is the 7th planet from the Rosharan system's sun. It's name is derived from the Herald "Vedel" in Vorin mythology.`,
     icon : 'Roshar/icon-vev.png',
     textureMap : 'Roshar/p_rosharan_vev.png',
     atmosphericColor : new THREE.Vector3(1.0, 0.8, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const palah = createPlanetData({orbitalRadius : 500, planetRadius : 6.15, name : "Palah", orbitalSpeed : 0.8, orbitalStart : 300, planetColor : 0x64666,
+const palah = createPlanetData({orbitalRadius : 1853, planetRadius : 6.15, name : "Palah", orbitalSpeed : 0.8, orbitalStart : 300, planetColor : 0x64666,
     description : `Palah is the 8th planet from the Rosharan system's sun. It's name is derived from the Herald "Pralla" in Vorin mythology.`,
     icon : 'Roshar/icon-palah.png',
     textureMap : 'Roshar/p_rosharan_palah.png',
     atmosphericColor : new THREE.Vector3(0.5, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const shash = createPlanetData({orbitalRadius : 620, planetRadius : 7.5, name : "Shash", orbitalSpeed : 0.7, orbitalStart : 250, planetColor : 0x660366,
+const shash = createPlanetData({orbitalRadius : 2468, planetRadius : 7.5, name : "Shash", orbitalSpeed : 0.7, orbitalStart : 250, planetColor : 0x660366,
     description : `Shash is the 9th planet from the Rosharan system's sun. It's name is derived from the Herald "Shalash" in Vorin mythology.`,
     icon : 'Roshar/icon-shash.png',
     textureMap : 'Roshar/p_rosharan_shash.png',
     atmosphericColor : new THREE.Vector3(1.0, 0.9, 0.8),
    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const betab = createPlanetData({orbitalRadius : 750, planetRadius : 3.5, name : "Betab", orbitalSpeed : 0.6, orbitalStart :190, planetColor : 0x667366,
+const betab = createPlanetData({orbitalRadius : 2935, planetRadius : 3.5, name : "Betab", orbitalSpeed : 0.6, orbitalStart :190, planetColor : 0x667366,
     description : `Betab is the 10th planet from the Rosharan system's sun. It's name is derived from the Herald "Battar" in Vorin mythology.`,
     icon : 'Roshar/icon-betab.png',
     textureMap : 'Roshar/p_rosharan_betab.png',
     atmosphericColor : new THREE.Vector3(0.8, 1.0, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const kak = createPlanetData({orbitalRadius : 880, planetRadius : 6.25, name : "Kak", orbitalSpeed : 0.5, orbitalStart : 220, planetColor : 0x662866,
+const kak = createPlanetData({orbitalRadius : 3510, planetRadius : 6.25, name : "Kak", orbitalSpeed : 0.5, orbitalStart : 220, planetColor : 0x662866,
     description : `Kak is the 11th planet from the Rosharan system's sun. It's name is derived from the Herald "Kalak" in Vorin mythology.`,
     icon : 'Roshar/icon-kak.png',
     textureMap : 'Roshar/p_rosharan_kak.png',
     atmosphericColor : new THREE.Vector3(0.8, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const tanat = createPlanetData({orbitalRadius : 990, planetRadius : 4.78, name : "Tanat", orbitalSpeed : 0.4, orbitalStart : 45, planetColor : 0x602666,
+const tanat = createPlanetData({orbitalRadius : 4838, planetRadius : 4.78, name : "Tanat", orbitalSpeed : 0.4, orbitalStart : 45, planetColor : 0x602666,
     description : `Tanat is the 12th planet from the Rosharan system's sun. It's name is derived from the Herald "Talenel" in Vorin mythology.`,
     icon : 'Roshar/icon-tanat.png',
     textureMap : 'Roshar/p_rosharan_tanat.png',
     atmosphericColor : new THREE.Vector3(0.2, 0.9, 0.8),
     coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
-const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : "Ishi", orbitalSpeed : 0.3, orbitalStart : 60, planetColor : 0x667666,
+const ishi = createPlanetData({orbitalRadius : 5506, planetRadius : 7.5, name : "Ishi", orbitalSpeed : 0.3, orbitalStart : 60, planetColor : 0x667666,
     description : `Ishi is the 13th planet from the Rosharan system's sun. It's name is derived from the Herald "Ishar" in Vorin mythology.`,
     icon : 'Roshar/icon-ishi.png',
     textureMap : 'Roshar/p_rosharan_ishi.png',
@@ -151,14 +157,8 @@ const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : 
    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 
-const asteroidBelt = createAsteroidBeltData({
-    orbitalRadius : 50,
-    orbitalSpread : 10,
-    density : 100
-});
-
 const rosharStellarSystem = createStellarData({
-    starRadius : 10,
+    starRadius : 5,
     luminosity : 5,
     starColor: 0xEEEEFF,
     skyboxTexture : 'Roshar/sky_roshar',

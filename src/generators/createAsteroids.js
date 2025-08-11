@@ -4,7 +4,7 @@ import { asteroidMeshes } from '../fileResources.js';
 function randomizeTransform(orbitalRadius, orbitalSpread) {
 
     let matrix = new THREE.Matrix4();
-    const radius = orbitalRadius + Math.random() * 0.1 - 0.05;
+    const radius = orbitalRadius + (Math.random() * orbitalSpread);
     const angle = Math.random() * Math.PI * 2;
     const x = Math.cos(angle) * radius;
     const y = Math.random() * 5 - 2.5;

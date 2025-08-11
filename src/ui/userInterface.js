@@ -28,6 +28,8 @@ function showPlanetInfo(planet) {
     closeInfoPanel.addEventListener('click', (e) => {
         setElementHidden('info-panel', true);
         stopFollowingPlanet();
+        let planetSelect = document.getElementById('planet-select');
+        planetSelect.value = -1;
     });
 
 }
@@ -44,9 +46,16 @@ function createPlanetList(planetData = []) {
     let planetSelect = document.getElementById('planet-select');
     planetSelect.innerHTML = "";
 
+    let emptyOption = document.createElement('option');
+    emptyOption.innerText = "-- Select a Planet --";
+    emptyOption.value = -1;
+    planetSelect.appendChild(emptyOption);
+    
     planetData.forEach((p, index) => {
         planetSelect.appendChild(createPlanetOption(p, index));
     });
+
+    planetSelect.value = -1;
 }
 
 function setSystemName(name) {
@@ -77,7 +86,7 @@ function init() {
 
     document.getElementById('previous-planet').addEventListener('click', (e) => {
         let planetSelect = document.getElementById('planet-select');
-        if(planetSelect.value > 1) {
+        if(planetSelect.value > 0) {
             planetSelect.value = Number(planetSelect.value) -1;
             planetSelect.dispatchEvent(new Event('change'));
         }

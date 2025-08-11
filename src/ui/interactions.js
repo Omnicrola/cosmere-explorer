@@ -50,9 +50,15 @@ function stopFollowingPlanet() {
 }
 
 function focusOnPlanet({planetIndex, planetObj}) {
-    if(!planetObj) {
+    if(planetObj) {
+        planetIndex = planetObj.userData.info.planetIndex;
+    } else {
         planetObj = scene.getObjectByName('planet' + planetIndex);
     }
+    camera.cameraFollowTarget = planetObj;
+
+    let planetSelect = document.getElementById('planet-select');
+    planetSelect.value = planetIndex;
 
     let aabb = new THREE.Box3().setFromObject( planetObj );
     let center = aabb.getCenter( new THREE.Vector3() );
@@ -67,14 +73,10 @@ function focusOnPlanet({planetIndex, planetObj}) {
         z: center.z + (size.z *2),
         ease: 'expo.out',
         onUpdate: () => { 
-            // continuously update the centerpoint to focus on, since the 
-            // planet is actively traveling through it's orbit
-            camera.lookAt(aabb.setFromObject(planetObj).getCenter(center)); 
         },
         onComplete: () => { 
             controls.target = center;
             controls.autoRotate = true;
-            camera.cameraFollowTarget = planetObj;
             planetObj.userData.isSelected = true;
         }
     });

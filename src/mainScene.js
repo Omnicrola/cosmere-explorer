@@ -35,7 +35,7 @@ async function init() {
     clock = new THREE.Clock();
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 20000 );
     camera.position.set( - 5, 2.5, - 3.5 );
     scene.add( camera );
 
