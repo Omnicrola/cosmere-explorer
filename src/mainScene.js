@@ -21,9 +21,9 @@ let composer, renderer, mixer, clock;
 let controls;
 
 const params = {
-    threshold: 0.5,
-    strength: 0.5,
-    radius: 0.0,
+    threshold: 0.85,
+    strength: 0.25,
+    radius: 0.5,
     exposure: 1.0
 };
 
@@ -51,11 +51,7 @@ async function init() {
 
     const renderScene = new RenderPass( scene, camera );
 
-    const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-    bloomPass.threshold = params.threshold;
-    bloomPass.strength = params.strength;
-    bloomPass.radius = params.radius;
-
+    const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), params.strength, params.radius, params.threshold );
     const outputPass = new OutputPass();
 
     composer = new EffectComposer( renderer );

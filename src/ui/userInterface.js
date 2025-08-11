@@ -26,7 +26,7 @@ function showPlanetInfo(planet) {
 
     infoPanel.innerHTML = `
       <h1 class="name">${info.name} <button id="close-info-panel" class="close">X</button></h1>
-      <p class="description">${info.description}</p>
+      <p class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${info.description}</p>
       <ul class="stats">
         <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
         <li><b>Orbital Eccentricity:</b> ${info.orbitalEccentricity??0.0}</li>
