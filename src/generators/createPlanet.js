@@ -50,7 +50,7 @@ function createPlanetText(planetData, parentPlanet) {
   })
 }
 
-function createPlanet(planetData, planetIndex, children = []) {
+function createPlanet(planetData, planetIndex) {
     const orbitGroup = new THREE.Group();
     orbitGroup.userData.stats = planetData;
 
@@ -95,7 +95,12 @@ function createPlanet(planetData, planetIndex, children = []) {
       orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
     }
     
-    return orbitGroup;
+    const orbitOffset = new THREE.Group();
+    orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
+    orbitOffset.rotation.y = THREE.MathUtils.degToRad(planetData.orbitalIncline.y);
+    orbitOffset.add(orbitGroup);
+
+    return orbitOffset;
 }
 
 // orbital path ring
