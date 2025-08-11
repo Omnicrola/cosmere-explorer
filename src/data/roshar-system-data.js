@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData,createStellarData } from "./stellarData.js";
+import { createAsteroidBeltData, createMoonData, createPlanetData,createStellarData } from "./stellarData.js";
 
 const ashyn = createPlanetData({
     planetRadius : 1.2,
@@ -151,6 +151,12 @@ const ishi = createPlanetData({orbitalRadius : 1200, planetRadius : 7.5, name : 
    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 
+const asteroidBelt = createAsteroidBeltData({
+    orbitalRadius : 50,
+    orbitalSpread : 10,
+    density : 100
+});
+
 const rosharStellarSystem = createStellarData({
     starRadius : 10,
     luminosity : 5,
@@ -160,6 +166,7 @@ const rosharStellarSystem = createStellarData({
     icon : "icon-stellar-system.svg",
     description : "The Rosharan system's central star is a large white sun.",
     coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
+    asteroidBelt : asteroidBelt,
     planets : [
         ashyn,
         roshar,

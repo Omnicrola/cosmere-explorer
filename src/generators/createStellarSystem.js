@@ -4,6 +4,7 @@ import { createPlanet } from './createPlanet.js';
 import { scene } from '../mainScene.js';
 import { ui } from '../ui/userInterface.js';
 import { createSkybox } from './createSkybox.js';
+import { createAsteroids } from './createAsteroids.js';
 
 
 function createStellarSystem(stellarData) {
@@ -29,6 +30,9 @@ function createStellarSystem(stellarData) {
         let planet = createPlanet(p, index);
         stellarSystem.add(planet);
     });
+
+    // asteroids
+    scene.add(createAsteroids(stellarData.asteroidBelt));
 
     // background
     scene.background = createSkybox(stellarData.skyboxTexture);

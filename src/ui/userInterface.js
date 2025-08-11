@@ -2,21 +2,7 @@ import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
 import { createStellarSystem } from "../generators/createStellarSystem.js";
 import { focusOnPlanet, stopFollowingPlanet } from "./interactions.js";
-import { FontLoader } from 'jsm/loaders/FontLoader.js';
 
-const fontLoader = new FontLoader();
-
-function fontPromise(path) {
-    return new Promise((resolve, reject) => {
-        fontLoader.load(path, resolve);
-    });
-}
-
-// fonts for use in mesh geometry
-const fonts = {
-    RobotoRegular : fontPromise('resources/fonts/Roboto_Regular.json'),
-    RobotoBold : fontPromise('resources/fonts/Roboto_Bold.json'),
-}
 
 function showPlanetInfo(planet) {
     setElementHidden('info-panel', false);
@@ -141,4 +127,4 @@ let ui = {
     showPlanetInfo,
     resetUi
 };
-export { ui, fonts }
+export { ui }

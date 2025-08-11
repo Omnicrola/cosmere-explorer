@@ -32,6 +32,20 @@ function createMoonData({
     };
 }
 
+function createAsteroidBeltData({
+    orbitalRadius = 50,
+    orbitalSpread = 5,
+    orbitalSpeed = 1,
+    density = 100,
+}) {
+    return {
+        orbitalRadius,
+        orbitalSpread,
+        orbitalSpeed,
+        density
+    };
+}
+
 function createPlanetData({
     system = '',
     planetRadius = 1,
@@ -87,6 +101,7 @@ function createStellarData({
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     coppermind = "https://coppermind.net/wiki",
     planets = [],
+    asteroidBelt = null,
 }){
     return {
         starRadius,
@@ -98,11 +113,13 @@ function createStellarData({
         description,
         coppermind,
         planets,
+        asteroidBelt
     };
 }
 
 export {
     createMoonData,
+    createAsteroidBeltData,
     createPlanetData,
     createStellarData,
 };
