@@ -171,6 +171,7 @@ const ishi = createPlanetData({orbitalRadius : 5506, planetRadius : 7.5, name : 
 });
 
 const rosharStellarSystem = createStellarData({
+    key: 'roshar',
     starRadius : 5,
     luminosity : 5,
     starColor: 0xEEEEFF,

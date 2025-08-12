@@ -2,6 +2,7 @@ import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
 import { createStellarSystem } from "../generators/createStellarSystem.js";
 import { focusOnPlanet, stopFollowingPlanet } from "./interactions.js";
+import { userSettings } from "../data/userSettings.js";
 
 
 function showPlanetInfo(planet) {
@@ -34,14 +35,16 @@ function showPlanetInfo(planet) {
         stopFollowingPlanet();
         let planetSelect = document.getElementById('planet-select');
         planetSelect.value = -1;
+        userSettings.currentSelection = null;
     });
 
 }
 
-function createPlanetOption(planetData, name, index) {
+function createPlanetOption(planetData, name, index, isSelected) {
     let option = document.createElement('option');
     option.innerText = name;
     option.value = index;
+    option.selected = isSelected;
     option.planet = planetData;
     return option;
 }
@@ -56,13 +59,23 @@ function createPlanetList(planetData = []) {
     planetSelect.appendChild(emptyOption);
     
     planetData.forEach((planet, index) => {
-        planetSelect.appendChild(createPlanetOption(planet, planet.name, index));
+        planetSelect.appendChild(createPlanetOption(planet, planet.name, index, index==userSettings.currentSelection));
         planet.moons.forEach((moon, moonIndex) => {
-            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonIndex+100));
+            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonIndex+100, moonIndex==userSettings.currentSelection));
         });
     });
 
-    planetSelect.value = -1;
+    planetSelect.value = 3;
+}
+
+function updateAutoNavigation() {
+    const selection = Number(userSettings.currentSelection);
+    if(selection >= 0) {
+        let planetSelect = document.getElementById('planet-select');
+        planetSelect.value = selection;
+        planetSelect.dispatchEvent(new Event('change'));
+        console.log('hi')
+    }
 }
 
 function setSystemName(name) {
@@ -86,6 +99,7 @@ function init() {
     
     planetSelect.addEventListener('change', (e) => {
         let planetIndex = e.target.value;
+        userSettings.currentSelection = planetIndex;
         if(planetIndex) {
             focusOnPlanet({planetIndex});
         }        
@@ -111,23 +125,24 @@ function init() {
     let systemSelector = document.getElementById('system-selector');
     systemSelector.innerHTML = "";
     let newOption = null;
+    const selectedKey = userSettings.currentSystem;
     allStellarSystems.forEach((system, index) => {
         newOption = document.createElement('option');
-        newOption.value = index;
+        newOption.value = system.key;
+        newOption.selected = system.key == selectedKey;
         newOption.textContent = system.name;
         systemSelector.appendChild(newOption);
     });
 
     // handle switching stellar systems
     systemSelector.addEventListener('change', (e) => {
-        let selectedSystem = allStellarSystems[e.target.value];
+        const systemKey = e.target.value;
+        let selectedSystem = allStellarSystems.find(s=>s.key==systemKey);
         if(selectedSystem) {
+            userSettings.currentSystem = selectedSystem.key;
             resetScene(selectedSystem);
         }
     });
-
-    // trigger initial load by simulating a selection from the system select dropdown
-    systemSelector.dispatchEvent(new Event('change'));
 
 }
 
@@ -141,6 +156,7 @@ let ui = {
     createPlanetList,
     setSystemName,
     showPlanetInfo,
-    resetUi
+    resetUi,
+    checkAutoNavigation: updateAutoNavigation
 };
 export { ui }

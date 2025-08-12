@@ -27,6 +27,7 @@ let planet3 = createPlanetData({
 
 
 let defaultStellarSystem = createStellarData({
+    key: 'default',
     name : 'Default System',
     description : 'This is a default for testing purposes',
     starColor : 0xccffcc,

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { scene, controls, camera } from "../mainScene.js";
 import { ui } from "./userInterface.js";
+import { userSettings } from "../data/userSettings.js";
 
 let hoverTargets = [];
 
@@ -55,6 +56,7 @@ function focusOnPlanet({planetIndex, planetObj}) {
     } else {
         planetObj = scene.getObjectByName('planet-' + planetIndex);
     }
+    userSettings.currentSelection = planetIndex;
     camera.cameraFollowTarget = planetObj;
 
     let planetSelect = document.getElementById('planet-select');

@@ -94,6 +94,7 @@ function createPlanetData({
 }
 
 function createStellarData({
+    key = 'key',
     starRadius = 2,
     luminosity = 1,
     starColor = 0xffff99,
@@ -107,6 +108,7 @@ function createStellarData({
 }){
     planets.forEach((p, index) => p.planetIndex = index);
     return {
+        key,
         starRadius,
         luminosity,
         starColor,

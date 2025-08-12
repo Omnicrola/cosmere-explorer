@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { asteroidMeshes } from '../fileResources.js';
+import { asteroidMeshes } from '../data/fileResources.js';
 
 function randomizeTransform(orbitalRadius, orbitalSpread) {
 

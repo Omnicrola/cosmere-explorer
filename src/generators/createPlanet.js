@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { fonts } from '../fileResources.js';
+import { fonts } from '../data/fileResources.js';
 import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
 import { LineMaterial } from "jsm/lines/LineMaterial.js";
 import { Line2 } from "jsm/lines/Line2.js";

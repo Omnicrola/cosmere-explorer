@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 import { createStarfield } from "./generators/createStarfield.js";
 import { createStellarSystem } from "./generators/createStellarSystem.js";
-import { updateInteractions } from "./ui/interactions.js";
+import { focusOnPlanet, updateInteractions } from "./ui/interactions.js";
 import { ui } from "./ui/userInterface.js";
 import Stats from 'jsm/libs/stats.module.js';
 import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
@@ -10,11 +10,13 @@ import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
 import { allStellarSystems } from "./data/all-systems.js";
+import { userSettings } from "./data/userSettings.js";
 
 const w = window.innerWidth;
 const h = window.innerHeight;
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const zero = new THREE.Vector3();
 
 let scene, camera, stats;
 let composer, renderer, mixer, clock;
@@ -121,27 +123,58 @@ function resetScene(stellarSystem) {
     ui.resetUi();
 
     // reset camera 
-    let zero = new THREE.Vector3();
     camera.cameraFollowTarget = null;
     camera.position.set(0, 9000, 100);
     controls.autoRotate = false;
     camera.lookAt(zero);
 
     // zoom in all dramatic-like
+    warpIntoScene(newSystemGraph);
+}
+
+function warpIntoScene(newSystemGraph) {
     let aabb = new THREE.Box3().setFromObject(newSystemGraph);
     let bounds = aabb.getSize(new THREE.Vector3());
-    gsap.to(camera.position, {
-        duration : 3,
-        x: 0,
-        y: bounds.x / 6,
-        z: bounds.x / 4,
+
+    scene.scale.multiplyScalar(0);
+    // scale the entire scene up so it appears we are approaching from further away than we are
+    gsap.to(scene.scale, {
+        duration: 1.9,
+        delay: 1,
+        x: 1.0,
+        y: 1.0,
+        z: 1.0,
         ease: 'power4.out',
-        onUpdate: () => { 
-            camera.lookAt(zero); 
+        onUpdate: () => {
         },
-        onComplete: () => { 
+        onComplete: () => {
+
         }
     });
+
+    // if there is a selection ID in local storage, go to that planet, 
+    // otherwise zoom in on center
+    if(userSettings.currentSelection >= 0) {
+        let currentSelection = userSettings.currentSelection
+        window.setTimeout(()=>{
+            focusOnPlanet({planetIndex: currentSelection});
+        }, 2000);
+    } else {
+        gsap.to(camera.position, {
+            duration : 3,
+            delay: 1,
+            x: 0,
+            y: bounds.x / 6,
+            z: bounds.x / 4,
+            ease: 'power4.out',
+            onUpdate: () => { 
+                camera.lookAt(zero); 
+            },
+            onComplete: () => { 
+                ui.checkAutoNavigation();
+            }
+        });
+    }
 
 }
 
