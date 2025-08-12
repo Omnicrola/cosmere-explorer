@@ -138,6 +138,15 @@
           top:10px;
           right:10px;
         }
+        .btn-copy-link {
+          margin:0;
+          padding:0;
+          border:0;
+          background:transparent;
+        }
+        .copy-link {
+          width:24px;
+        }
       }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -160,11 +169,11 @@
       </div>
       <div class="panel"><h1 id="system-name">System Name</h1></div>
       <div class="panel">
-        <button id="previous-planet" class="panel-button">&lt; Previous</button>
+        <button id="previous-planet" class="panel-button" title="Go to the previous planet in the list">&lt; Previous</button>
         <select id="planet-select" class="panel-select">
           <option value="1">Planet 1</option>
         </select>
-        <button id="next-planet" class="panel-button">&gt; Next</button>
+        <button id="next-planet" class="panel-button" title="Go to the next planet in the list">&gt; Next</button>
       </div>
     </div>
     
@@ -186,9 +195,9 @@
     <div class="footer">
       <ul>
         <li>Cosmere and related works are &copy; Brandon Sanderson</li>
-        <li><a target="_new" ="https://discord.gg/8kGurXw4vU">Discord</a></li>
+        <li><a target="_new" href="https://discord.gg/8kGurXw4vU">Discord</a></li>
         <li><a target="_new" href="https://github.com/Omnicrola/cosmere-explorer">Github</a></li>
-        <li>v1.5 - last updated August 2025</li>
+        <li>v1.6 - last updated August 2025</li>
       </ul>
     </div>
   <script type="module">

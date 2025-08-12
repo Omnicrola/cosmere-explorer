@@ -16,7 +16,12 @@ function showPlanetInfo(planet) {
         .join(" ");
 
         infoPanel.innerHTML = `
-      <h1 class="name">${info.name} <button id="close-info-panel" class="close">X</button></h1>
+      <h1 class="name">${info.name} 
+        <button id="btn-copy-planet-link" class="btn-copy-link" title="Copy planet URL">
+            <img src="resources/icons/icon-link.png" class="copy-link"/>
+        </button>
+        <button id="close-info-panel" class="close" title="Close info panel">X</button>
+      </h1>
       <div class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${description}</div>
       <ul class="stats">
         <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
@@ -36,6 +41,12 @@ function showPlanetInfo(planet) {
         let planetSelect = document.getElementById('planet-select');
         planetSelect.value = -1;
         userSettings.currentSelection = null;
+    });
+
+    document.getElementById('btn-copy-planet-link').addEventListener('click', (e) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('planet', userSettings.currentSelection);
+        navigator.clipboard.writeText(url.toString());
     });
 
 }
