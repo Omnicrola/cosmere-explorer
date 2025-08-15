@@ -73,7 +73,8 @@ async function init() {
     controls.dampingFactor = 0.03;
     // 
 
-    resetScene(allStellarSystems[0]);
+    const currentSystem = allStellarSystems.find(s => s.key==userSettings.currentSystem) ?? allStellarSystems[0];
+    resetScene(currentSystem);
     ui.init();
 
 }

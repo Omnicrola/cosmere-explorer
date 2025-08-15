@@ -1,16 +1,12 @@
 import * as THREE from 'three';
 import { fonts } from '../data/fileResources.js';
 import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
-import { LineMaterial } from "jsm/lines/LineMaterial.js";
-import { Line2 } from "jsm/lines/Line2.js";
-import { LineGeometry } from "jsm/lines/LineGeometry.js";
 import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
 import { createMoon } from './createMoon.js';
+import { createOrbitalRing, createPlanetaryRings } from './createRings.js';
 
 // reusable constants
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
-const w = window.innerWidth;
-const h = window.innerHeight;
 
 // create 3d planet text
 function createPlanetText(planetData, parentPlanet) {
@@ -67,6 +63,12 @@ function createPlanet(planetData, planetIndex) {
     const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
     atmosphere.scale.setScalar(1.05);
     planet.add(atmosphere);
+
+    if(planetData.rings.visible) {
+      const rings = createPlanetaryRings(planetData.rings);
+      planet.add(rings);
+    }
+
     
     // 3d label text that follows the planet and always faces the camera
     createPlanetText(planetData, planet, orbitGroup);
@@ -76,9 +78,12 @@ function createPlanet(planetData, planetIndex) {
     planetAnchor.position.x =  planetData.orbitalRadius;
     planetAnchor.add(planet);
 
+    let moonMeshes = [];
     planetData.moons.forEach((moonData, moonIndex) => {
       let moonOffset = new THREE.Group();
       let moon = createMoon(moonData, moonIndex, planetIndex);
+      moonMeshes.push(moon);
+
       moonOffset.rotation.y = Math.random() * 360;
       moonOffset.add(moon);
       moonOffset.userData.update = (deltaTime) => {
@@ -89,11 +94,31 @@ function createPlanet(planetData, planetIndex) {
 
 
     orbitGroup.add(planetAnchor);
-    orbitGroup.add(createRing(planetData.orbitalRadius, 0, 0.1));
+    const orbitalRingMesh = createOrbitalRing(planetData.orbitalRadius, 0, 0.1);
+    orbitGroup.add(orbitalRingMesh);
     orbitGroup.rotation.y = Math.random() * 360;
-    orbitGroup.userData.update = (deltaTime) => {
-      orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
-    }
+
+    // allow the orbital ring to be toggled on and off
+    let _showOrbitalRing = true;
+    let _showMoonOrbitals = false;
+    orbitGroup.userData = {
+      update:(deltaTime) => {
+        orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
+      },
+      get showOrbitalRing() { return _showOrbitalRing; },
+      set showOrbitalRing(val) { 
+        _showOrbitalRing = val;
+        orbitalRingMesh.visible = val;
+      },
+      get showMoonOrbitals() { return _showMoonOrbitals; },
+      set showMoonOrbitals(val) {
+        _showMoonOrbitals = val;
+        moonMeshes.forEach((m) => {
+          m.showOrbitalRing = val;
+        });
+      }
+    };
+
     
     const orbitOffset = new THREE.Group();
     orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
@@ -103,29 +128,6 @@ function createPlanet(planetData, planetIndex) {
     return orbitOffset;
 }
 
-// orbital path ring
-function createRing( distance, hue = 0, lightness = 1.0, width = 2 ) {
-    function getRingVerts(radius = distance) {
-        const positions = [];
-        const numVerts = 128;
-        for (let i = 0; i <= numVerts; i += 1) {
-            const angle = i / numVerts * Math.PI * 2;
-            positions.push(radius * Math.cos(angle), radius * Math.sin(angle), 0);
-        }
-        return positions;
-    }
-    const color = new THREE.Color().setRGB(lightness, lightness, lightness);
-    const ringMat = new LineMaterial({
-        color,
-        linewidth: width,
-    });
-    ringMat.resolution.set(w, h); // resolution of the viewport
-    const lineGeo = new LineGeometry();
-    lineGeo.setPositions(getRingVerts());
-    const orbitRing = new Line2(lineGeo, ringMat);
-    orbitRing.rotation.x = Math.PI * 0.5;
-    orbitRing.computeLineDistances();
-    return orbitRing;
-}
+
 
   export {createPlanet};

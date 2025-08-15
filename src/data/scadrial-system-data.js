@@ -1,0 +1,166 @@
+import * as THREE from 'three';
+import { createMoonData, createPlanetData, createStellarData, createRingData } from "./stellarData.js";
+
+const scadrial = createPlanetData({
+    name : "Scadrial",
+    planetRadius : 1,
+    planetColor : 0x8888ff,
+    icon : 'Scadrial/icon-scadrial.png',
+    // textureMap : 'Scadrial/p_scadrian_scadrial.png',
+    // oceanMap : 'Scadrial/p_scadrian_scadrial_ocean.png',
+    atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
+    orbitalRadius : 175,
+    orbitalEccentricity: 0.0167,
+    orbitalSpeed : 7,
+    axialTilt : 0,
+    description : `Scadrial is unique among worlds in that it did not exist prior to the Shattering. It was created from scratch by the cooperation of the Shards of Ruin and Preservation. 
+        Scadrial is the only known inhabited planet in the Scadrian system and Scadrial has no moon, but there is an extremely bright patch of stars visible in the night sky. The planet is the home of several metal-related manifestations of Investiture, referred to locally as Allomancy, Feruchemy, and Hemalurgy.
+        Scadrial is home to Harmony, who holds the combined Shards of Ruin and Preservation. 
+        Scadrial is the origin of several of the Cosmere's cosmological units of measurement. Hence why it has a surface gravity and planetary radius of exactly 1.0`,
+    coppermind : "https://coppermind.net/wiki/Scadrial",
+});
+
+const aagalNod = createPlanetData({
+    name: 'Aagal Nod',
+    planetRadius : 9.2,
+    planetColor: 0x5588FF,
+    icon : 'Scadrial/icon-aagal-nod.png',
+    atmosphericColor: new THREE.Vector3(0.2, 0.2, 1.0),
+    orbitalRadius: 800,
+    orbitalEccentricity: 0.0921,
+    orbitalSpeed: 5,
+    axialTilt: 1.2572,
+    description: `Aagal Nod is a blue colored gas giant and the largest planet in the Scadrian system, orbiting just outside the system's stellar frost line.`,
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets',
+    moons : [
+        createMoonData({
+            name : 'Nod-1',
+            radius : 0.05435987,
+            color : 0xdecfa6,
+            orbitalRadius : 14,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: 0.27,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+        createMoonData({
+            name : 'Nod-2',
+            radius : 0.062773,
+            color : 0xb58362,
+            orbitalRadius : 15.2,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: 6.27,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+        createMoonData({
+            name : 'Nod-3',
+            radius : 0.0737752,
+            color : 0xdecfa6,
+            orbitalRadius : 17.59,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: 2.98,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+        createMoonData({
+            name : 'Nod-4',
+            radius : 0.055712,
+            color : 0xdecfa6,
+            orbitalRadius : 22,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: 1.27,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+        createMoonData({
+            name : 'Nod-5',
+            radius : 0.04771,
+            color : 0x7a7d5b,
+            orbitalRadius : 26.2,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: -5.27,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+        createMoonData({
+            name : 'Nod-6',
+            radius : 0.058275,
+            color : 0xdecfa6,
+            orbitalRadius : 29.72,
+            orbitalEccentricity : 0.1,
+            orbitalInclination: -3.2,
+            orbitalSpeed : 0.9,
+            description : `This is one of Aagal Nod's 6 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+        }),
+    ]
+});
+
+const aagalUch = createPlanetData({
+    name: 'Aagal Uch',
+    planetRadius : 8.6,
+    planetColor: 0xFF5555,
+    icon : 'Scadrial/icon-aagal-uch.png',
+    atmosphericColor: new THREE.Vector3(0.8, 0.2, 0.2),
+    orbitalRadius: 1100,
+    orbitalEccentricity: 0.0921,
+    orbitalSpeed: 5,
+    axialTilt: 1.2572,
+    description: `Aagal Uch is a redish colored gas giant and 3rd in order from the Scadrian central star.  It is the only planet in the system to currently possess a ring system.`,
+    rings: createRingData({ visible: false, density: 1.0, radius: 1.5, spread: 0.5 }), 
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
+});
+
+const dwarf1 = createPlanetData({
+    name: 'Dwarf 1', 
+    planetRadius: 0.1987,
+    planetColor: 0x937fa7,
+    icon: 'Scadrial/icon-dwarf-1.png',
+    atmosphericColor: new THREE.Vector3(.5, .6, .8),
+    orbitalRadius: 2400,
+    orbitalEccentricity: 0.2721,
+    orbitalSpeed: 1,
+    axialTilt: 1.2572,
+    description: `This dwarf planet is the closer of the 2 unnamed dwarf planets in the Scadrian system, existing outside the comet formation belt.`,
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
+});
+
+const dwarf2 = createPlanetData({
+    name: 'Dwarf 2', 
+    planetRadius: 0.1877,
+    planetColor: 0x937fa7,
+    icon: 'Scadrial/icon-dwarf-2.png',
+    atmosphericColor: new THREE.Vector3(.5, .6, .8),
+    orbitalRadius: 2900,
+    orbitalEccentricity: 0.2721,
+    orbitalSpeed: 1,
+    axialTilt: 1.2572,
+    description: `This dwarf planet is the more distant of the 2 unnamed dwarf planets in the Scadrian system, existing outside the comet formation belt.`,
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
+});
+
+const scadrialSystemData = createStellarData({
+    key: 'scadrial',
+    name: 'Scadrian System',
+    starRadius: 4.7,
+    starColor: 0xFFEFEE,
+    skyboxTexture: 'Scadrial/sky_scadrial',
+    icon: 'icon-stellar-system.svg',
+    description: '',
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system',
+    planets: [
+        scadrial, 
+        aagalNod, 
+        aagalUch, 
+        dwarf1, 
+        dwarf2
+    ]
+});
+
+export { scadrialSystemData };

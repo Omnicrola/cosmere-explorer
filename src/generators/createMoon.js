@@ -8,11 +8,22 @@ function createMoon(moonData, moonIndex, planetIndex) {
     
     const moon = new THREE.Mesh(basic_1U_sphere, moonMat);
     moon.name = 'planet-' + (moonIndex+100);
-    moon.userData.info = moonData;
-    moon.userData.isSelectable = true;
+    
     moon.scale.setScalar(moonData.radius);
     moon.position.x =  moonData.orbitalRadius;
     moon.rotation.y = Math.random() * 360;
+    
+    let _showOrbitalRing = false;
+    moon.userData = {
+        info: moonData,
+        isSelectable: true,
+        get showOrbitalRing() { return _showOrbitalRing; },
+        set showOrbitalRing(val) {
+            _showOrbitalRing = val;
+            moon.visible = val;
+        }
+    }
+
 
     return moon;
 }

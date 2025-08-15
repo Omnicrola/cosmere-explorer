@@ -66,7 +66,8 @@ function createPlanetData({
     icon = 'resources/icons/icon-planet.svg',
     description = 'Lorem ipsum',
     coppermind = 'https://coppermind.net/wiki',
-    moons = []
+    moons = [],
+    rings = {},
 }){
     return {
         system,
@@ -89,9 +90,25 @@ function createPlanetData({
         icon,
         description,
         coppermind,
-        moons
+        moons,
+        rings,
     };
 }
+
+function createRingData({ 
+    visible = false,
+    density = 1.0, 
+    radius = 1.5, 
+    spread = 0.5 
+}) {
+    return {
+        visible,
+        density,
+        radius,
+        spread
+    };
+}
+
 
 function createStellarData({
     key = 'key',
@@ -127,4 +144,5 @@ export {
     createAsteroidBeltData,
     createPlanetData,
     createStellarData,
+    createRingData
 };
