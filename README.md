@@ -22,15 +22,20 @@ Great! I welcome corrections if you find them. You are welcome to either make a 
 ## TODO
 There's a lot of features I'd still like to add, here's whats on the current roadmap:
 
-* Planet icons
-* Improved planetary shaders
-* Multiple star systems
+* ✅ Planet icons
+* ✅ Improved planetary shaders
+* ✅ Multiple star systems
 * Basic UI sounds
 * Interstellar map
-* Better background stars
+* ✅ Better background stars
 * Hidden lore
-* Gamified exploration badges
-
+* Advanced features:
+    * Exploration badges
+    * "Investiture scanner"
+    * Book <-> planet association viewer
+    * Timeline visualization
+    * Worldhopper journeys
+    
 ## Tools Used
 * VS Code
 * Blender
