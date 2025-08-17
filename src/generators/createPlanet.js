@@ -47,88 +47,91 @@ function createPlanetText(planetData, parentPlanet) {
 }
 
 function createPlanet(planetData, planetIndex) {
-    const orbitGroup = new THREE.Group();
-    orbitGroup.userData.stats = planetData;
+  const orbitOffset = new THREE.Group();
+  orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
+  orbitOffset.rotation.y = THREE.MathUtils.degToRad(planetData.orbitalIncline.y);
 
-    const planetMaterial = createPlanetMaterial(planetData);
-    const planet = new THREE.Mesh(basic_1U_sphere, planetMaterial);
-    planet.name = 'planet-' + planetIndex; // need this to find and focus the camera later
-    planet.userData.info = planetData;
-    planet.userData.isSelectable = true;
-    planet.scale.setScalar(planetData.planetRadius);
-    planet.rotation.y = Math.random() * 360;
+  const orbitGroup = new THREE.Group();
+  orbitOffset.add(orbitGroup);
 
-    // update rotation and atmospheric shading light direction
-    planet.userData.update = (deltaTime) => {
-      planet.rotation.y += deltaTime * planetData.spinRate / 100;
-    }    
+  const planetMaterial = createPlanetMaterial(planetData);
+  const planet = new THREE.Mesh(basic_1U_sphere, planetMaterial);
+  planet.name = 'planet-' + planetIndex; // need this to find and focus the camera later
 
-    const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
-    atmosphere.scale.setScalar(1.05);
-    planet.add(atmosphere);
-
-    if(planetData.rings.visible) {
-      const rings = createPlanetaryRings(planetData.rings);
-      planet.add(rings);
+  // allow the orbital ring to be toggled on and off
+  let _showOrbitalRing = true;
+  let _showMoonOrbitals = false;
+  planet.userData = {
+    info : planetData,
+    isSelectable : true,
+    get showOrbitalRing() { return _showOrbitalRing; },
+    set showOrbitalRing(val) { 
+      _showOrbitalRing = val;
+      orbitalRingMesh.visible = val;
+    },
+    get isSelected() { return _showMoonOrbitals; },
+    set isSelected(val) {
+      _showMoonOrbitals = val;
+      moonMeshes.forEach((m) => {
+        m.userData.showOrbitalRing = val;
+      });
     }
+  };
+  planet.scale.setScalar(planetData.planetRadius);
+  planet.rotation.y = Math.random() * Math.PI * 2;
 
-    
-    // 3d label text that follows the planet and always faces the camera
-    createPlanetText(planetData, planet, orbitGroup);
+  // update rotation and atmospheric shading light direction
+  planet.userData.update = (deltaTime) => {
+    planet.rotation.y += deltaTime * planetData.spinRate / 100;
+  }    
 
-    // orbital grouping
-    const planetAnchor = new THREE.Group();
-    planetAnchor.position.x =  planetData.orbitalRadius;
-    planetAnchor.add(planet);
+  const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
+  atmosphere.scale.setScalar(1.05);
+  planet.add(atmosphere);
 
-    let moonMeshes = [];
-    planetData.moons.forEach((moonData, moonIndex) => {
-      let moonOffset = new THREE.Group();
-      let moon = createMoon(moonData, moonIndex, planetIndex);
-      moonMeshes.push(moon);
+  if(planetData.rings.visible) {
+    const rings = createPlanetaryRings(planetData.rings);
+    planet.add(rings);
+  }
 
-      moonOffset.rotation.y = Math.random() * 360;
-      moonOffset.add(moon);
-      moonOffset.userData.update = (deltaTime) => {
-        moonOffset.rotation.y += deltaTime * moonData.orbitalSpeed / 100;
-      };
-      planetAnchor.add(moonOffset);
-    });
+  
+  // 3d label text that follows the planet and always faces the camera
+  createPlanetText(planetData, planet, orbitGroup);
 
+  // moons!
+  const planetAnchor = new THREE.Group();
+  planetAnchor.position.x =  planetData.orbitalRadius;
+  planetAnchor.add(planet);
 
-    orbitGroup.add(planetAnchor);
-    const orbitalRingMesh = createOrbitalRing(planetData.orbitalRadius, 0, 0.1);
-    orbitGroup.add(orbitalRingMesh);
-    orbitGroup.rotation.y = Math.random() * 360;
+  let moonMeshes = [];
+  planetData.moons.forEach((moonData, moonIndex) => {
+    let moonOffset = new THREE.Group();
+    let moon = createMoon(moonData, moonIndex, planetIndex);
+    moonMeshes.push(moon);
 
-    // allow the orbital ring to be toggled on and off
-    let _showOrbitalRing = true;
-    let _showMoonOrbitals = false;
-    orbitGroup.userData = {
-      update:(deltaTime) => {
-        orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
-      },
-      get showOrbitalRing() { return _showOrbitalRing; },
-      set showOrbitalRing(val) { 
-        _showOrbitalRing = val;
-        orbitalRingMesh.visible = val;
-      },
-      get showMoonOrbitals() { return _showMoonOrbitals; },
-      set showMoonOrbitals(val) {
-        _showMoonOrbitals = val;
-        moonMeshes.forEach((m) => {
-          m.showOrbitalRing = val;
-        });
-      }
+    moonOffset.rotation.y = Math.random() * 360;
+    moonOffset.add(moon);
+    moonOffset.userData.update = (deltaTime) => {
+      moonOffset.rotation.y += deltaTime * moonData.orbitalSpeed / 100;
     };
+    planetAnchor.add(moonOffset);
+  });
 
-    
-    const orbitOffset = new THREE.Group();
-    orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
-    orbitOffset.rotation.y = THREE.MathUtils.degToRad(planetData.orbitalIncline.y);
-    orbitOffset.add(orbitGroup);
 
-    return orbitOffset;
+  orbitGroup.add(planetAnchor);
+  const orbitalRingMesh = createOrbitalRing(planetData.orbitalRadius, 0, 0.1);
+  orbitGroup.add(orbitalRingMesh);
+  orbitGroup.rotation.y = Math.random() * 360;
+
+  orbitOffset.userData = {
+    update:(deltaTime) => {
+      orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
+    },
+  };
+  // start with moon orbits hidden
+  orbitGroup.userData.showMoonOrbitals = false;
+
+  return orbitOffset;
 }
 
 

@@ -67,6 +67,7 @@ function focusOnPlanet({planetIndex, planetObj}) {
     let size = aabb.getSize( new THREE.Vector3() );
 
     ui.showPlanetInfo(planetObj);
+    planetObj.userData.isSelected = true;
 
     gsap.to(camera.position, {
         duration : 1,

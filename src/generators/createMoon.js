@@ -1,9 +1,12 @@
 import * as THREE from 'three';
 import { createPlanetMaterial } from '../../resources/materials.js';
+import { createOrbitalRing } from './createRings.js';
 
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
 function createMoon(moonData, moonIndex, planetIndex) {
+    const moonGroup = new THREE.Group();
+
     const moonMat = new THREE.MeshStandardMaterial({color: moonData.color});
     
     const moon = new THREE.Mesh(basic_1U_sphere, moonMat);
@@ -11,21 +14,26 @@ function createMoon(moonData, moonIndex, planetIndex) {
     
     moon.scale.setScalar(moonData.radius);
     moon.position.x =  moonData.orbitalRadius;
-    moon.rotation.y = Math.random() * 360;
+    moon.rotation.y = Math.random() * Math.PI * 2; // set to a random position along it's orbit
+
+    const orbitalRing = createOrbitalRing(moonData.orbitalRadius, 1.0, .4, 2);
     
     let _showOrbitalRing = false;
-    moon.userData = {
+    moonGroup.userData = {
         info: moonData,
         isSelectable: true,
         get showOrbitalRing() { return _showOrbitalRing; },
         set showOrbitalRing(val) {
             _showOrbitalRing = val;
-            moon.visible = val;
+            orbitalRing.visible = val;
         }
     }
 
+    moonGroup.add(orbitalRing);
+    moonGroup.add(moon);
+    moonGroup.rotation.x = THREE.MathUtils.degToRad(moonData.orbitalInclination);
 
-    return moon;
+    return moonGroup;
 }
 
 export { createMoon };
