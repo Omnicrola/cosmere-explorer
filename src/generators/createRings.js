@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { LineMaterial } from "jsm/lines/LineMaterial.js";
 import { Line2 } from "jsm/lines/Line2.js";
 import { LineGeometry } from "jsm/lines/LineGeometry.js";
+import { createRingMaterial } from '../../resources/materials.js';
 
 
 function getRingVerts(radius) {
@@ -31,12 +32,16 @@ function createOrbitalRing( radius, hue = 0, lightness = 1.0, width = 2 ) {
     return orbitRing;
 }
 
+// planetary rings (like Saturn)
 function createPlanetaryRings(ringData) {
-    const color = new THREE.Color(1,1,1);
-    const planeMaterial = new THREE.MeshBasicMaterial({ color });
-    const ringPlane = new THREE.Mesh(new THREE.PlaneGeometry(1,1,1,1), planeMaterial);
-    
-    return ringPlane;
+    const ringMaterial = createRingMaterial(ringData.albedoMap, ringData.alphaMap);
+    const geometry = new THREE.TorusGeometry(ringData.radius, ringData.spread, 12, 48);
+    const ringMesh = new THREE.Mesh(geometry, ringMaterial);
+
+    ringMesh.scale.z = 0.001;
+    ringMesh.rotation.x = THREE.MathUtils.degToRad(90) + THREE.MathUtils.degToRad(ringData.inclination);
+
+    return ringMesh;
 }
 
 export { createOrbitalRing, createPlanetaryRings };

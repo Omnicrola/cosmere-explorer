@@ -151,6 +151,7 @@ function init() {
         let selectedSystem = allStellarSystems.find(s=>s.key==systemKey);
         if(selectedSystem) {
             userSettings.currentSystem = selectedSystem.key;
+            userSettings.currentSelection = null;
             resetScene(selectedSystem);
         }
     });

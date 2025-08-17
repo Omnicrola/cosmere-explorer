@@ -122,4 +122,21 @@ function createAtmosphericShader(planetData) {
   return atmosMat;
 }
 
-export { createPlanetMaterial, createFresnelMaterial, createAtmosphericShader };
+// planetary rings 
+function createRingMaterial(albedoMapFile, alphaMapFile) {
+  const albedoMap = texLoader.load(`./resources/textures/${albedoMapFile}`);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+            map: albedoMap,
+            alphaMap: texLoader.load(`./resources/textures/${alphaMapFile}`),
+            transparent: true,
+            roughness: 0.6,
+            metalness: 0.5,
+            emissive: 0xffffff,
+            emissiveMap: albedoMap,
+            emissiveIntensity: 0.05
+          });
+
+    return ringMaterial;
+}
+
+export { createPlanetMaterial, createFresnelMaterial, createAtmosphericShader, createRingMaterial };

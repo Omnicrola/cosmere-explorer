@@ -24,6 +24,7 @@ const aagalNod = createPlanetData({
     name: 'Aagal Nod',
     planetRadius : 9.2,
     planetColor: 0x5588FF,
+    textureMap: 'Scadrial/p_scadrian_aagal_nod.png',
     icon : 'Scadrial/icon-aagal-nod.png',
     atmosphericColor: new THREE.Vector3(0.2, 0.2, 1.0),
     orbitalRadius: 800,
@@ -106,14 +107,21 @@ const aagalUch = createPlanetData({
     name: 'Aagal Uch',
     planetRadius : 8.6,
     planetColor: 0xFF5555,
-    icon : 'Scadrial/icon-aagal-uch.png',
-    atmosphericColor: new THREE.Vector3(0.8, 0.2, 0.2),
+    textureMap: 'Scadrial/p_scadrian_aagal_uch.png',
+    atmosphericColor: new THREE.Vector3(0.5, 0.1, 0.1),
     orbitalRadius: 1100,
     orbitalEccentricity: 0.0921,
     orbitalSpeed: 5,
-    axialTilt: 1.2572,
+    axialTilt: 6.2572,
     description: `Aagal Uch is a redish colored gas giant and 3rd in order from the Scadrian central star.  It is the only planet in the system to currently possess a ring system.`,
-    rings: createRingData({ visible: false, density: 1.0, radius: 1.5, spread: 0.5 }), 
+    rings: createRingData({ 
+        visible: true, 
+        radius: 2.17, 
+        spread: 0.827, 
+        inclination: 20.47, 
+        albedoMap: 'rings-01.png',
+        alphaMap: 'rings-01-alpha.png'
+    }), 
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
 });
 
@@ -126,7 +134,7 @@ const dwarf1 = createPlanetData({
     orbitalRadius: 2400,
     orbitalEccentricity: 0.2721,
     orbitalSpeed: 1,
-    axialTilt: 1.2572,
+    axialTilt: -2.2572,
     description: `This dwarf planet is the closer of the 2 unnamed dwarf planets in the Scadrian system, existing outside the comet formation belt.`,
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
 });

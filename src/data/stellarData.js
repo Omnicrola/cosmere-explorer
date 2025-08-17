@@ -97,15 +97,21 @@ function createPlanetData({
 
 function createRingData({ 
     visible = false,
-    density = 1.0, 
+    albedoMap = null,
+    alphaMap = null,
+    opacity = 1.0, 
     radius = 1.5, 
-    spread = 0.5 
+    spread = 0.5,
+    inclination = 0,
 }) {
     return {
         visible,
-        density,
+        albedoMap,
+        alphaMap,
+        opacity,
         radius,
-        spread
+        spread,
+        inclination
     };
 }
 

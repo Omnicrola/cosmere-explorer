@@ -50,12 +50,15 @@ function createPlanet(planetData, planetIndex) {
     const orbitGroup = new THREE.Group();
     orbitGroup.userData.stats = planetData;
 
-    const planet = new THREE.Mesh(basic_1U_sphere, createPlanetMaterial(planetData));
+    const planetMaterial = createPlanetMaterial(planetData);
+    const planet = new THREE.Mesh(basic_1U_sphere, planetMaterial);
     planet.name = 'planet-' + planetIndex; // need this to find and focus the camera later
     planet.userData.info = planetData;
     planet.userData.isSelectable = true;
     planet.scale.setScalar(planetData.planetRadius);
     planet.rotation.y = Math.random() * 360;
+
+    // update rotation and atmospheric shading light direction
     planet.userData.update = (deltaTime) => {
       planet.rotation.y += deltaTime * planetData.spinRate / 100;
     }    
