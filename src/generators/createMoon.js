@@ -7,10 +7,11 @@ const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 function createMoon(moonData, moonIndex, planetIndex) {
     const moonGroup = new THREE.Group();
 
-    const moonMat = new THREE.MeshStandardMaterial({color: moonData.color});
+    const moonMat = createPlanetMaterial(moonData);
     
     const moon = new THREE.Mesh(basic_1U_sphere, moonMat);
     moon.name = 'planet-' + (moonIndex+100);
+    moon.userData.info = moonData;
     
     moon.scale.setScalar(moonData.radius);
     moon.position.x =  moonData.orbitalRadius;
@@ -20,7 +21,6 @@ function createMoon(moonData, moonIndex, planetIndex) {
     
     let _showOrbitalRing = false;
     moonGroup.userData = {
-        info: moonData,
         isSelectable: true,
         get showOrbitalRing() { return _showOrbitalRing; },
         set showOrbitalRing(val) {
