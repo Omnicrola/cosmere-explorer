@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData } from "./stellarData.js";
 
 const scadrial = createPlanetData({
     name : "Scadrial",
@@ -224,15 +224,24 @@ const dwarf2 = createPlanetData({
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets'
 });
 
+
+
 const scadrialSystemData = createStellarData({
     key: 'scadrial',
     name: 'Scadrian System',
+    luminosity: 3.5,
     starRadius: 4.7,
     starColor: 0xFFEFEE,
     skyboxTexture: 'Scadrial/sky_scadrial',
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Scadrian_system',
+    asteroidBelt: createAsteroidBeltData({ // going to pretend asteroids are a "comet belt" for now
+        density: 2000,
+        orbitalRadius: 2000,
+        orbitalSpread: 200,
+        orbitalSpeed: 1,
+    }),
     planets: [
         scadrial, 
         aagalNod, 

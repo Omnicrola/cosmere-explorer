@@ -63,8 +63,6 @@ function createInstancedGroup(mesh, count, asteroidData) {
     return asteroidContainer;
 }
 
-const baseMesh = new THREE.IcosahedronGeometry(10, 1);
-const baseMaterial = new THREE.MeshBasicMaterial();
 function createAsteroids(asteroidData) {
 
     const asteroidContainer = new THREE.Group();
@@ -77,7 +75,6 @@ function createAsteroids(asteroidData) {
             asteroidContainer.add(createInstancedGroup(mesh, asteroidData.density, asteroidData));
         });
     });
-    // asteroidContainer.add(createInstancedGroup(baseMesh, asteroidData.density, asteroidData));
 
     return asteroidContainer;
 }
