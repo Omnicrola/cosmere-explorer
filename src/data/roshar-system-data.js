@@ -180,7 +180,7 @@ const rosharStellarSystem = createStellarData({
     icon : "icon-stellar-system.svg",
     description : "The Rosharan system's central star is a large white sun.",
     coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
-    asteroidBelt : asteroidBelt,
+    stellarObjects : [asteroidBelt],
     planets : [
         ashyn,
         roshar,

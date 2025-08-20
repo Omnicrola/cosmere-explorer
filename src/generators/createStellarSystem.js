@@ -5,6 +5,8 @@ import { scene } from '../mainScene.js';
 import { ui } from '../ui/userInterface.js';
 import { createSkybox } from './createSkybox.js';
 import { createAsteroids } from './createAsteroids.js';
+import { STELLAR_OBJECT } from '../data/stellarData.js';
+import { createCognitiveAnomoly } from './createCognitiveAnomoly.js';
 
 
 function createStellarSystem(stellarData) {
@@ -31,7 +33,19 @@ function createStellarSystem(stellarData) {
         stellarSystem.add(planet);
     });
 
-    // asteroids
+    // other stellar objects
+    stellarData.stellarObjects.forEach((objData) => {
+        switch(objData.stellarObjectType) {
+            case STELLAR_OBJECT.ASTEROID_BELT :
+                scene.add(createAsteroids(objData));
+                break;
+            case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
+                scene.add(createCognitiveAnomoly(objData));
+                break;
+            default : 
+                console.log('Error: unknown stellar object type : ');
+        }
+    });
     scene.add(createAsteroids(stellarData.asteroidBelt));
 
     // background

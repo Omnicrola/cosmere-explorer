@@ -64,4 +64,4 @@ function createStar({
 
     return sun;
 }
-export {createStar};
+export {createStar, coronaTurbulence};

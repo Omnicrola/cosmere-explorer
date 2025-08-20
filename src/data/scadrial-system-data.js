@@ -225,6 +225,13 @@ const dwarf2 = createPlanetData({
 });
 
 
+const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "comet belt" for now
+        density: 2000,
+        orbitalRadius: 2000,
+        orbitalSpread: 200,
+        orbitalSpeed: 1,
+    });
+
 
 const scadrialSystemData = createStellarData({
     key: 'scadrial',
@@ -236,12 +243,7 @@ const scadrialSystemData = createStellarData({
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Scadrian_system',
-    asteroidBelt: createAsteroidBeltData({ // going to pretend asteroids are a "comet belt" for now
-        density: 2000,
-        orbitalRadius: 2000,
-        orbitalSpread: 200,
-        orbitalSpeed: 1,
-    }),
+    stellarObjects: [cometBelt],
     planets: [
         scadrial, 
         aagalNod, 

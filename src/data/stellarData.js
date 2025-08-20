@@ -1,5 +1,11 @@
 import * as THREE from 'three';
 
+
+const STELLAR_OBJECT = {
+    get ASTEROID_BELT  ()  {return 1;},
+    get COGNITIVE_ANOMOLY () {return 2;}
+}
+
 function createMoonData({
     name = 'moon',
     color = 0xffffff,
@@ -39,10 +45,34 @@ function createAsteroidBeltData({
     density = 100,
 }) {
     return {
+        stellarObjectType : STELLAR_OBJECT.ASTEROID_BELT,
         orbitalRadius,
         orbitalSpread,
         orbitalSpeed,
         density
+    };
+}
+
+function createCognitiveAnomolyData({
+    name = 'anomoly',
+    radius = 1,
+    orbitalRadius = 10,
+    orbitalSpeed = 1,
+    orbitalEccentricity,
+    icon = null,
+    description = '',
+    coppermind = '',
+}) {
+    return {
+        stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMOLY,
+        name,
+        radius,
+        orbitalRadius,
+        orbitalSpeed,
+        orbitalEccentricity,
+        icon,
+        description,
+        coppermind,
     };
 }
 
@@ -127,7 +157,7 @@ function createStellarData({
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     coppermind = "https://coppermind.net/wiki",
     planets = [],
-    asteroidBelt = null,
+    stellarObjects = [],
 }){
     planets.forEach((p, index) => p.planetIndex = index);
     return {
@@ -141,7 +171,7 @@ function createStellarData({
         description,
         coppermind,
         planets,
-        asteroidBelt
+        stellarObjects
     };
 }
 
@@ -150,5 +180,7 @@ export {
     createAsteroidBeltData,
     createPlanetData,
     createStellarData,
-    createRingData
+    createRingData,
+    createCognitiveAnomolyData,
+    STELLAR_OBJECT
 };
