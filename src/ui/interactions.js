@@ -7,11 +7,6 @@ let hoverTargets = [];
 
 // general click handling
 function handleUserClicked(event) {
-    // prevents clicking on objects as the user drags the camera around
-    if(ui.isUsingOrbitControl) { 
-        return;
-    }
-
     hoverTargets.forEach((obj) => {
         if(obj.userData.isSelectable) {
             focusOnPlanet({planetObj:obj});
@@ -61,6 +56,12 @@ function focusOnPlanet({planetIndex, planetObj}) {
     } else {
         planetObj = scene.getObjectByName('planet-' + planetIndex);
     }
+
+    // prevent re-clicking on the same planet (like when dragging the camera)
+    if(camera.cameraFollowTarget === planetObj) {
+        return;
+    }
+
     userSettings.currentSelection = planetIndex;
     camera.cameraFollowTarget = planetObj;
 

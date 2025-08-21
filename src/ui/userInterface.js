@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import { orbitControls, resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
 import { createStellarSystem } from "../generators/createStellarSystem.js";
@@ -67,6 +68,7 @@ function createPlanetList(planetData = []) {
     let emptyOption = document.createElement('option');
     emptyOption.innerText = "-- Select a Planet --";
     emptyOption.value = -1;
+    emptyOption.selected = true;
     planetSelect.appendChild(emptyOption);
     
     planetData.forEach((planet, index) => {
@@ -156,18 +158,6 @@ function init() {
         }
     });
 
-    // monitor when user is interacting with the orbit controls, and prevent accidentally
-    // clicking on objects the user happens to have under the cursor when they stop dragging the camera
-    orbitControls.addEventListener('start', (e) => { 
-        ui.isUsingOrbitControl = true; 
-    });
-    orbitControls.addEventListener('end', (e) => { 
-        // delay resetting by 1 frame, or else this will always reset to false right before the 'click' event is evaluated
-        requestAnimationFrame(()=>{
-            ui.isUsingOrbitControl = false; 
-        })
-    });
-
 }
 
 function resetUi() {
@@ -182,6 +172,5 @@ let ui = {
     showPlanetInfo,
     resetUi,
     checkAutoNavigation: updateAutoNavigation,
-    isUsingOrbitControl : false
 };
 export { ui }
