@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { scene, controls, camera } from "../mainScene.js";
+import { scene, orbitControls, camera } from "../mainScene.js";
 import { ui } from "./userInterface.js";
 import { userSettings } from "../data/userSettings.js";
 
@@ -7,6 +7,11 @@ let hoverTargets = [];
 
 // general click handling
 function handleUserClicked(event) {
+    // prevents clicking on objects as the user drags the camera around
+    if(ui.isUsingOrbitControl) { 
+        return;
+    }
+
     hoverTargets.forEach((obj) => {
         if(obj.userData.isSelectable) {
             focusOnPlanet({planetObj:obj});
@@ -33,7 +38,7 @@ function updateInteractions(raycaster, scene) {
 }
 
 function stopFollowingPlanet() {
-    controls.autoRotate = false;
+    orbitControls.autoRotate = false;
     camera.cameraFollowTarget.userData.isSelected = false;
     camera.cameraFollowTarget = null;
 
@@ -78,8 +83,8 @@ function focusOnPlanet({planetIndex, planetObj}) {
         onUpdate: () => { 
         },
         onComplete: () => { 
-            controls.target = center;
-            controls.autoRotate = true;
+            orbitControls.target = center;
+            orbitControls.autoRotate = true;
             planetObj.userData.isSelected = true;
         }
     });

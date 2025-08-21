@@ -20,7 +20,7 @@ const zero = new THREE.Vector3();
 
 let scene, camera, stats;
 let composer, renderer, mixer, clock;
-let controls;
+let orbitControls;
 
 const params = {
     threshold: 0.85,
@@ -68,9 +68,9 @@ async function init() {
 
     //
 
-    controls = new OrbitControls( camera, renderer.domElement );
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.03;
+    orbitControls = new OrbitControls( camera, renderer.domElement );
+    orbitControls.enableDamping = true;
+    orbitControls.dampingFactor = 0.03;
     // 
 
     const currentSystem = allStellarSystems.find(s => s.key==userSettings.currentSystem) ?? allStellarSystems[0];
@@ -91,12 +91,12 @@ function animate() {
 
     if(camera.cameraFollowTarget) {
         camera.cameraFollowTarget.getWorldPosition(worldPosition);
-        controls.target = worldPosition;
-        controls.autoRotate = true;
+        orbitControls.target = worldPosition;
+        orbitControls.autoRotate = true;
     }
 
     stats.update();
-    controls.update();
+    orbitControls.update();
     composer.render();
 }
 
@@ -126,7 +126,7 @@ function resetScene(stellarSystem) {
     // reset camera 
     camera.cameraFollowTarget = null;
     camera.position.set(0, 9000, 100);
-    controls.autoRotate = false;
+    orbitControls.autoRotate = false;
     camera.lookAt(zero);
 
     // zoom in all dramatic-like
@@ -184,7 +184,7 @@ export {
     resetScene,
     scene, 
     camera, 
-    controls,
+    orbitControls,
     renderer, 
     pointer, 
 }
