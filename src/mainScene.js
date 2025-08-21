@@ -1,8 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from 'jsm/controls/OrbitControls.js';
-import { createStarfield } from "./generators/createStarfield.js";
 import { createStellarSystem } from "./generators/createStellarSystem.js";
-import { focusOnPlanet, updateInteractions } from "./ui/interactions.js";
+import { focusOnStellarObject, updateInteractions } from "./ui/interactions.js";
 import { ui } from "./ui/userInterface.js";
 import Stats from 'jsm/libs/stats.module.js';
 import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
@@ -158,7 +157,7 @@ function warpIntoScene(newSystemGraph) {
     if(userSettings.currentSelection >= 0) {
         let currentSelection = userSettings.currentSelection
         window.setTimeout(()=>{
-            focusOnPlanet({planetIndex: currentSelection});
+            focusOnStellarObject({planetIndex: currentSelection});
         }, 2000);
     } else {
         gsap.to(camera.position, {

@@ -2,6 +2,7 @@ import { createPlanetData,createStellarData } from "./stellarData.js";
 
 
 let planet1 = createPlanetData({
+    id: 'd-1',
     name: 'default 1', 
     orbitalRadius: 50, 
     orbitalSpeed: 1, 
@@ -10,6 +11,7 @@ let planet1 = createPlanetData({
 });
 
 let planet2 = createPlanetData({
+    id: 'd-2',
     name: 'default 2', 
     orbitalRadius: 75, 
     orbitalSpeed: 1, 
@@ -18,6 +20,7 @@ let planet2 = createPlanetData({
 });
 
 let planet3 = createPlanetData({
+    id: 'd-3',
     name: 'default 3', 
     orbitalRadius: 100, 
     orbitalSpeed: 1, 
@@ -27,6 +30,7 @@ let planet3 = createPlanetData({
 
 
 let defaultStellarSystem = createStellarData({
+    id: 'd-4',
     key: 'default',
     name : 'Default System',
     description : 'This is a default for testing purposes',

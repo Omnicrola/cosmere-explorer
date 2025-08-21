@@ -16,8 +16,11 @@ function createCognitiveAnomoly(objData) {
     const anomoly = new THREE.Mesh(geo, material);
     anchorGroup.add(anomoly);
     anomoly.position.x = objData.orbitalRadius;
+    anomoly.name = objData.id;
     
     anomoly.userData = {
+        isSelectable : true,
+        info: objData,
         update: coronaTurbulence(geo, objData.radius)
     };
 

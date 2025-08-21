@@ -10,7 +10,7 @@ function createMoon(moonData, moonIndex, planetIndex) {
     const moonMat = createPlanetMaterial(moonData);
     
     const moon = new THREE.Mesh(basic_1U_sphere, moonMat);
-    moon.name = 'planet-' + (moonIndex+100);
+    moon.name = moonData.id;
     moon.userData.info = moonData;
     
     moon.scale.setScalar(moonData.radius);
@@ -18,6 +18,7 @@ function createMoon(moonData, moonIndex, planetIndex) {
     moon.rotation.y = Math.random() * Math.PI * 2; // set to a random position along it's orbit
 
     const orbitalRing = createOrbitalRing(moonData.orbitalRadius, 1.0, .4, 2);
+    orbitalRing.visible = false;
     
     let _showOrbitalRing = false;
     moonGroup.userData = {

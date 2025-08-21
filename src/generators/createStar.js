@@ -40,25 +40,26 @@ function createStarCorona(starRadius = 3, color = 0xff0000) {
     return mesh;
 }
 
-function createStar({
-    starRadius = 1,
-    starColor = 0xffff99
-}) {
-    
+function createStar(starData) {
     let sunMat = new THREE.MeshStandardMaterial({
-        emissive: starColor ,
+        emissive: starData.starColor ,
     });
 
     // glowy sun center
-    const geo = new THREE.IcosahedronGeometry(starRadius, 6);
+    const geo = new THREE.IcosahedronGeometry(starData.starRadius, 6);
     const sun = new THREE.Mesh(geo, sunMat);
     sun.castShadow = false;  
-    sun.userData.update = (t) => {
-        sun.rotation.y += t * .05;
+    sun.name = starData.id;
+    sun.userData = {
+        isSelectable: true,
+        info : starData,
+        update : (t) => {
+            sun.rotation.y += t * .05;
+        }
     };
 
     // noisy corona
-    const coronaMesh = createStarCorona(starRadius, starColor);
+    const coronaMesh = createStarCorona(starData.starRadius, starData.starColor);
     sun.add(coronaMesh);
 
 

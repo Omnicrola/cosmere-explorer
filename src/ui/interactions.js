@@ -9,7 +9,7 @@ let hoverTargets = [];
 function handleUserClicked(event) {
     hoverTargets.forEach((obj) => {
         if(obj.userData.isSelectable) {
-            focusOnPlanet({planetObj:obj});
+            focusOnStellarObject({selectedId: obj.name});
         }
     });
 }
@@ -24,10 +24,8 @@ function updateInteractions(raycaster, scene) {
     });
     hoverTargets = [];
 
-    var userData;
 	for ( let i = 0; i < intersects.length; i ++ ) {
-        userData = intersects[i].object.userData;
-        userData.isHovered = true;
+        intersects[i].object.userData.isHovered = true;
         hoverTargets.push(intersects[i].object);
 	}
 }
@@ -50,30 +48,29 @@ function stopFollowingPlanet() {
     });
 }
 
-function focusOnPlanet({planetIndex, planetObj}) {
-    if(planetObj) {
-        planetIndex = planetObj.userData.info.planetIndex;
+function focusOnStellarObject({selectedId, stellarObj}) {
+    if(stellarObj) {
+        selectedId = stellarObj.name;
     } else {
-        planetObj = scene.getObjectByName('planet-' + planetIndex);
+        stellarObj = scene.getObjectByName(selectedId);
     }
 
     // prevent re-clicking on the same planet (like when dragging the camera)
-    if(camera.cameraFollowTarget === planetObj) {
+    if(camera.cameraFollowTarget === stellarObj) {
         return;
     }
-
-    userSettings.currentSelection = planetIndex;
-    camera.cameraFollowTarget = planetObj;
+    userSettings.currentSelection = selectedId;
+    camera.cameraFollowTarget = stellarObj;
 
     let planetSelect = document.getElementById('planet-select');
-    planetSelect.value = planetIndex;
+    planetSelect.value = selectedId;
 
-    let aabb = new THREE.Box3().setFromObject( planetObj );
+    let aabb = new THREE.Box3().setFromObject( stellarObj );
     let center = aabb.getCenter( new THREE.Vector3() );
     let size = aabb.getSize( new THREE.Vector3() );
 
-    ui.showPlanetInfo(planetObj);
-    planetObj.userData.isSelected = true;
+    ui.showInfoPanel(stellarObj);
+    stellarObj.userData.isSelected = true;
 
     gsap.to(camera.position, {
         duration : 1,
@@ -86,10 +83,14 @@ function focusOnPlanet({planetIndex, planetObj}) {
         onComplete: () => { 
             orbitControls.target = center;
             orbitControls.autoRotate = true;
-            planetObj.userData.isSelected = true;
+            stellarObj.userData.isSelected = true;
         }
     });
 }
 
 
-export { updateInteractions, focusOnPlanet, stopFollowingPlanet };
+export { 
+    updateInteractions, 
+    focusOnStellarObject, 
+    stopFollowingPlanet,
+};

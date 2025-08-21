@@ -2,11 +2,22 @@ import * as THREE from 'three';
 
 
 const STELLAR_OBJECT = {
-    get ASTEROID_BELT  ()  {return 1;},
-    get COGNITIVE_ANOMOLY () {return 2;}
+    get STAR () {return 1;},
+    get PLANET () {return 2;},
+    get MOON () {return 3;},
+    get ASTEROID_BELT  ()  {return 4;},
+    get COGNITIVE_ANOMOLY () {return 5;}
 }
 
+function assertValidId(id) {
+    if(id === null || id === undefined || id < 0) {
+        throw new Error('Invalid stellar ID : '+ id);
+    }
+}
+
+// data creation
 function createMoonData({
+    id,
     name = 'moon',
     color = 0xffffff,
     textureMap = null,
@@ -21,7 +32,10 @@ function createMoonData({
     description = 'Lorem Ipsum',
     coppermind = ""
 }) {
+    assertValidId(id);
     return {
+        id,
+        stellarObjectType: STELLAR_OBJECT.MOON,
         name,
         color,
         textureMap,
@@ -54,6 +68,7 @@ function createAsteroidBeltData({
 }
 
 function createCognitiveAnomolyData({
+    id,
     name = 'anomoly',
     radius = 1,
     orbitalRadius = 10,
@@ -63,7 +78,9 @@ function createCognitiveAnomolyData({
     description = '',
     coppermind = '',
 }) {
+    assertValidId(id);
     return {
+        id,
         stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMOLY,
         name,
         radius,
@@ -77,6 +94,7 @@ function createCognitiveAnomolyData({
 }
 
 function createPlanetData({
+    id,
     system = '',
     planetRadius = 1,
     planetColor = 0xffffff,
@@ -99,7 +117,10 @@ function createPlanetData({
     moons = [],
     rings = {},
 }){
+    assertValidId(id);
     return {
+        id,
+        stellarObjectType: STELLAR_OBJECT.PLANET,
         system,
         description,
         planetRadius,
@@ -147,6 +168,7 @@ function createRingData({
 
 
 function createStellarData({
+    id,
     key = 'key',
     starRadius = 2,
     luminosity = 1,
@@ -159,8 +181,10 @@ function createStellarData({
     planets = [],
     stellarObjects = [],
 }){
-    planets.forEach((p, index) => p.planetIndex = index);
+    assertValidId(id);
     return {
+        id,
+        stellarObjectType: STELLAR_OBJECT.STAR,
         key,
         starRadius,
         luminosity,

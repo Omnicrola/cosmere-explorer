@@ -67,7 +67,7 @@ function createFresnelMaterial({
 function createPlanetMaterial(planetData) {
   if(planetData.textureMap){
     const albedoMap = texLoader.load(`./resources/textures/${planetData.textureMap}`);
-    const oceanMap = texLoader.load(`./resources/textures/${planetData.oceanMap}`);
+    const oceanMap = planetData.oceanMap ? texLoader.load(`./resources/textures/${planetData.oceanMap}`) : null;
 
 
     const planetMaterial = new THREE.MeshStandardMaterial({

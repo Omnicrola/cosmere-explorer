@@ -1,61 +1,15 @@
 import * as THREE from "three";
-import { orbitControls, resetScene } from "../mainScene.js";
+import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
-import { createStellarSystem } from "../generators/createStellarSystem.js";
-import { focusOnPlanet, stopFollowingPlanet } from "./interactions.js";
+import { focusOnStellarObject, stopFollowingPlanet } from "./interactions.js";
 import { userSettings } from "../data/userSettings.js";
+import { showInfoPanel } from "./infoPanels.js";
 
 
-function showPlanetInfo(planet) {
-    setElementHidden('info-panel', false);
-
-    let infoPanel = document.getElementById('info-panel');
-    let info = planet.userData.info;
-
-    let description = info.description.split('\n')
-        .map((substr) => `<p>${substr}</p>`)
-        .join(" ");
-
-        infoPanel.innerHTML = `
-      <h1 class="name">${info.name} 
-        <button id="btn-copy-planet-link" class="btn-copy-link" title="Copy planet URL">
-            <img src="resources/icons/icon-link.png" class="copy-link"/>
-        </button>
-        <button id="close-info-panel" class="close" title="Close info panel">X</button>
-      </h1>
-      <div class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${description}</div>
-      <ul class="stats">
-        <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
-        <li><b>Orbital Eccentricity:</b> ${info.orbitalEccentricity??0.0}</li>
-        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0}</li>
-        <li><b>Radius:</b> ${info.radius??'??'} standard</li>
-        <li><b>Surface Gravity:</b> ${info.gravity??'??'} standard</li>
-        <li><b>Known Perpendicularities:</b> ${info.perpendicularities??0}</li>
-        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
-      </ul>
-        `;
-
-    let closeInfoPanel = document.getElementById('close-info-panel');
-    closeInfoPanel.addEventListener('click', (e) => {
-        setElementHidden('info-panel', true);
-        stopFollowingPlanet();
-        let planetSelect = document.getElementById('planet-select');
-        planetSelect.value = -1;
-        userSettings.currentSelection = null;
-    });
-
-    document.getElementById('btn-copy-planet-link').addEventListener('click', (e) => {
-        const url = new URL(window.location.href);
-        url.searchParams.set('planet', userSettings.currentSelection);
-        navigator.clipboard.writeText(url.toString());
-    });
-
-}
-
-function createPlanetOption(planetData, name, index, isSelected) {
+function createPlanetOption(planetData, name, selectionValue, isSelected) {
     let option = document.createElement('option');
     option.innerText = name;
-    option.value = index;
+    option.value = selectionValue;
     option.selected = isSelected;
     option.planet = planetData;
     return option;
@@ -71,14 +25,16 @@ function createPlanetList(planetData = []) {
     emptyOption.selected = true;
     planetSelect.appendChild(emptyOption);
     
-    planetData.forEach((planet, index) => {
-        planetSelect.appendChild(createPlanetOption(planet, planet.name, index, index==userSettings.currentSelection));
-        planet.moons.forEach((moon, moonIndex) => {
-            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonIndex+100, moonIndex==userSettings.currentSelection));
+    planetData.forEach((planet) => {
+        const planetId = planet.id;
+        planetSelect.appendChild(createPlanetOption(planet, planet.name, planetId, planetId==userSettings.currentSelection));
+        planet.moons.forEach((moon) => {
+            const moonId = moon.id;
+            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonId, moonId==userSettings.currentSelection));
         });
     });
 
-    planetSelect.value = 3;
+    planetSelect.value = -1;
 }
 
 function updateAutoNavigation() {
@@ -111,10 +67,10 @@ function init() {
     let planetSelect = document.getElementById('planet-select');
     
     planetSelect.addEventListener('change', (e) => {
-        let planetIndex = e.target.value;
-        userSettings.currentSelection = planetIndex;
-        if(planetIndex) {
-            focusOnPlanet({planetIndex});
+        let stellarObjectId = e.target.value;
+        userSettings.currentSelection = stellarObjectId;
+        if(stellarObjectId) {
+            focusOnStellarObject({selectedId: stellarObjectId});
         }        
     });
 
@@ -169,8 +125,9 @@ let ui = {
     init,
     createPlanetList,
     setSystemName,
-    showPlanetInfo,
     resetUi,
+    showInfoPanel,
+    setElementHidden,
     checkAutoNavigation: updateAutoNavigation,
 };
 export { ui }

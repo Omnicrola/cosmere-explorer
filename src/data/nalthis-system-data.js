@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData } from "./stellarData.js";
 
 const nalthis = createPlanetData({
+    id: 'nalthis',
     name : "Nalthis",
     planetRadius : 1,
     planetColor : 0x8888ff,
@@ -16,6 +17,7 @@ const nalthis = createPlanetData({
     coppermind : "https://coppermind.net/wiki/Nalthis",
     moons: [
         createMoonData({
+            id: 'rrendos',
             name : 'Rrendos',
             radius : 0.1,
             color : 0xffccff,
@@ -28,6 +30,7 @@ const nalthis = createPlanetData({
 });
 
 const cognitiveAnomoly = createCognitiveAnomolyData({
+    id: 'nalthis-anomoly',
     name: 'Cognitive Anomoly',
     radius: 2,
     orbitalRadius: 175,
@@ -40,6 +43,7 @@ const cognitiveAnomoly = createCognitiveAnomolyData({
 
 
 const farkeeper = createPlanetData({
+    id: 'farkeeper',
     name: 'Farkeeper the Bright',
     planetRadius : 7.42,
     planetColor: 0xFF5555,
@@ -54,6 +58,7 @@ const farkeeper = createPlanetData({
     coppermind: 'https://coppermind.net/wiki/Nalthian_system#Planets',
     moons: [
         createMoonData({
+            id: 'farkeeper-m-1',
             name : 'Farkeeper-1',
             radius : 0.05435987,
             color : 0xdecfa6,
@@ -66,6 +71,7 @@ const farkeeper = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
         }),
         createMoonData({
+            id: 'farkeeper-m-2',
             name : 'Farkeeper-2',
             radius : 0.062773,
             color : 0xb58362,
@@ -78,6 +84,7 @@ const farkeeper = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
         }),
         createMoonData({
+            id: 'farkeeper-m-3',
             name : 'Farkeeper-3',
             radius : 0.0737752,
             color : 0xdecfa6,
@@ -90,6 +97,7 @@ const farkeeper = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
         }),
         createMoonData({
+            id: 'farkeeper-m-4',
             name : 'Farkeeper-4',
             radius : 0.055712,
             color : 0xdecfa6,
@@ -102,6 +110,7 @@ const farkeeper = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
         }),
         createMoonData({
+            id: 'farkeeper-m-5',
             name : 'Farkeeper-5',
             radius : 0.04771,
             color : 0x7a7d5b,
@@ -114,6 +123,7 @@ const farkeeper = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
         }),
         createMoonData({
+            id: 'farkeeper-m-6',
             name : 'Farkeeper-6',
             radius : 0.058275,
             color : 0xdecfa6,
@@ -129,6 +139,7 @@ const farkeeper = createPlanetData({
 });
 
 const nightstar = createPlanetData({
+    id: 'nightstar-m-3',
     name: 'Nightstar the Hidden',
     planetRadius : 1.52,
     planetColor: 0xFF44FF,
@@ -151,6 +162,7 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
     });
 
 const nalthisSystemData = createStellarData({
+    id: 'nalthis-star',
     key: 'nalthis',
     name: 'Nalthian System',
     luminosity: 3.45,

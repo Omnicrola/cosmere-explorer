@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData } from "./stellarData.js";
 
 const scadrial = createPlanetData({
+    id: 'scadrial',
     name : "Scadrial",
     planetRadius : 1,
     planetColor : 0x8888ff,
@@ -21,6 +22,7 @@ const scadrial = createPlanetData({
 });
 
 const aagalNod = createPlanetData({
+    id: 'aagal-nod',
     name: 'Aagal Nod',
     planetRadius : 9.2,
     planetColor: 0x5588FF,
@@ -35,6 +37,7 @@ const aagalNod = createPlanetData({
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets',
     moons : [
         createMoonData({
+            id: 'nod-m-1',
             name : 'Nod-1',
             radius : 0.05435987,
             color : 0xdecfa6,
@@ -47,6 +50,7 @@ const aagalNod = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'nod-m-2',
             name : 'Nod-2',
             radius : 0.062773,
             color : 0xb58362,
@@ -59,6 +63,7 @@ const aagalNod = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'nod-m-3',
             name : 'Nod-3',
             radius : 0.0737752,
             color : 0xdecfa6,
@@ -71,6 +76,7 @@ const aagalNod = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'nod-m-4',
             name : 'Nod-4',
             radius : 0.055712,
             color : 0xdecfa6,
@@ -83,6 +89,7 @@ const aagalNod = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'nod-m-5',
             name : 'Nod-5',
             radius : 0.04771,
             color : 0x7a7d5b,
@@ -95,6 +102,7 @@ const aagalNod = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'nod-m-6',
             name : 'Nod-6',
             radius : 0.058275,
             color : 0xdecfa6,
@@ -110,6 +118,7 @@ const aagalNod = createPlanetData({
 });
 
 const aagalUch = createPlanetData({
+    id: 'aagal-uch',
     name: 'Aagal Uch',
     planetRadius : 8.6,
     planetColor: 0xFF5555,
@@ -131,6 +140,7 @@ const aagalUch = createPlanetData({
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets',
     moons: [
         createMoonData({
+            id: 'uch-m-1',
             name : 'Uch-1',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -143,6 +153,7 @@ const aagalUch = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'uch-m-2',
             name : 'Uch-2',
             radius : 0.09147,
             color : 0xdecfa6,
@@ -155,6 +166,7 @@ const aagalUch = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'uch-m-3',
             name : 'Uch-3',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -167,6 +179,7 @@ const aagalUch = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'uch-m-4',
             name : 'Uch-4',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -179,6 +192,7 @@ const aagalUch = createPlanetData({
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
         }),
         createMoonData({
+            id: 'uch-m-5',
             name : 'Uch-5',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -195,6 +209,7 @@ const aagalUch = createPlanetData({
 });
 
 const dwarf1 = createPlanetData({
+    id: 'dwarf-1',
     name: 'Dwarf 1', 
     planetRadius: 0.1987,
     planetColor: 0x937fa7,
@@ -210,6 +225,7 @@ const dwarf1 = createPlanetData({
 });
 
 const dwarf2 = createPlanetData({
+    id: 'dwarf-2',
     name: 'Dwarf 2', 
     planetRadius: 0.1877,
     planetColor: 0x937fa7,
@@ -234,6 +250,7 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
 
 
 const scadrialSystemData = createStellarData({
+    id: 'scadrial-star',
     key: 'scadrial',
     name: 'Scadrian System',
     luminosity: 3.5,
