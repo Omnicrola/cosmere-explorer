@@ -12,7 +12,7 @@ const first = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 155,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: -1.77,
+    orbitalIncline : new THREE.Vector2(2,290),
     orbitalSpeed : 5,
     axialTilt : 2.57,
     description : `First of the Sun is the first planet in the Drominad system, with the majority of it's surface covered by water with a large number of islands. 
@@ -42,7 +42,7 @@ const second = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 221,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: 1.11,
+    orbitalIncline : new THREE.Vector2(1.154, 48),
     orbitalSpeed : 4.5,
     axialTilt : -2.56,
     description : `Like the other 3 habital planets in the system, Second of the Sun is primarly covered in water.`,
@@ -59,7 +59,7 @@ const third = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 304,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: 0.67,
+    orbitalIncline : new THREE.Vector2(0.67, -21.5),
     orbitalSpeed : 4.5,
     axialTilt : -2.56,
     description : `Like the other 3 habital planets in the system, Third of the Sun is primarly covered in water.`,
@@ -75,10 +75,18 @@ const fourth = createPlanetData({
     planetColor : 0x8888ff,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 415,
-    orbitalIncline: 1.87,
+    orbitalIncline : new THREE.Vector2(1.62, -65.5),
     orbitalEccentricity: 0.0162,
     orbitalSpeed : 4.5,
     axialTilt : -2.56,
+    rings: createRingData({ 
+        visible: true, 
+        radius: 2.47, 
+        spread: 0.17, 
+        inclination: 12.6, 
+        albedoMap: 'planetary-rings-03.png',
+        alphaMap: 'planetary-rings-03-alpha.png'
+    }), 
     description : `Like the other 3 habital planets in the system, Fourth of the Sun is primarly covered in water.`,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
     moons: [
@@ -94,9 +102,17 @@ const fifth = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 987,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: -1.67,
+    orbitalIncline : new THREE.Vector2(-1.12, 15.84),
     orbitalSpeed : 1,
     axialTilt : -10.27,
+    rings: createRingData({ 
+        visible: true, 
+        radius: 2.54, 
+        spread: 0.6, 
+        inclination: -5.6, 
+        albedoMap: 'planetary-rings-02.png',
+        alphaMap: 'planetary-rings-02-alpha.png'
+    }), 
     description : ``,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
     moons: [
@@ -111,9 +127,17 @@ const sixth = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 1574,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: 2.57,
+    orbitalIncline : new THREE.Vector2(-4.12, -58.84),
     orbitalSpeed : 1,
     axialTilt : -10.27,
+    rings: createRingData({ 
+        visible: true, 
+        radius: 2.16, 
+        spread: 0.7, 
+        inclination: -2.7, 
+        albedoMap: 'planetary-rings-04.png',
+        alphaMap: 'planetary-rings-04-alpha.png'
+    }), 
     description : ``,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
     moons: [
@@ -128,7 +152,7 @@ const seventh = createPlanetData({
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 2257,
     orbitalEccentricity: 0.0162,
-    orbitalIncline: 2.57,
+    orbitalIncline : new THREE.Vector2(16.12, 78.81),
     orbitalSpeed : 1,
     axialTilt : -10.27,
     description : ``,
@@ -160,12 +184,12 @@ const drominadSystemData = createStellarData({
     ],
     planets: [
         first,
-        // second,
-        // third,
-        // fourth,
-        // fifth,
-        // sixth,
-        // seventh
+        second,
+        third,
+        fourth,
+        fifth,
+        sixth,
+        seventh
     ],
 
 });
