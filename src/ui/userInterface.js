@@ -76,18 +76,23 @@ function init() {
 
     document.getElementById('previous-planet').addEventListener('click', (e) => {
         let planetSelect = document.getElementById('planet-select');
-        if(planetSelect.value > 0) {
-            planetSelect.value = Number(planetSelect.value) -1;
-            planetSelect.dispatchEvent(new Event('change'));
+
+        planetSelect.selectedIndex--;
+        if(planetSelect.selectedIndex <= 0) {
+            planetSelect.selectedIndex = planetSelect.options.length - 1;
         }
+        planetSelect.dispatchEvent(new Event('change'));
     });
 
      document.getElementById('next-planet').addEventListener('click', (e) => {
         let planetSelect = document.getElementById('planet-select');
-        if(planetSelect.value < planetSelect.options.length -1) {
-            planetSelect.value = Number(planetSelect.value) +1;
-            planetSelect.dispatchEvent(new Event('change'));
+        
+        if(planetSelect.selectedIndex >= planetSelect.options.length - 1) {
+            planetSelect.selectedIndex = 1; // not zero, the first item in the list is always "select a planet"
+        } else {
+            planetSelect.selectedIndex++;
         }
+        planetSelect.dispatchEvent(new Event('change'));
     });
 
     // populate the stellar system selector options
