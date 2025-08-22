@@ -30,7 +30,7 @@ function updateInteractions(raycaster, scene) {
 	}
 }
 
-function stopFollowingPlanet() {
+function stopFollowingStellarObject() {
     orbitControls.autoRotate = false;
     camera.cameraFollowTarget.userData.isSelected = false;
     camera.cameraFollowTarget = null;
@@ -92,5 +92,5 @@ function focusOnStellarObject({selectedId, stellarObj}) {
 export { 
     updateInteractions, 
     focusOnStellarObject, 
-    stopFollowingPlanet,
+    stopFollowingStellarObject,
 };

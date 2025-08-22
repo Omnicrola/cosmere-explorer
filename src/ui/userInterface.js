@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
-import { focusOnStellarObject, stopFollowingPlanet } from "./interactions.js";
+import { focusOnStellarObject } from "./interactions.js";
 import { userSettings } from "../data/userSettings.js";
 import { showInfoPanel } from "./infoPanels.js";
 

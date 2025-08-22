@@ -10,6 +10,7 @@ import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
 import { allStellarSystems } from "./data/all-systems.js";
 import { userSettings } from "./data/userSettings.js";
+import { createMixPass, enableTransmissonMeshes, disableTransmissionMeshes } from "./rendering/RenderTools.js";
 
 const w = window.innerWidth;
 const h = window.innerHeight;
@@ -18,7 +19,7 @@ const pointer = new THREE.Vector2();
 const zero = new THREE.Vector3();
 
 let scene, camera, stats;
-let composer, renderer, mixer, clock;
+let finalComposer, bloomComposer, renderer, mixer, clock;
 let orbitControls;
 
 const params = {
@@ -51,14 +52,20 @@ async function init() {
     //
 
     const renderScene = new RenderPass( scene, camera );
-
     const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), params.strength, params.radius, params.threshold );
+    
+    bloomComposer = new EffectComposer(renderer);
+    bloomComposer.renderToScreen = false;
+    bloomComposer.addPass(renderScene);
+    bloomComposer.addPass(bloomPass);
+    
+    const mixPass = createMixPass(bloomComposer);
     const outputPass = new OutputPass();
 
-    composer = new EffectComposer( renderer );
-    composer.addPass( renderScene );
-    composer.addPass( bloomPass );
-    composer.addPass( outputPass );
+    finalComposer = new EffectComposer( renderer );
+    finalComposer.addPass( renderScene );
+    finalComposer.addPass( mixPass );
+    finalComposer.addPass( outputPass );
 
     //
 
@@ -96,9 +103,15 @@ function animate() {
 
     stats.update();
     orbitControls.update();
-    composer.render();
+
+    // render the scene, but disable meshes with transmission during the bloom pass
+    scene.traverse(disableTransmissionMeshes);
+    bloomComposer.render();
+    scene.traverse(enableTransmissonMeshes);
+    finalComposer.render();
 }
 
+// allows individual scene objects to run an update function
 function objectUpdate(delta, clock) {
     return (obj) => {
         if(obj.userData.update) {
@@ -154,10 +167,10 @@ function warpIntoScene(newSystemGraph) {
 
     // if there is a selection ID in local storage, go to that planet, 
     // otherwise zoom in on center
-    if(userSettings.currentSelection >= 0) {
+    if(userSettings.currentSelection) {
         let currentSelection = userSettings.currentSelection
         window.setTimeout(()=>{
-            focusOnStellarObject({planetIndex: currentSelection});
+            focusOnStellarObject({selectedId: currentSelection});
         }, 2000);
     } else {
         gsap.to(camera.position, {

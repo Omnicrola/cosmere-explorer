@@ -1,5 +1,7 @@
 import { STELLAR_OBJECT } from "../data/stellarData.js";
+import { stopFollowingStellarObject } from "./interactions.js";
 import { ui } from "./userInterface.js";
+import { userSettings } from "../data/userSettings.js";
 
 function showInfoPanel(sceneObject) {
     const info = sceneObject.userData.info;
@@ -14,6 +16,11 @@ function showInfoPanel(sceneObject) {
         case STELLAR_OBJECT.PLANET :
         case STELLAR_OBJECT.MOON : {
             const stats = makePlanetStats(info);
+            buildPanel(info, stats);
+            break;
+        }
+        case STELLAR_OBJECT.COGNITIVE_ANOMOLY : {
+            const stats = makeCognitiveAnomolyStats(info);
             buildPanel(info, stats);
             break;
         }
@@ -45,8 +52,8 @@ function buildPanel(info, statsContent) {
         
         let closeInfoPanel = document.getElementById('close-info-panel');
         closeInfoPanel.addEventListener('click', (e) => {
-            setElementHidden('info-panel', true);
-            stopFollowingPlanet();
+            ui.setElementHidden('info-panel', true);
+            stopFollowingStellarObject();
             let planetSelect = document.getElementById('planet-select');
             planetSelect.value = -1;
             userSettings.currentSelection = null;
@@ -84,5 +91,16 @@ function makePlanetStats(info) {
     </ul>
     `;
 }
+
+function makeCognitiveAnomolyStats(info) {
+    return `
+    <ul class="stats">
+        <li><b>Location:</b> ${info.orbitalRadius * 1000} million km from primary star</li>
+        <li><b>Radius:</b>Approximately ${(info.radius * 100)??'??'}k kilometers</li>
+        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+    </ul>
+    `;
+}
+
 
 export { showInfoPanel };
