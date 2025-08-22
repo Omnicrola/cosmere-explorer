@@ -3,85 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fresnel Shader with Light Direction</title>
+    <title>Three.js Fresnel Sphere</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: #111;
             overflow: hidden;
+            background: #000;
             font-family: Arial, sans-serif;
         }
-        canvas {
-            display: block;
+        #container {
+            width: 100vw;
+            height: 100vh;
         }
-        .controls {
+        #info {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 10px;
+            left: 10px;
             color: white;
-            background: rgba(0,0,0,0.7);
-            padding: 15px;
-            border-radius: 8px;
             font-size: 14px;
-        }
-        .control-group {
-            margin-bottom: 10px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="range"] {
-            width: 150px;
-        }
-        input[type="color"] {
-            width: 40px;
-            height: 25px;
-            border: none;
-            border-radius: 3px;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <div class="controls">
-        <div class="control-group">
-            <label>Fresnel Intensity: <span id="fresnelValue">2.0</span></label>
-            <input type="range" id="fresnelIntensity" min="0.1" max="5.0" step="0.1" value="2.0">
-        </div>
-        <div class="control-group">
-            <label>Fresnel Power: <span id="powerValue">3.0</span></label>
-            <input type="range" id="fresnelPower" min="0.5" max="8.0" step="0.1" value="3.0">
-        </div>
-        <div class="control-group">
-            <label>Fresnel Color:</label>
-            <input type="color" id="fresnelColor" value="#00ffff">
-        </div>
-        <div class="control-group">
-            <label>Base Color:</label>
-            <input type="color" id="baseColor" value="#4444ff">
-        </div>
-        <div class="control-group">
-            <label><input type="checkbox" id="useAlbedo" checked> Use Albedo Map</label>
-        </div>
-        <div class="control-group">
-            <label><input type="checkbox" id="useRoughness" checked> Use Roughness Map</label>
-        </div>
-        <div class="control-group">
-            <label><input type="checkbox" id="useMetalness" checked> Use Metalness Map</label>
-        </div>
-        <div class="control-group">
-            <label>Atmosphere Color:</label>
-            <input type="color" id="atmosphereColor" value="#88ccff">
-        </div>
-        <div class="control-group">
-            <label>Atmosphere Intensity: <span id="atmosphereIntensityValue">1.5</span></label>
-            <input type="range" id="atmosphereIntensity" min="0.1" max="15.0" step="0.1" value="10.0">
-        </div>
-        <div class="control-group">
-            <label>Atmosphere Falloff: <span id="atmosphereFalloffValue">3.0</span></label>
-            <input type="range" id="atmosphereFalloff" min="1.0" max="5.0" step="0.1" value="2.3">
-        </div>
+    <div id="info">Fresnel Shader Spheres - Orbiting Light</div>
+    <div id="container"></div>
+    
+    <div id="controls" style="position: absolute; top: 10px; right: 10px; color: white; font-family: Arial, sans-serif; font-size: 12px; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 5px;">
+        <h4 style="margin: 0 0 10px 0;">Inner Sphere (Normal Fresnel)</h4>
+        <label>Power: <span id="power1-value">2.0</span></label><br>
+        <input type="range" id="power1" min="0.5" max="5.0" step="0.1" value="2.0" style="width: 150px;"><br><br>
+        
+        <label>Intensity: <span id="intensity1-value">1.2</span></label><br>
+        <input type="range" id="intensity1" min="0.1" max="3.0" step="0.1" value="1.2" style="width: 150px;"><br><br>
+        
+        <label>Light Intensity: <span id="light1-value">1.0</span></label><br>
+        <input type="range" id="light1" min="0.0" max="2.0" step="0.1" value="1.0" style="width: 150px;"><br><br>
+        
+        <h4 style="margin: 15px 0 10px 0;">Outer Sphere (Inverted Fresnel)</h4>
+        <label>Size: <span id="size2-value">2.0</span></label><br>
+        <input type="range" id="size2" min="0.1" max="5.0" step="0.01" value="2.0" style="width: 150px;"><br><br>
+
+        <label>Power: <span id="power2-value">2.0</span></label><br>
+        <input type="range" id="power2" min="0.5" max="20.0" step="0.1" value="2.0" style="width: 150px;"><br><br>
+        
+        <label>Intensity: <span id="intensity2-value">1.2</span></label><br>
+        <input type="range" id="intensity2" min="0.1" max="20.0" step="0.1" value="1.2" style="width: 150px;"><br><br>
+        
+        <label>Light Intensity: <span id="light2-value">1.0</span></label><br>
+        <input type="range" id="light2" min="0.0" max="20.0" step="0.1" value="1.0" style="width: 150px;"><br><br>
+        
+        <label>Transparency Radius: <span id="radius2-value">0.0</span></label><br>
+        <input type="range" id="radius2" min="0.0" max="3.0" step="0.01" value="0.0" style="width: 150px;"><br><br>
+        
+        <label>
+            <input type="checkbox" id="sideToogle" checked> Back Side Rendering
+        </label>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -91,361 +69,309 @@
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x111111);
-        document.body.appendChild(renderer.domElement);
+        renderer.setClearColor(0x0a0a0a);
+        document.getElementById('container').appendChild(renderer.domElement);
 
-        // Create sample textures
-        const textureLoader = new THREE.TextureLoader();
-        const albedoTexture = textureLoader.load('./resources/textures/Scadrial/p_scadrian_aagal_uch.png');
-        
-        // Custom shader material with fresnel effect
-        const planetMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                // Standard material uniforms
-                color: { value: new THREE.Color(0x4444ff) },
-                metalness: { value: 0.0 },
-                roughness: { value: 1.0 },
-                
-                // Texture maps
-                albedoMap: { value: albedoTexture },
-                // roughnessMap: { value: roughnessTexture },
-                
-                // Map toggles
-                useAlbedoMap: { value: 1.0 },
-                useRoughnessMap: { value: 1.0 },
-                
-                // Fresnel uniforms
-                fresnelIntensity: { value: 2.0 },
-                fresnelPower: { value: 3.0 },
-                fresnelColor: { value: new THREE.Color(0x00ffff) },
-                
-                // Light direction uniform
-                lightDirection: { value: new THREE.Vector3(1.0, 1.0, 1.0).normalize() },
-                
-            },
+        // Fresnel shader material (normal)
+        const fresnelShader = {
             vertexShader: `
                 varying vec3 vNormal;
-                varying vec3 vPosition;
                 varying vec3 vWorldPosition;
-                varying vec3 vViewPosition;
-                varying vec2 vUv;
                 
                 void main() {
                     vNormal = normalize(normalMatrix * normal);
-                    vPosition = position;
-                    vUv = uv;
-                    
                     vec4 worldPosition = modelMatrix * vec4(position, 1.0);
                     vWorldPosition = worldPosition.xyz;
-                    
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    vViewPosition = mvPosition.xyz;
-                    
-                    gl_Position = projectionMatrix * mvPosition;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                 }
             `,
             fragmentShader: `
-                uniform vec3 color;
-                uniform float metalness;
-                uniform float roughness;
-                uniform float fresnelIntensity;
+                uniform vec3 color1;
+                uniform vec3 color2;
+                uniform float fresnelBias;
+                uniform float fresnelScale;
                 uniform float fresnelPower;
-                uniform vec3 fresnelColor;
-                uniform vec3 lightDirection;
-                
-                uniform sampler2D albedoMap;
-                uniform sampler2D roughnessMap;
-                uniform float useAlbedoMap;
-                uniform float useRoughnessMap;
+                uniform float lightIntensity;
+                uniform vec3 lightPosition;
                 
                 varying vec3 vNormal;
-                varying vec3 vPosition;
                 varying vec3 vWorldPosition;
-                varying vec3 vViewPosition;
-                varying vec2 vUv;
                 
                 void main() {
-                    // Sample textures
-                    vec3 albedo = mix(color, texture2D(albedoMap, vUv).rgb, useAlbedoMap);
-                    float roughnessValue = mix(roughness, texture2D(roughnessMap, vUv).r, useRoughnessMap);
+                    vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
+                    vec3 lightDirection = normalize(lightPosition - vWorldPosition);
                     
-                    // Calculate view direction
-                    vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+                    // Fresnel calculation
+                    float fresnel = fresnelBias + fresnelScale * pow(1.0 - dot(viewDirection, vNormal), fresnelPower);
                     
-                    // Calculate fresnel based on view angle
-                    float fresnel = pow(1.0 - max(dot(vNormal, viewDir), 0.0), fresnelPower);
+                    // Simple lighting with controllable intensity
+                    float lighting = max(0.0, dot(vNormal, lightDirection));
+                    lighting = mix(1.0, lighting * 0.5 + 0.5, lightIntensity); // Blend between full brightness and lighting
                     
-                    // Calculate light influence on fresnel
-                    vec3 lightDir = normalize(lightDirection);
-                    float lightInfluence = max(dot(vNormal, lightDir), 0.0);
-                    
-                    // Enhance fresnel where light hits the surface
-                    float enhancedFresnel = fresnel * (lightInfluence * fresnelIntensity);
-                    
-                    // Basic diffuse lighting with albedo
-                    float diffuse = max(dot(vNormal, lightDir), 0.2);
-                    
-                    // Calculate specular highlight using roughness
-                    vec3 reflectDir = reflect(-lightDir, vNormal);
-                    float specPower = mix(128.0, 4.0, roughnessValue);
-                    float spec = pow(max(dot(viewDir, reflectDir), 0.0), specPower);
-                    
-                    // Combine base color with lighting
-                    vec3 baseColor = albedo * diffuse;
-                    
-                    // Add specular with roughness influence
-                    baseColor += vec3(spec * (1.0 - roughnessValue));
-                    
-                    // Mix base color with fresnel effect
-                    vec3 finalColor = mix(baseColor, fresnelColor, enhancedFresnel * 0.8);
-                    
-                    // Add metallic reflection using metalness map
-                    finalColor = mix(finalColor, fresnelColor * lightInfluence, metalness * enhancedFresnel);
-                    
-                    // Adjust overall brightness based on metalness
-                    finalColor = mix(finalColor, finalColor * 0.3 + fresnelColor * 0.7, metalness);
+                    // Mix colors based on fresnel
+                    vec3 finalColor = mix(color1, color2, fresnel);
+                    finalColor *= lighting;
                     
                     gl_FragColor = vec4(finalColor, 1.0);
                 }
             `
-        });
+        };
 
-// Create atmospheric shader material
-        const atmosphereMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                // Atmosphere uniforms
-                atmosphereColor: { value: new THREE.Color(0x88ccff) },
-                atmosphereIntensity: { value: 10.0 },
-                atmosphereFalloff: { value: 2.3 },
-                planetRadius: { value: 1.5 },
-                atmosphereRadius: { value: 2.0 },
-                
-                // Light direction uniform
-                lightDirection: { value: new THREE.Vector3(1.0, 1.0, 1.0).normalize() },
-                
-                // Time for animation
-                time: { value: 0.0 }
-            },
+        // Inverted Fresnel shader material
+        const invertedFresnelShader = {
             vertexShader: `
                 varying vec3 vNormal;
-                varying vec3 vPosition;
                 varying vec3 vWorldPosition;
-                varying vec3 vViewPosition;
-                varying float vDistanceFromCenter;
-                
-                uniform float planetRadius;
-                uniform float atmosphereRadius;
+                varying vec4 vScreenPosition;
                 
                 void main() {
                     vNormal = normalize(normalMatrix * normal);
-                    vPosition = position;
-                    
                     vec4 worldPosition = modelMatrix * vec4(position, 1.0);
                     vWorldPosition = worldPosition.xyz;
                     
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    vViewPosition = mvPosition.xyz;
+                    // Calculate screen position
+                    vScreenPosition = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
                     
-                    // Calculate distance from center for atmospheric effect
-                    vDistanceFromCenter = length(position);
-                    
-                    gl_Position = projectionMatrix * mvPosition;
+                    gl_Position = vScreenPosition;
                 }
             `,
             fragmentShader: `
-                uniform vec3 atmosphereColor;
-                uniform float atmosphereIntensity;
-                uniform float atmosphereFalloff;
-                uniform float planetRadius;
-                uniform float atmosphereRadius;
-                uniform vec3 lightDirection;
-                uniform float time;
+                uniform vec3 constantColor;
+                uniform float fresnelBias;
+                uniform float fresnelScale;
+                uniform float fresnelPower;
+                uniform float lightIntensity;
+                uniform float transparencyRadius;
+                uniform vec3 lightPosition;
+                uniform vec2 resolution;
+                uniform vec4 sphereCenterScreen;
                 
                 varying vec3 vNormal;
-                varying vec3 vPosition;
                 varying vec3 vWorldPosition;
-                varying vec3 vViewPosition;
-                varying float vDistanceFromCenter;
+                varying vec4 vScreenPosition;
                 
                 void main() {
-                    // Calculate view direction
-                    vec3 viewDir = normalize(cameraPosition - vWorldPosition);
+                    vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
+                    vec3 lightDirection = normalize(lightPosition - vWorldPosition); // Inverted light direction
                     
-                    // Calculate standard fresnel (edge glow)
-                    float fresnel = 1.0 - max(dot(vNormal, viewDir), 0.0);
+                    // Convert to normalized device coordinates
+                    vec2 screenPos = (vScreenPosition.xy / vScreenPosition.w) * 0.5 + 0.5;
+                    vec2 sphereCenter = (sphereCenterScreen.xy / sphereCenterScreen.w) * 0.5 + 0.5;
                     
-                    // Calculate INVERTED fresnel for atmospheric fade
-                    float invertedFresnel = max(dot(vNormal, viewDir), 0.0);
-                    invertedFresnel = pow(invertedFresnel, atmosphereFalloff);
+                    // Calculate screen-space distance from sphere center
+                    vec2 screenDiff = (screenPos - sphereCenter) * resolution;
+                    float screenDistance = length(screenDiff);
                     
-                    // Calculate distance-based density for thickness variation
-                    float normalizedDistance = (vDistanceFromCenter - planetRadius) / (atmosphereRadius - planetRadius);
-                    normalizedDistance = clamp(normalizedDistance, 0.0, 1.0);
+                    // Inverted Fresnel calculation for alpha
+                    float fresnelAlpha =      fresnelBias + fresnelScale * pow(1.0 - dot(viewDirection, vNormal), fresnelPower);
+                    //float fresnelAlpha = fresnelBias + fresnelScale * pow(dot(viewDirection, vNormal), fresnelPower);
+                    fresnelAlpha = clamp(fresnelAlpha, 0.0, 1.0);
                     
-                    // Light influence on atmosphere
-                    vec3 lightDir = normalize(lightDirection);
-                    float lightInfluence = max(dot(vNormal, lightDir), 0.0);
+                    // Apply transparency radius based on screen distance
+                    float radiusInPixels = transparencyRadius * 100.0; // Convert slider to pixel radius
+                    float radiusAlpha = smoothstep(radiusInPixels - 20.0, radiusInPixels + 20.0, screenDistance);
                     
-                    // Edge glow component (for rim lighting)
-                    float edgeGlow = pow(fresnel, 2.0) * atmosphereIntensity * 0.4;
+                    // Combine fresnel alpha with radius alpha
+                    float finalAlpha = fresnelAlpha * radiusAlpha;
                     
-                    // Light scattering effect
-                    float scattering = pow(lightInfluence, 2.0) * atmosphereIntensity * 0.5;
+                    // Simple lighting for the constant color with inverted light direction and controllable intensity
+                    float lighting = max(0.0, dot(vNormal, lightDirection));
+                    lighting = mix(1.0, lighting * 0.5 + 0.5, lightIntensity); // Blend between full brightness and lighting
                     
-                    // Final atmospheric color - much more subdued in center
-                    vec3 finalColor = atmosphereColor * (edgeGlow + scattering);
+                    // Use constant color with combined alpha
+                    vec3 finalColor = constantColor * lighting;
                     
-                    // SEPARATE ALPHA AND COLOR INTENSITY CONTROL
-                    // Alpha: Strong in center, fades at edges (for visibility falloff)
-                    float alphaFresnel = pow(invertedFresnel, atmosphereFalloff * 0.5);
-                    float alpha = alphaFresnel * atmosphereIntensity * 0.3;
-                    
-                    // Color intensity: Opposite - stronger at edges, weaker in center
-                    float colorIntensity = mix(0.1, 1.0, pow(fresnel, 1.5));
-                    finalColor *= colorIntensity;
-                    
-                    // Add subtle noise variation
-                    float noiseVariation = sin(vWorldPosition.x * 8.0 + time * 0.5) * 
-                                         cos(vWorldPosition.y * 6.0 + time * 0.7) * 
-                                         sin(vWorldPosition.z * 10.0 + time * 0.3) * 0.05 + 1.0;
-                    
-                    alpha *= noiseVariation;
-                    alpha = clamp(alpha, 0.0, 0.6); // Cap max alpha to prevent over-brightness
-                    
-                    gl_FragColor = vec4(finalColor, alpha);
+                    gl_FragColor = vec4(constantColor, finalAlpha);
                 }
-            `,
-            transparent: true,
-            // side: THREE.DoubleSide,
-            blending: THREE.NormalBlending,
-            depthWrite: false
+            `
+        };
+
+        // Create sphere geometries
+        const geometry1 = new THREE.SphereGeometry(2, 64, 32);
+        const geometry2 = new THREE.SphereGeometry(2.1, 64, 32); // Slightly larger
+        
+        // Create shader materials
+        const material1 = new THREE.ShaderMaterial({
+            uniforms: {
+                color1: { value: new THREE.Color(0x1a1a2e) }, // Dark blue core
+                color2: { value: new THREE.Color(0x16537e) }, // Bright blue rim
+                fresnelBias: { value: 0.1 },
+                fresnelScale: { value: 1.2 },
+                fresnelPower: { value: 2.0 },
+                lightIntensity: { value: 1.0 },
+                lightPosition: { value: new THREE.Vector3(5, 5, 5) }
+            },
+            vertexShader: fresnelShader.vertexShader,
+            fragmentShader: fresnelShader.fragmentShader
         });
 
-        const planetaryAnchor = new THREE.Group();
-        scene.add(planetaryAnchor);
-        planetaryAnchor.userData.update = (delta) => planetaryAnchor.rotation.y += 1 * delta;
+        const material2 = new THREE.ShaderMaterial({
+            uniforms: {
+                constantColor: { value: new THREE.Color(0xff4444) }, // Constant red color
+                fresnelBias: { value: 0.1 },
+                fresnelScale: { value: 1.2 },
+                fresnelPower: { value: 2.0 },
+                lightIntensity: { value: 1.0 },
+                transparencyRadius: { value: 0.0 },
+                lightPosition: { value: new THREE.Vector3(5, 5, 5) },
+                resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                sphereCenterScreen: { value: new THREE.Vector4(0, 0, 0, 1) }
+            },
+            vertexShader: invertedFresnelShader.vertexShader,
+            fragmentShader: invertedFresnelShader.fragmentShader,
+            transparent: true,
+            side: THREE.BackSide
+        });
 
-        // Create planet geometry and mesh
-        const lightVec = new THREE.Vector3();
-        const planetGeometry = new THREE.SphereGeometry(1.5, 64, 32);
-        const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-        planet.position.x = 5;
-        planetaryAnchor.add(planet);
-        planet.userData = {
-            update : (delta) => {
-                planet.getWorldPosition(lightVec);
-                lightVec.negate();
-                planetMaterial.uniforms.lightDirection.value = lightVec;
-            }
-        }
-        
-        // Create atmosphere geometry and mesh (slightly larger)
-        const atmosphereGeometry = new THREE.SphereGeometry(1.8, 64, 32);
-        const atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-        planet.add(atmosphere);
-        atmosphere.userData.update = (delta) => {
-                atmosphere.getWorldPosition(lightVec);
-                lightVec.negate();
-                atmosphereMaterial.uniforms.lightDirection.value = lightVec;
-        }
+        // Create sphere meshes
+        const sphere1 = new THREE.Mesh(geometry1, material1); // Inner sphere
+        const sphere2 = new THREE.Mesh(geometry2, material2); // Outer sphere
+        scene.add(sphere1);
+        scene.add(sphere2);
 
+        // Add point light
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
 
-        // Position camera
-        camera.position.set(0, 8, 12);
-        camera.rotation.x = THREE.MathUtils.degToRad(-45);
-
-        // Add some basic lighting for reference 
-        const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+        // Add ambient light for better visibility
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
         scene.add(ambientLight);
 
-        const starLight = new THREE.PointLight(0xffffff, 10, 0);
-        starLight.position.set(0,0,0);
-        scene.add(starLight);
+        // Position camera
+        camera.position.set(0, 0, 6);
 
-        const clock = new THREE.Clock();
+        // Light orbit variables
+        let lightAngle = 0;
+        const lightRadius = 8;
+
+        // Handle window resize
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Update resolution uniform
+            material2.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize);
+
+        // Control setup
+        const power1Slider = document.getElementById('power1');
+        const power1Value = document.getElementById('power1-value');
+        const intensity1Slider = document.getElementById('intensity1');
+        const intensity1Value = document.getElementById('intensity1-value');
+        const light1Slider = document.getElementById('light1');
+        const light1Value = document.getElementById('light1-value');
+        
+        const size2Slider = document.getElementById('size2');
+        const size2Value = document.getElementById('size2-value');
+        const power2Slider = document.getElementById('power2');
+        const power2Value = document.getElementById('power2-value');
+        const intensity2Slider = document.getElementById('intensity2');
+        const intensity2Value = document.getElementById('intensity2-value');
+        const light2Slider = document.getElementById('light2');
+        const light2Value = document.getElementById('light2-value');
+        const radius2Slider = document.getElementById('radius2');
+        const radius2Value = document.getElementById('radius2-value');
+        const sideToggle = document.getElementById('sideToogle');
+
+        // Inner sphere controls
+        power1Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material1.uniforms.fresnelPower.value = value;
+            power1Value.textContent = value.toFixed(1);
+        });
+
+        intensity1Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material1.uniforms.fresnelScale.value = value;
+            intensity1Value.textContent = value.toFixed(1);
+        });
+
+        light1Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material1.uniforms.lightIntensity.value = value;
+            light1Value.textContent = value.toFixed(1);
+        });
+
+        // Outer sphere controls
+        power2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material2.uniforms.fresnelPower.value = value;
+            power2Value.textContent = value.toFixed(1);
+        });
+
+        size2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            sphere2.scale.setScalar(value);
+            size2Value.textContent = value.toFixed(1);
+        });
+
+        power2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material2.uniforms.fresnelPower.value = value;
+            power2Value.textContent = value.toFixed(1);
+        });
+
+        intensity2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material2.uniforms.fresnelScale.value = value;
+            intensity2Value.textContent = value.toFixed(1);
+        });
+
+        light2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material2.uniforms.lightIntensity.value = value;
+            light2Value.textContent = value.toFixed(1);
+        });
+
+        radius2Slider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            material2.uniforms.transparencyRadius.value = value;
+            radius2Value.textContent = value.toFixed(1);
+        });
+
+        // Side toggle control
+        sideToggle.addEventListener('change', (e) => {
+            material2.side = e.target.checked ? THREE.BackSide : THREE.FrontSide;
+            material2.needsUpdate = true;
+        });
 
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
-            
-            // const newLightDir = new THREE.Vector3(lightX, lightY, lightZ).normalize();
-            // planetMaterial.uniforms.lightDirection.value = newLightDir;
-            // atmosphereMaterial.uniforms.lightDirection.value = newLightDir;
-            
-            const delta = clock.getDelta();
 
-            scene.traverse((obj)=>{
-                if(obj.userData.update) {
-                    obj.userData.update(delta);
-                }
-            })
+            // Orbit the light around the spheres
+            lightAngle += 0.02;
+            pointLight.position.x = Math.cos(lightAngle) * lightRadius;
+            pointLight.position.z = Math.sin(lightAngle) * lightRadius;
+            pointLight.position.y = Math.sin(lightAngle * 0.5) * 3; // Add vertical movement
+
+            // Calculate sphere center in screen space for shader
+            const sphereCenterWorld = new THREE.Vector3(0, 0, 0);
+            const sphereCenterScreen = sphereCenterWorld.clone().project(camera);
+            material2.uniforms.sphereCenterScreen.value.set(
+                sphereCenterScreen.x, 
+                sphereCenterScreen.y, 
+                sphereCenterScreen.z, 
+                1.0
+            );
+
+            // Rotate the spheres slowly
+            sphere1.rotation.y += 0.005;
+            sphere1.rotation.x += 0.002;
+            sphere2.rotation.y -= 0.003; // Counter-rotate for visual interest
+            sphere2.rotation.x -= 0.001;
+
+            // Update light position in shaders
+            material1.uniforms.lightPosition.value.copy(pointLight.position);
+            material2.uniforms.lightPosition.value.copy(pointLight.position);
 
             renderer.render(scene, camera);
         }
 
-        // Control handlers
-        document.getElementById('fresnelIntensity').addEventListener('input', (e) => {
-            const value = parseFloat(e.target.value);
-            planetMaterial.uniforms.fresnelIntensity.value = value;
-            document.getElementById('fresnelValue').textContent = value.toFixed(1);
-        });
-
-        document.getElementById('fresnelPower').addEventListener('input', (e) => {
-            const value = parseFloat(e.target.value);
-            planetMaterial.uniforms.fresnelPower.value = value;
-            document.getElementById('powerValue').textContent = value.toFixed(1);
-        });
-
-        document.getElementById('fresnelColor').addEventListener('input', (e) => {
-            const color = new THREE.Color(e.target.value);
-            planetMaterial.uniforms.fresnelColor.value = color;
-        });
-
-        document.getElementById('baseColor').addEventListener('input', (e) => {
-            const color = new THREE.Color(e.target.value);
-            planetMaterial.uniforms.color.value = color;
-        });
-
-        document.getElementById('useAlbedo').addEventListener('change', (e) => {
-            const value = e.target.checked ? 1.0 : 0.0;
-            planetMaterial.uniforms.useAlbedoMap.value = value;
-        });
-
-        document.getElementById('useRoughness').addEventListener('change', (e) => {
-            const value = e.target.checked ? 1.0 : 0.0;
-            planetMaterial.uniforms.useRoughnessMap.value = value;
-        });
-
-        document.getElementById('useMetalness').addEventListener('change', (e) => {
-            const value = e.target.checked ? 1.0 : 0.0;
-            planetMaterial.uniforms.useMetalnessMap.value = value;
-        });
-
-        document.getElementById('atmosphereColor').addEventListener('input', (e) => {
-            const color = new THREE.Color(e.target.value);
-            atmosphereMaterial.uniforms.atmosphereColor.value = color;
-        });
-
-        document.getElementById('atmosphereIntensity').addEventListener('input', (e) => {
-            const value = parseFloat(e.target.value);
-            atmosphereMaterial.uniforms.atmosphereIntensity.value = value;
-            document.getElementById('atmosphereIntensityValue').textContent = value.toFixed(1);
-        });
-
-        document.getElementById('atmosphereFalloff').addEventListener('input', (e) => {
-            const value = parseFloat(e.target.value);
-            atmosphereMaterial.uniforms.atmosphereFalloff.value = value;
-            document.getElementById('atmosphereFalloffValue').textContent = value.toFixed(1);
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Start animation
         animate();
     </script>
 </body>
