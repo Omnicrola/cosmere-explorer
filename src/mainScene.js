@@ -86,7 +86,6 @@ async function init() {
 }
 
 // main render loop
-const worldPosition = new THREE.Vector3();
 function animate() {
     
     const delta = clock.getDelta();
@@ -95,20 +94,50 @@ function animate() {
     raycaster.setFromCamera(pointer, camera);
     updateInteractions(raycaster, scene);
 
-    if(camera.cameraFollowTarget) {
-        camera.cameraFollowTarget.getWorldPosition(worldPosition);
-        orbitControls.target = worldPosition;
-        orbitControls.autoRotate = true;
-    }
+    // camera
+    updateCamera(delta);
 
     stats.update();
-    orbitControls.update();
 
     // render the scene, but disable meshes with transmission during the bloom pass
     scene.traverse(disableTransmissionMeshes);
     bloomComposer.render();
     scene.traverse(enableTransmissonMeshes);
     finalComposer.render();
+}
+
+
+// updating camera positioning
+const targetLocation = new THREE.Vector3();
+const startingLocation = new THREE.Vector3();
+const currentLocation = new THREE.Vector3();
+let cameraLerpAlpha = 0.0;
+const CAMERA_LERP_SPEED = 2.0;
+function updateCamera(delta) {
+
+    // autofollow a target object
+    if(camera.cameraFollowTarget) {
+        // update target position as the target continues on it's orbit
+        camera.cameraFollowTarget.getWorldPosition(targetLocation);
+
+        if(cameraLerpAlpha < 1.0) {
+            cameraLerpAlpha = THREE.MathUtils.clamp(cameraLerpAlpha + CAMERA_LERP_SPEED * delta, 0, 1);
+            currentLocation.lerpVectors(startingLocation, targetLocation, cameraLerpAlpha);
+            orbitControls.autoRotate = false;
+        } else {
+            orbitControls.autoRotate = true;
+        }
+        
+        orbitControls.target = currentLocation;
+    }
+
+    orbitControls.update(delta);
+
+}
+
+function resetCameraTravel(currentTargetLocation) {
+    cameraLerpAlpha = 0.0;
+    startingLocation.copy(currentTargetLocation);
 }
 
 // allows individual scene objects to run an update function
@@ -194,6 +223,7 @@ function warpIntoScene(newSystemGraph) {
 export { 
     init, 
     resetScene,
+    resetCameraTravel,
     scene, 
     camera, 
     orbitControls,

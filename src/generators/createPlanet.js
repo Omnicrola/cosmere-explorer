@@ -63,7 +63,6 @@ function createPlanet(planetData) {
 
   const planetAnchor = new THREE.Group();
   planetAnchor.position.x =  planetData.orbitalRadius;
-  console.log(planetData.orbitalRadius)
   planetAnchor.add(planet);
   
   // moons!

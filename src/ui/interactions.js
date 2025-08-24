@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { scene, orbitControls, camera } from "../mainScene.js";
+import { scene, orbitControls, camera, resetCameraTravel } from "../mainScene.js";
 import { ui } from "./userInterface.js";
 import { userSettings } from "../data/userSettings.js";
 
@@ -59,6 +59,10 @@ function focusOnStellarObject({selectedId, stellarObj}) {
     if(camera.cameraFollowTarget === stellarObj) {
         return;
     }
+
+    if(camera.cameraFollowTarget) {
+        resetCameraTravel(camera.cameraFollowTarget.position);
+    }
     userSettings.currentSelection = selectedId;
     camera.cameraFollowTarget = stellarObj;
 
@@ -73,6 +77,7 @@ function focusOnStellarObject({selectedId, stellarObj}) {
     stellarObj.userData.isSelected = true;
 
     gsap.to(camera.position, {
+        delay: 0.5,
         duration : 1,
         x: center.x,
         y: center.y,
@@ -81,8 +86,6 @@ function focusOnStellarObject({selectedId, stellarObj}) {
         onUpdate: () => { 
         },
         onComplete: () => { 
-            orbitControls.target = center;
-            orbitControls.autoRotate = true;
             stellarObj.userData.isSelected = true;
         }
     });
