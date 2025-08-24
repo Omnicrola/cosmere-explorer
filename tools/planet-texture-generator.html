@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Giant Texture Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3e);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .preview-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        
+        h2 {
+            color: #4facfe;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            border-bottom: 2px solid rgba(79, 172, 254, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        .resolution-group {
+            margin-bottom: 25px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.3);
+        }
+        
+        option {
+            background: #1a1a3e;
+            color: white;
+        }
+        
+        .operations-stack {
+            margin-bottom: 25px;
+        }
+        
+        .add-operation {
+            margin-bottom: 15px;
+        }
+        
+        .add-btn {
+            width: 100%;
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+        
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .operation-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .operation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .operation-title {
+            font-weight: 600;
+            color: #4facfe;
+            font-size: 14px;
+        }
+        
+        .operation-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .random-generation {
+            background: rgba(79, 172, 254, 0.1);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .random-generation h3 {
+            margin: 0 0 10px 0;
+            color: #4facfe;
+            font-size: 14px;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+        
+        .control-btn:hover {
+            background: rgba(79, 172, 254, 0.3);
+        }
+        
+        .param-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .param-label {
+            font-size: 12px;
+            min-width: 60px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .param-input {
+            flex: 1;
+            padding: 6px 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .param-input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 1px rgba(79, 172, 254, 0.3);
+        }
+        
+        .param-select {
+            flex: 1;
+            padding: 4px 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .color-picker {
+            width: 40px;
+            height: 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button {
+            width: 100%;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .download-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+        }
+        
+        .download-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        #canvas {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        
+        .canvas-info {
+            margin-top: 15px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .save-load-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .drag-handle {
+            cursor: move;
+            padding: 2px 4px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .drag-handle:hover {
+            color: #4facfe;
+        }
+        
+        .operation-item.dragging {
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🪐 Gas Giant Texture Generator</h1>
+    
+    <div class="container">
+        <div class="controls">
+            <div class="resolution-group">
+                <h2>📏 Resolution</h2>
+                <select id="resolution">
+                    <option value="1024">1024 × 512</option>
+                    <option value="2048" selected>2048 × 1024</option>
+                    <option value="4096">4096 × 2048</option>
+                    <option value="8192">8192 × 4096</option>
+                </select>
+            </div>
+            
+            <div class="operations-stack">
+                <h2>🔧 Operations Stack</h2>
+                <div class="add-operation">
+                    <button class="add-btn" onclick="addOperation('band')">+ Add Color Band</button>
+                    <button class="add-btn" onclick="addOperation('line-swirls')">+ Add Line Swirls</button>
+                    <button class="add-btn" onclick="addOperation('single-swirl')">+ Add Single Swirl</button>
+                </div>
+                <div class="random-generation">
+                    <h3>🎲 Random Generation</h3>
+                    <div class="param-group">
+                        <label class="param-label">Color Bands:</label>
+                        <input type="number" class="param-input" id="randomBands" value="3" min="1" max="8">
+                    </div>
+                    <div class="param-group">
+                        <label class="param-label">Base Color:</label>
+                        <input type="color" class="color-picker" id="randomBaseColor" value="#ff6b35">
+                    </div>
+                    <div class="param-group">
+                        <label class="param-label">Hue Drift:</label>
+                        <input type="number" class="param-input" id="randomHueDrift" value="60" min="0" max="180">
+                    </div>
+                    <div class="param-group">
+                        <label class="param-label">Swirl Lines:</label>
+                        <input type="number" class="param-input" id="randomSwirlLinesMin" value="1" min="0" max="10" placeholder="Min">
+                        <input type="number" class="param-input" id="randomSwirlLinesMax" value="3" min="0" max="10" placeholder="Max">
+                    </div>
+                    <div class="param-group">
+                        <label class="param-label">Single Swirls:</label>
+                        <input type="number" class="param-input" id="randomSingleSwirlsMin" value="0" min="0" max="10" placeholder="Min">
+                        <input type="number" class="param-input" id="randomSingleSwirlsMax" value="2" min="0" max="10" placeholder="Max">
+                    </div>
+                    <button class="add-btn" onclick="generateRandomStack()">🎲 Generate Random Stack</button>
+                </div>
+                <div id="operationsContainer">
+                    <!-- Operations will be added here dynamically -->
+                </div>
+            </div>
+            
+            <button class="button download-btn" onclick="downloadTexture()">💾 Download PNG</button>
+            
+            <div class="save-load-section">
+                <h2>💾 Save/Load Operations</h2>
+                <button class="button" onclick="saveOperations()">📄 Save Operations JSON</button>
+                <input type="file" id="loadOperationsFile" accept=".json" style="display: none;" onchange="loadOperations(this)">
+                <button class="button" onclick="document.getElementById('loadOperationsFile').click()">📂 Load Operations JSON</button>
+            </div>
+        </div>
+        
+        <div class="preview-container">
+            <h2>🖼️ Preview</h2>
+            <canvas id="canvas" width="1024" height="512"></canvas>
+            <div class="canvas-info">
+                <div id="canvasSize">Current size: 2048 × 1024</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let operations = [];
+        let operationCounter = 0;
+        
+        // ===== WEBGL SHADER SETUP =====
+        let gl = null;
+        let shaderProgram = null;
+        let swirlShaderProgram = null;
+        let webglCanvas = null;
+        
+        function initWebGL() {
+            webglCanvas = document.createElement('canvas');
+            gl = webglCanvas.getContext('webgl') || webglCanvas.getContext('experimental-webgl');
+            
+            if (!gl) {
+                console.warn('WebGL not supported, falling back to CPU rendering');
+                return false;
+            }
+            
+            const vertexShaderSource = `
+                attribute vec2 a_position;
+                attribute vec2 a_texCoord;
+                varying vec2 v_texCoord;
+                
+                void main() {
+                    gl_Position = vec4(a_position, 0.0, 1.0);
+                    v_texCoord = a_texCoord;
+                }
+            `;
+            
+            const passthroughFragmentSource = `
+                precision mediump float;
+                uniform sampler2D u_texture;
+                varying vec2 v_texCoord;
+                
+                void main() {
+                    gl_FragColor = texture2D(u_texture, v_texCoord);
+                }
+            `;
+            
+            const swirlFragmentSource = `
+                precision mediump float;
+                uniform sampler2D u_texture;
+                uniform vec2 u_resolution;
+                uniform vec2 u_swirlCenter;
+                uniform float u_swirlRadius;
+                uniform float u_swirlStrength;
+                varying vec2 v_texCoord;
+                
+                void main() {
+                    vec2 coord = v_texCoord * u_resolution;
+                    vec2 center = u_swirlCenter;
+                    float radius = u_swirlRadius;
+                    
+                    vec2 offset = coord - center;
+                    float distance = length(offset);
+                    
+                    if (distance < radius && distance > 0.0) {
+                        float percent = (radius - distance) / radius;
+                        float theta = percent * percent * u_swirlStrength;
+                        
+                        float s = sin(theta);
+                        float c = cos(theta);
+                        
+                        vec2 rotated = vec2(
+                            offset.x * c - offset.y * s,
+                            offset.x * s + offset.y * c
+                        );
+                        
+                        coord = center + rotated;
+                    }
+                    
+                    vec2 newTexCoord = coord / u_resolution;
+                    
+                    // Handle edge cases with wrapping and clamping
+                    float wrappedX = mod(newTexCoord.x, 1.0);
+                    if (wrappedX < 0.0) {
+                        wrappedX += 1.0;
+                    }
+                    
+                    float clampedY = clamp(newTexCoord.y, 0.0, 1.0);
+                    vec2 finalTexCoord = vec2(wrappedX, clampedY);
+                    
+                    gl_FragColor = texture2D(u_texture, finalTexCoord);
+                }
+            `;
+            
+            shaderProgram = createShaderProgram(vertexShaderSource, passthroughFragmentSource);
+            swirlShaderProgram = createShaderProgram(vertexShaderSource, swirlFragmentSource);
+            
+            if (!shaderProgram || !swirlShaderProgram) {
+                console.warn('Failed to create shader programs');
+                return false;
+            }
+            
+            const vertices = new Float32Array([
+                -1.0, -1.0, 0.0, 0.0,
+                 1.0, -1.0, 1.0, 0.0,
+                -1.0,  1.0, 0.0, 1.0,
+                 1.0,  1.0, 1.0, 1.0
+            ]);
+            
+            const vertexBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+            
+            return true;
+        }
+        
+        function createShader(source, type) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                console.error('Shader compilation error:', gl.getShaderInfoLog(shader));
+                gl.deleteShader(shader);
+                return null;
+            }
+            
+            return shader;
+        }
+        
+        function createShaderProgram(vertexSource, fragmentSource) {
+            const vertexShader = createShader(vertexSource, gl.VERTEX_SHADER);
+            const fragmentShader = createShader(fragmentSource, gl.FRAGMENT_SHADER);
+            
+            if (!vertexShader || !fragmentShader) return null;
+            
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+                console.error('Shader program linking error:', gl.getProgramInfoLog(program));
+                return null;
+            }
+            
+            return program;
+        }
+        
+        // ===== OPERATIONS MANAGEMENT =====
+        function addOperation(type) {
+            const id = `op_${++operationCounter}`;
+            let operation;
+            
+            switch (type) {
+                case 'band':
+                    operation = {
+                        id: id,
+                        type: 'band',
+                        y: 25,
+                        width: 20,
+                        color: '#ff6b35',
+                        blur: 5
+                    };
+                    break;
+                case 'line-swirls':
+                    operation = {
+                        id: id,
+                        type: 'line-swirls',
+                        y: 50,
+                        interval: 200,
+                        radius: 50,
+                        rotation: 90,
+                        offset: 20,
+                        direction: 'alternating'
+                    };
+                    break;
+                case 'single-swirl':
+                    operation = {
+                        id: id,
+                        type: 'single-swirl',
+                        x: 512,
+                        y: 256,
+                        radius: 100,
+                        rotation: 180
+                    };
+                    break;
+            }
+            
+            operations.push(operation);
+            renderOperationsStack();
+            generateTexture();
+        }
+        
+        function removeOperation(id) {
+            operations = operations.filter(op => op.id !== id);
+            renderOperationsStack();
+            generateTexture();
+        }
+        
+        function moveOperation(id, direction) {
+            const index = operations.findIndex(op => op.id === id);
+            if (index === -1) return;
+            
+            const newIndex = direction === 'up' ? index - 1 : index + 1;
+            if (newIndex < 0 || newIndex >= operations.length) return;
+            
+            [operations[index], operations[newIndex]] = [operations[newIndex], operations[index]];
+            renderOperationsStack();
+            generateTexture();
+        }
+        
+        function updateOperation(id, property, value) {
+            const operation = operations.find(op => op.id === id);
+            if (operation) {
+                if (property === 'x' || property === 'y' || property === 'width' || property === 'interval' || property === 'radius' || property === 'rotation' || property === 'offset' || property === 'blur') {
+                    operation[property] = parseInt(value) || 0;
+                } else {
+                    operation[property] = value;
+                }
+                generateTexture();
+            }
+        }
+        
+        function renderOperationsStack() {
+            const container = document.getElementById('operationsContainer');
+            container.innerHTML = '';
+            
+            operations.forEach((op, index) => {
+                const div = document.createElement('div');
+                div.className = 'operation-item';
+                div.innerHTML = getOperationHTML(op, index);
+                container.appendChild(div);
+            });
+        }
+        
+        function getOperationHTML(op, index) {
+            const canMoveUp = index > 0;
+            const canMoveDown = index < operations.length - 1;
+            
+            let html = `
+                <div class="operation-header">
+                    <span class="operation-title">${getOperationTitle(op)}</span>
+                    <div class="operation-controls">
+                        <button class="control-btn" onclick="randomizeOperation('${op.id}')">🎲</button>
+                        <button class="control-btn" onclick="moveOperation('${op.id}', 'up')" ${!canMoveUp ? 'disabled' : ''}>↑</button>
+                        <button class="control-btn" onclick="moveOperation('${op.id}', 'down')" ${!canMoveDown ? 'disabled' : ''}>↓</button>
+                        <button class="control-btn" onclick="removeOperation('${op.id}')">✕</button>
+                    </div>
+                </div>
+            `;
+            
+            switch (op.type) {
+                case 'band':
+                    html += `
+                        <div class="param-group">
+                            <label class="param-label">Y Position:</label>
+                            <input type="number" class="param-input" value="${op.y}" min="0" max="100" 
+                                   onchange="updateOperation('${op.id}', 'y', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Width:</label>
+                            <input type="number" class="param-input" value="${op.width}" min="1" max="100" 
+                                   onchange="updateOperation('${op.id}', 'width', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Edge Blur:</label>
+                            <input type="number" class="param-input" value="${op.blur}" min="0" max="50" 
+                                   onchange="updateOperation('${op.id}', 'blur', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Color:</label>
+                            <input type="color" class="color-picker" value="${op.color}" 
+                                   onchange="updateOperation('${op.id}', 'color', this.value)">
+                        </div>
+                    `;
+                    break;
+                case 'line-swirls':
+                    html += `
+                        <div class="param-group">
+                            <label class="param-label">Y Position:</label>
+                            <input type="number" class="param-input" value="${op.y}" min="0" max="100" 
+                                   onchange="updateOperation('${op.id}', 'y', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Interval:</label>
+                            <input type="number" class="param-input" value="${op.interval}" min="50" max="500" 
+                                   onchange="updateOperation('${op.id}', 'interval', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Radius:</label>
+                            <input type="number" class="param-input" value="${op.radius}" min="0" max="200" 
+                                   onchange="updateOperation('${op.id}', 'radius', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Rotation:</label>
+                            <input type="number" class="param-input" value="${op.rotation}" min="0" max="360" 
+                                   onchange="updateOperation('${op.id}', 'rotation', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Offset:</label>
+                            <input type="number" class="param-input" value="${op.offset}" min="0" max="100" 
+                                   onchange="updateOperation('${op.id}', 'offset', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Direction:</label>
+                            <select class="param-select" onchange="updateOperation('${op.id}', 'direction', this.value)">
+                                <option value="clockwise" ${op.direction === 'clockwise' ? 'selected' : ''}>Clockwise</option>
+                                <option value="counter-clockwise" ${op.direction === 'counter-clockwise' ? 'selected' : ''}>Counter-clockwise</option>
+                                <option value="alternating" ${op.direction === 'alternating' ? 'selected' : ''}>Alternating</option>
+                                <option value="random" ${op.direction === 'random' ? 'selected' : ''}>Random</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                case 'single-swirl':
+                    html += `
+                        <div class="param-group">
+                            <label class="param-label">X Position:</label>
+                            <input type="number" class="param-input" value="${op.x}" min="0" max="8192" 
+                                   onchange="updateOperation('${op.id}', 'x', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Y Position:</label>
+                            <input type="number" class="param-input" value="${op.y}" min="0" max="4096" 
+                                   onchange="updateOperation('${op.id}', 'y', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Radius:</label>
+                            <input type="number" class="param-input" value="${op.radius}" min="0" max="500" 
+                                   onchange="updateOperation('${op.id}', 'radius', this.value)">
+                        </div>
+                        <div class="param-group">
+                            <label class="param-label">Rotation:</label>
+                            <input type="number" class="param-input" value="${op.rotation}" min="0" max="720" 
+                                   onchange="updateOperation('${op.id}', 'rotation', this.value)">
+                        </div>
+                    `;
+                    break;
+            }
+            
+            return html;
+        }
+        
+        function getOperationTitle(op) {
+            switch (op.type) {
+                case 'band': return `🎨 Color Band (Y: ${op.y}%)`;
+                case 'line-swirls': return `🌪️ Line Swirls (Y: ${op.y}%)`;
+                case 'single-swirl': return `🌀 Single Swirl (${op.x}, ${op.y})`;
+                default: return 'Unknown Operation';
+            }
+        }
+        
+        // ===== UTILITY FUNCTIONS =====
+        function seededRandom(seed) {
+            const x = Math.sin(seed) * 10000;
+            return x - Math.floor(x);
+        }
+        
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+        
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+        
+        function hexToHsl(hex) {
+            const r = parseInt(hex.slice(1, 3), 16) / 255;
+            const g = parseInt(hex.slice(3, 5), 16) / 255;
+            const b = parseInt(hex.slice(5, 7), 16) / 255;
+            
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            
+            return [h * 360, s * 100, l * 100];
+        }
+        
+        function hslToHex(h, s, l) {
+            h /= 360; s /= 100; l /= 100;
+            
+            const hue2rgb = (p, q, t) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1/6) return p + (q - p) * 6 * t;
+                if (t < 1/2) return q;
+                if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                return p;
+            };
+            
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            
+            const r = Math.round(hue2rgb(p, q, h + 1/3) * 255);
+            const g = Math.round(hue2rgb(p, q, h) * 255);
+            const b = Math.round(hue2rgb(p, q, h - 1/3) * 255);
+            
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+        
+        function generateColorFromBase(baseColor, maxHueDrift) {
+            const [h, s, l] = hexToHsl(baseColor);
+            const hueShift = random(-maxHueDrift, maxHueDrift);
+            const newHue = (h + hueShift + 360) % 360;
+            const saturationVariation = random(0.8, 1.2);
+            const lightnessVariation = random(0.8, 1.2);
+            
+            return hslToHex(
+                newHue,
+                Math.min(100, Math.max(0, s * saturationVariation)),
+                Math.min(100, Math.max(0, l * lightnessVariation))
+            );
+        }
+        
+        // ===== RANDOMIZATION FUNCTIONS =====
+        function generateRandomStack() {
+            // Clear existing operations
+            operations = [];
+            
+            // Get parameters
+            const numBands = parseInt(document.getElementById('randomBands').value) || 3;
+            const baseColor = document.getElementById('randomBaseColor').value;
+            const hueDrift = parseInt(document.getElementById('randomHueDrift').value) || 60;
+            const swirlLinesMin = parseInt(document.getElementById('randomSwirlLinesMin').value) || 1;
+            const swirlLinesMax = parseInt(document.getElementById('randomSwirlLinesMax').value) || 3;
+            const singleSwirlsMin = parseInt(document.getElementById('randomSingleSwirlsMin').value) || 0;
+            const singleSwirlsMax = parseInt(document.getElementById('randomSingleSwirlsMax').value) || 2;
+            
+            const resolution = parseInt(document.getElementById('resolution').value);
+            const width = resolution;
+            const height = resolution / 2;
+            
+            // Generate color bands
+            const bandPositions = [];
+            for (let i = 0; i < numBands; i++) {
+                const y = random(10, 90);
+                const width = random(15, 40);
+                const color = generateColorFromBase(baseColor, hueDrift);
+                const blur = randomInt(5, 25);
+                
+                const bandOp = {
+                    id: `op_${++operationCounter}`,
+                    type: 'band',
+                    y: Math.round(y),
+                    width: Math.round(width),
+                    color: color,
+                    blur: blur
+                };
+                
+                operations.push(bandOp);
+                bandPositions.push(y);
+            }
+            
+            // Sort bands by Y position for more natural layering
+            operations.sort((a, b) => a.y - b.y);
+            
+            // Generate swirl lines
+            const numSwirlLines = randomInt(swirlLinesMin, swirlLinesMax);
+            for (let i = 0; i < numSwirlLines; i++) {
+                const swirlOp = {
+                    id: `op_${++operationCounter}`,
+                    type: 'line-swirls',
+                    y: Math.round(random(5, 95)),
+                    interval: randomInt(80, 300),
+                    radius: randomInt(20, 120),
+                    rotation: randomInt(30, 270),
+                    offset: randomInt(10, 60),
+                    direction: randomChoice(['clockwise', 'counter-clockwise', 'alternating', 'random'])
+                };
+                
+                operations.push(swirlOp);
+            }
+            
+            // Generate single swirls
+            const numSingleSwirls = randomInt(singleSwirlsMin, singleSwirlsMax);
+            for (let i = 0; i < numSingleSwirls; i++) {
+                const swirlOp = {
+                    id: `op_${++operationCounter}`,
+                    type: 'single-swirl',
+                    x: randomInt(width * 0.1, width * 0.9),
+                    y: randomInt(height * 0.1, height * 0.9),
+                    radius: randomInt(60, 200),
+                    rotation: randomInt(90, 360)
+                };
+                
+                operations.push(swirlOp);
+            }
+            
+            renderOperationsStack();
+            generateTexture();
+        }
+        
+        function randomizeOperation(id) {
+            const operation = operations.find(op => op.id === id);
+            if (!operation) return;
+            
+            const resolution = parseInt(document.getElementById('resolution').value);
+            const width = resolution;
+            const height = resolution / 2;
+            
+            switch (operation.type) {
+                case 'band':
+                    operation.y = Math.round(random(5, 95));
+                    operation.width = Math.round(random(10, 50));
+                    operation.blur = randomInt(0, 30);
+                    // Keep existing color but could randomize if desired
+                    break;
+                    
+                case 'line-swirls':
+                    operation.y = Math.round(random(5, 95));
+                    operation.interval = randomInt(50, 400);
+                    operation.radius = randomInt(15, 150);
+                    operation.rotation = randomInt(15, 360);
+                    operation.offset = randomInt(0, 80);
+                    operation.direction = randomChoice(['clockwise', 'counter-clockwise', 'alternating', 'random']);
+                    break;
+                    
+                case 'single-swirl':
+                    operation.x = randomInt(width * 0.05, width * 0.95);
+                    operation.y = randomInt(height * 0.05, height * 0.95);
+                    operation.radius = randomInt(30, 300);
+                    operation.rotation = randomInt(45, 720);
+                    break;
+            }
+            
+            renderOperationsStack();
+            generateTexture();
+        
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        
+        function getSwirDirection(directionSetting, bandIndex, swirlIndex) {
+            switch (directionSetting) {
+                case 'clockwise':
+                    return 1;
+                case 'counter-clockwise':
+                    return -1;
+                case 'alternating':
+                    return (swirlIndex % 2 === 0) ? 1 : -1;
+                case 'random':
+                    const seed = bandIndex * 10000 + swirlIndex * 1000 + 789;
+                    return seededRandom(seed) > 0.5 ? 1 : -1;
+                default:
+                    return 1;
+            }
+        }
+        
+        // ===== CPU SWIRL FUNCTION =====
+        function applySwirlEffect(imageData, centerX, centerY, radius, maxRotation) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+            
+            const originalData = new Uint8ClampedArray(data);
+            const maxRotationRad = (maxRotation * Math.PI) / 180;
+            
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const dx = x - centerX;
+                    const dy = y - centerY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance <= radius && distance > 0) {
+                        const rotationFactor = 1 - (distance / radius);
+                        const rotation = maxRotationRad * rotationFactor;
+                        
+                        const cos = Math.cos(rotation);
+                        const sin = Math.sin(rotation);
+                        
+                        const sourceX = centerX + (dx * cos - dy * sin);
+                        const sourceY = centerY + (dx * sin + dy * cos);
+                        
+                        if (sourceX >= 0 && sourceX < width - 1 && sourceY >= 0 && sourceY < height - 1) {
+                            const x1 = Math.floor(sourceX);
+                            const x2 = x1 + 1;
+                            const y1 = Math.floor(sourceY);
+                            const y2 = y1 + 1;
+                            
+                            const fx = sourceX - x1;
+                            const fy = sourceY - y1;
+                            
+                            const destIndex = (y * width + x) * 4;
+                            
+                            for (let c = 0; c < 4; c++) {
+                                const c1 = originalData[(y1 * width + x1) * 4 + c];
+                                const c2 = originalData[(y1 * width + x2) * 4 + c];
+                                const c3 = originalData[(y2 * width + x1) * 4 + c];
+                                const c4 = originalData[(y2 * width + x2) * 4 + c];
+                                
+                                const top = c1 * (1 - fx) + c2 * fx;
+                                const bottom = c3 * (1 - fx) + c4 * fx;
+                                const final = top * (1 - fy) + bottom * fy;
+                                
+                                data[destIndex + c] = Math.round(final);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // ===== WEBGL SWIRL APPLICATION =====
+        function applyWebGLSwirls(imageData, swirls) {
+            if (!gl || !swirlShaderProgram || swirls.length === 0) return false;
+            
+            const width = imageData.width;
+            const height = imageData.height;
+            
+            webglCanvas.width = width;
+            webglCanvas.height = height;
+            gl.viewport(0, 0, width, height);
+            
+            const texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, imageData.data);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            
+            const framebuffer = gl.createFramebuffer();
+            let tempTexture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, tempTexture);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+            
+            gl.useProgram(swirlShaderProgram);
+            const positionLocation = gl.getAttribLocation(swirlShaderProgram, 'a_position');
+            const texCoordLocation = gl.getAttribLocation(swirlShaderProgram, 'a_texCoord');
+            
+            gl.enableVertexAttribArray(positionLocation);
+            gl.enableVertexAttribArray(texCoordLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 16, 0);
+            gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 16, 8);
+            
+            const textureLocation = gl.getUniformLocation(swirlShaderProgram, 'u_texture');
+            const resolutionLocation = gl.getUniformLocation(swirlShaderProgram, 'u_resolution');
+            const centerLocation = gl.getUniformLocation(swirlShaderProgram, 'u_swirlCenter');
+            const radiusLocation = gl.getUniformLocation(swirlShaderProgram, 'u_swirlRadius');
+            const strengthLocation = gl.getUniformLocation(swirlShaderProgram, 'u_swirlStrength');
+            
+            gl.uniform2f(resolutionLocation, width, height);
+            
+            let currentTexture = texture;
+            let outputTexture = tempTexture;
+            let passCount = 0;
+            
+            swirls.forEach(swirl => {
+                const isLastPass = (passCount === swirls.length - 1);
+                
+                gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+                gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, outputTexture, 0);
+                
+                gl.activeTexture(gl.TEXTURE0);
+                gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+                gl.uniform1i(textureLocation, 0);
+                gl.uniform2f(centerLocation, swirl.x, height - swirl.y);
+                gl.uniform1f(radiusLocation, swirl.radius);
+                gl.uniform1f(strengthLocation, swirl.rotation);
+                
+                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+                
+                [currentTexture, outputTexture] = [outputTexture, currentTexture];
+                passCount++;
+            });
+            
+            gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, currentTexture, 0);
+            
+            const pixels = new Uint8Array(width * height * 4);
+            gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+            
+            const flippedPixels = new Uint8Array(width * height * 4);
+            for (let y = 0; y < height; y++) {
+                const srcRow = (height - 1 - y) * width * 4;
+                const dstRow = y * width * 4;
+                for (let x = 0; x < width * 4; x++) {
+                    flippedPixels[dstRow + x] = pixels[srcRow + x];
+                }
+            }
+            
+            imageData.data.set(flippedPixels);
+            
+            gl.deleteTexture(texture);
+            gl.deleteTexture(tempTexture);
+            gl.deleteFramebuffer(framebuffer);
+            
+            return true;
+        }
+        
+        // ===== TEXTURE GENERATION =====
+        function generateTexture() {
+            const resolution = parseInt(document.getElementById('resolution').value);
+            const width = resolution;
+            const height = resolution / 2;
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            document.getElementById('canvasSize').textContent = `Current size: ${width} × ${height}`;
+            
+            // Start with transparent canvas
+            const imageData = ctx.createImageData(width, height);
+            const data = imageData.data;
+            
+            // Fill with transparent
+            for (let i = 0; i < data.length; i += 4) {
+                data[i] = 0;     // Red
+                data[i + 1] = 0; // Green  
+                data[i + 2] = 0; // Blue
+                data[i + 3] = 255; // Alpha
+            }
+            
+            // Apply operations in order
+            operations.forEach(op => {
+                switch (op.type) {
+                    case 'band':
+                        applyBandOperation(imageData, op, width, height);
+                        break;
+                }
+            });
+            
+            // Put base image on canvas
+            ctx.putImageData(imageData, 0, 0);
+            
+            // Collect swirl operations
+            const swirls = [];
+            operations.forEach(op => {
+                if (op.type === 'line-swirls') {
+                    const lineSwirls = generateLineSwirls(op, width, height);
+                    swirls.push(...lineSwirls);
+                } else if (op.type === 'single-swirl') {
+                    if (op.radius > 0 && op.rotation > 0) {
+                        swirls.push({
+                            x: op.x,
+                            y: op.y,
+                            radius: op.radius,
+                            rotation: (op.rotation * Math.PI / 180)
+                        });
+                    }
+                }
+            });
+            
+            // Apply swirls
+            if (swirls.length > 0) {
+                const finalImageData = ctx.getImageData(0, 0, width, height);
+                const webglSuccess = applyWebGLSwirls(finalImageData, swirls);
+                
+                if (!webglSuccess) {
+                    // CPU fallback
+                    swirls.forEach(swirl => {
+                        applySwirlEffect(finalImageData, swirl.x, swirl.y, swirl.radius, swirl.rotation * 180 / Math.PI);
+                    });
+                }
+                
+                ctx.putImageData(finalImageData, 0, 0);
+            }
+        }
+        
+        function applyBandOperation(imageData, op, width, height) {
+            const color = hexToRgb(op.color);
+            const centerY = (op.y / 100) * height;
+            const bandWidth = (op.width / 100) * height;
+            const blurPixels = op.blur || 0;
+            
+            const data = imageData.data;
+            
+            // Calculate band boundaries
+            const bandStart = centerY - bandWidth / 2;
+            const bandEnd = centerY + bandWidth / 2;
+            
+            for (let y = 0; y < height; y++) {
+                let alpha = 0;
+                
+                if (blurPixels === 0) {
+                    // Sharp edges - original behavior
+                    if (y >= bandStart && y <= bandEnd) {
+                        alpha = 1;
+                    }
+                } else {
+                    // Blurred edges - centered on band boundaries
+                    const distFromTopEdge = y - bandStart;
+                    const distFromBottomEdge = y - bandEnd;
+                    
+                    if (y >= bandStart && y <= bandEnd) {
+                        // Inside the band
+                        const distFromNearestEdge = Math.min(distFromTopEdge, bandEnd - y);
+                        
+                        if (distFromNearestEdge >= blurPixels / 2) {
+                            // Far from edges - full opacity
+                            alpha = 1;
+                        } else {
+                            // Near edges - fade from 1.0 to 0.5
+                            alpha = 0.5 + 0.5 * (distFromNearestEdge / (blurPixels / 2));
+                        }
+                    } else {
+                        // Outside the band - check if in blur zone
+                        if (y < bandStart && distFromTopEdge >= -blurPixels / 2) {
+                            // In blur zone above band - fade from 0.5 to 0.0
+                            alpha = 0.5 * (1 + distFromTopEdge / (blurPixels / 2));
+                        } else if (y > bandEnd && distFromBottomEdge <= blurPixels / 2) {
+                            // In blur zone below band - fade from 0.5 to 0.0
+                            alpha = 0.5 * (1 - distFromBottomEdge / (blurPixels / 2));
+                        }
+                    }
+                }
+                
+                // Apply the color with calculated alpha
+                if (alpha > 0) {
+                    for (let x = 0; x < width; x++) {
+                        const pixelIndex = (y * width + x) * 4;
+                        const existingR = data[pixelIndex];
+                        const existingG = data[pixelIndex + 1];
+                        const existingB = data[pixelIndex + 2];
+                        
+                        // Alpha blend with existing color
+                        data[pixelIndex] = Math.round(existingR * (1 - alpha) + color.r * alpha);
+                        data[pixelIndex + 1] = Math.round(existingG * (1 - alpha) + color.g * alpha);
+                        data[pixelIndex + 2] = Math.round(existingB * (1 - alpha) + color.b * alpha);
+                        data[pixelIndex + 3] = 255;
+                    }
+                }
+            }
+        }
+        
+        function generateLineSwirls(op, width, height) {
+            if (op.radius === 0 || op.rotation === 0) return [];
+            
+            const swirls = [];
+            const y = (op.y / 100) * height;
+            const numSwirls = Math.ceil(width / op.interval);
+            
+            for (let i = 0; i < numSwirls; i++) {
+                const baseX = (i * op.interval) + (op.interval / 2);
+                
+                const seedX = i * 100 + 123;
+                const seedY = i * 100 + 456;
+                
+                const randomOffsetX = (seededRandom(seedX) - 0.5) * 2 * op.offset;
+                const randomOffsetY = (seededRandom(seedY) - 0.5) * 2 * op.offset;
+                
+                const finalX = Math.max(0, Math.min(width - 1, baseX + randomOffsetX));
+                const finalY = Math.max(0, Math.min(height - 1, y + randomOffsetY));
+                
+                const direction = getSwirDirection(op.direction, 0, i);
+                const rotation = (op.rotation * Math.PI / 180) * direction;
+                
+                swirls.push({
+                    x: finalX,
+                    y: finalY,
+                    radius: op.radius,
+                    rotation: rotation
+                });
+            }
+            
+            return swirls;
+        }
+        
+        function downloadTexture() {
+            const link = document.createElement('a');
+            link.download = `gas_giant_texture_${canvas.width}x${canvas.height}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // ===== SAVE/LOAD FUNCTIONALITY =====
+        function saveOperations() {
+            const saveData = {
+                version: "1.0",
+                timestamp: new Date().toISOString(),
+                resolution: document.getElementById('resolution').value,
+                operations: operations
+            };
+            
+            const jsonString = JSON.stringify(saveData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `gas_giant_operations_${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+        
+        function loadOperations(input) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (!file.name.toLowerCase().endsWith('.json')) {
+                alert('Please select a JSON file.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const saveData = JSON.parse(e.target.result);
+                    
+                    // Validate the save data structure
+                    if (!saveData.operations || !Array.isArray(saveData.operations)) {
+                        alert('Invalid operations file format.');
+                        return;
+                    }
+                    
+                    // Validate each operation
+                    for (let i = 0; i < saveData.operations.length; i++) {
+                        const op = saveData.operations[i];
+                        if (!op.id || !op.type) {
+                            alert(`Invalid operation at index ${i}: missing id or type.`);
+                            return;
+                        }
+                        
+                        // Validate operation type
+                        if (!['band', 'line-swirls', 'single-swirl'].includes(op.type)) {
+                            alert(`Invalid operation type: ${op.type}`);
+                            return;
+                        }
+                        
+                        // Validate required properties for each type
+                        if (op.type === 'band' && (typeof op.y !== 'number' || typeof op.width !== 'number' || !op.color)) {
+                            alert(`Invalid band operation at index ${i}: missing required properties.`);
+                            return;
+                        }
+                        
+                        if (op.type === 'line-swirls' && (typeof op.y !== 'number' || typeof op.interval !== 'number' || typeof op.radius !== 'number')) {
+                            alert(`Invalid line-swirls operation at index ${i}: missing required properties.`);
+                            return;
+                        }
+                        
+                        if (op.type === 'single-swirl' && (typeof op.x !== 'number' || typeof op.y !== 'number' || typeof op.radius !== 'number')) {
+                            alert(`Invalid single-swirl operation at index ${i}: missing required properties.`);
+                            return;
+                        }
+                    }
+                    
+                    // Load the operations
+                    operations = saveData.operations;
+                    
+                    // Update operation counter to avoid ID conflicts
+                    operationCounter = Math.max(...operations.map(op => parseInt(op.id.split('_')[1]) || 0), 0);
+                    
+                    // Load resolution if available
+                    if (saveData.resolution) {
+                        document.getElementById('resolution').value = saveData.resolution;
+                    }
+                    
+                    // Update UI and regenerate
+                    renderOperationsStack();
+                    generateTexture();
+                    
+                    alert(`Successfully loaded ${operations.length} operations!`);
+                    
+                } catch (error) {
+                    alert('Error loading operations file: ' + error.message);
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('Error reading the file.');
+            };
+            
+            reader.readAsText(file);
+            
+            // Clear the file input so the same file can be loaded again
+            input.value = '';
+        }
+        
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const webglSupported = initWebGL();
+            if (!webglSupported) {
+                console.warn('WebGL not available - swirl effects will be slower');
+            }
+            
+            // Add some default operations
+            addOperation('band');
+            addOperation('band');
+            addOperation('line-swirls');
+            
+            // Set some default values
+            if (operations.length >= 2) {
+                operations[0].color = '#ff6b35';
+                operations[0].y = 20;
+                operations[0].width = 25;
+                operations[0].blur = 8;
+                
+                operations[1].color = '#4facfe';
+                operations[1].y = 60;
+                operations[1].width = 30;
+                operations[1].blur = 12;
+            }
+            
+            renderOperationsStack();
+            generateTexture();
+        });
+    </script>
+</body>
+</html>
