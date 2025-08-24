@@ -46,6 +46,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
             color : 0xffccff,
             orbitalRadius : 3,
             orbitalEccentricity : 0.1,
+            orbitStart: 33,
             orbitalSpeed : 0.9,
             description : `Sals is the first and smallest of Roshar's 3 moons and appears to be a light violet color in the night sky.`,
             coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
@@ -56,6 +57,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
             radius : 0.08,
             color : 0xaaaaff,
             orbitalRadius : 3.5,
+            orbitStart: 66,
             orbitalEccentricity : 0.1,
             description : `Nomon is the second and largest of Roshar's 3 moons and appears to be a pale blue color in the night sky.`,
             coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
@@ -66,6 +68,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
             radius : 0.06,
             color : 0xccffff,
             orbitalRadius : 4,
+            orbitStart: 99,
             orbitalEccentricity : 0.1,
             description : `Mishim is the third moon and most distant of Roshar's 3 moons, and appears as a light green color in the night sky. `,
             coppermind : 'https://coppermind.net/wiki/Roshar#Planetary_System'
