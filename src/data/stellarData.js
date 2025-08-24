@@ -6,7 +6,8 @@ const STELLAR_OBJECT = {
     get PLANET () {return 2;},
     get MOON () {return 3;},
     get ASTEROID_BELT  ()  {return 4;},
-    get COGNITIVE_ANOMOLY () {return 5;}
+    get COGNITIVE_ANOMOLY () {return 5;},
+    get BINARY_SET () {return 6;},
 }
 
 function assertValidId(id) {
@@ -22,6 +23,7 @@ function createMoonData({
     color = 0xffffff,
     textureMap = null,
     orbitalRadius = 1,
+    orbitStart = 0,
     orbitalEccentricity = 0,
     orbitalInclination = 0,
     axialTilt = 0,
@@ -40,6 +42,7 @@ function createMoonData({
         color,
         textureMap,
         orbitalRadius,
+        orbitStart,
         orbitalEccentricity,
         orbitalInclination,
         axialTilt,
@@ -73,6 +76,7 @@ function createCognitiveAnomolyData({
     radius = 1,
     orbitalRadius = 10,
     orbitalSpeed = 1,
+    orbitStart = 0,
     orbitalEccentricity,
     icon = null,
     description = '',
@@ -86,6 +90,7 @@ function createCognitiveAnomolyData({
         radius,
         orbitalRadius,
         orbitalSpeed,
+        orbitStart,
         orbitalEccentricity,
         icon,
         description,
@@ -102,6 +107,7 @@ function createPlanetData({
     atmosphericColor = new THREE.Vector3(0.4, 0.4, 1.0),
     oceanMap = null,
     orbitalRadius = 5,
+    orbitStart = 0,
     orbitalSpeed = 1,
     orbitalEccentricity = 0,
     axialTilt = 10,
@@ -124,6 +130,7 @@ function createPlanetData({
         system,
         description,
         planetRadius,
+        orbitStart,
         planetColor,
         textureMap,
         atmosphericColor,
@@ -166,6 +173,26 @@ function createRingData({
     };
 }
 
+function createBinarySet({
+    binaryPair,
+    separationDistance = 5,
+    orbitalDistance = 100,
+    orbitStart = 0,
+    orbitalEccentricity = 0.0,
+    orbitalSpeed = 1,
+    orbitalIncline = new THREE.Vector2(0,0),
+}) {
+    return {
+        stellarObjectType: STELLAR_OBJECT.BINARY_SET,
+        binaryPair,
+        separationDistance,
+        orbitStart,
+        orbitalDistance,
+        orbitalEccentricity,
+        orbitalSpeed,
+        orbitalIncline
+    };
+}
 
 function createStellarData({
     id,
@@ -206,5 +233,6 @@ export {
     createStellarData,
     createRingData,
     createCognitiveAnomolyData,
+    createBinarySet,
     STELLAR_OBJECT
 };

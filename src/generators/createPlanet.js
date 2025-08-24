@@ -72,7 +72,7 @@ function createPlanet(planetData, planetIndex) {
     let moon = createMoon(moonData, moonIndex, planetIndex);
     moonMeshes.push(moon);
 
-    moonOffset.rotation.y = Math.random() * 360;
+    moonOffset.rotation.y = THREE.MathUtils.degToRad(moonData.orbitStart);
     moonOffset.add(moon);
     moonOffset.userData.update = (deltaTime) => {
       moonOffset.rotation.y += deltaTime * moonData.orbitalSpeed / 100;
@@ -84,7 +84,7 @@ function createPlanet(planetData, planetIndex) {
   orbitGroup.add(planetAnchor);
   const orbitalRingMesh = createOrbitalRing(planetData.orbitalRadius, 0, 0.1);
   orbitGroup.add(orbitalRingMesh);
-  orbitGroup.rotation.y = Math.random() * 360;
+  orbitGroup.rotation.y = THREE.MathUtils.degToRad(planetData.orbitStart);
 
   orbitOffset.userData = {
     update:(deltaTime) => {

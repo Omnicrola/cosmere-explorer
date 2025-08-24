@@ -7,6 +7,7 @@ import { createSkybox } from './createSkybox.js';
 import { createAsteroids } from './createAsteroids.js';
 import { STELLAR_OBJECT } from '../data/stellarData.js';
 import { createCognitiveAnomoly } from './createCognitiveAnomoly.js';
+import { createBinaryPlanets } from './createBinaryPair.js';
 
 
 function createStellarSystem(stellarData) {
@@ -41,6 +42,9 @@ function createStellarSystem(stellarData) {
                 break;
             case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
                 scene.add(createCognitiveAnomoly(objData));
+                break;
+            case STELLAR_OBJECT.BINARY_SET :
+                scene.add(createBinaryPlanets(objData));
                 break;
             default : 
                 console.log('Error: unknown stellar object type : ');
