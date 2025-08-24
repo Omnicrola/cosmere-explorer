@@ -35,7 +35,7 @@ const aagalNod = createPlanetData({
     axialTilt: 1.2572,
     description: `Aagal Nod is a blue colored gas giant and the largest planet in the Scadrian system, orbiting just outside the system's stellar frost line.`,
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets',
-    moons : [
+    children : [
         createMoonData({
             id: 'nod-m-1',
             name : 'Nod-1',
@@ -138,7 +138,7 @@ const aagalUch = createPlanetData({
         alphaMap: 'rings-01-alpha.png'
     }), 
     coppermind: 'https://coppermind.net/wiki/Scadrian_system#Planets',
-    moons: [
+    children: [
         createMoonData({
             id: 'uch-m-1',
             name : 'Uch-1',
@@ -260,8 +260,8 @@ const scadrialSystemData = createStellarData({
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Scadrian_system',
-    stellarObjects: [cometBelt],
-    planets: [
+    stellarObjects: [
+        cometBelt,
         scadrial, 
         aagalNod, 
         aagalUch, 

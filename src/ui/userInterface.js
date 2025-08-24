@@ -6,7 +6,7 @@ import { userSettings } from "../data/userSettings.js";
 import { showInfoPanel } from "./infoPanels.js";
 
 
-function createPlanetOption(planetData, name, selectionValue, isSelected) {
+function createScannerOption(planetData, name, selectionValue, isSelected) {
     let option = document.createElement('option');
     option.innerText = name;
     option.value = selectionValue;
@@ -15,26 +15,31 @@ function createPlanetOption(planetData, name, selectionValue, isSelected) {
     return option;
 }
 
-function createPlanetList(planetData = []) {
-    let planetSelect = document.getElementById('planet-select');
-    planetSelect.innerHTML = "";
+function createScannerOptions(scannerSelect, childrenObjects) {
+    if(childrenObjects) {
+        childrenObjects.forEach((objData) => {
+            const objId = objData.id;
+            if(objId){
+                scannerSelect.appendChild(createScannerOption(objData, objData.name, objId, objId==userSettings.currentSelection));
+            }
+            createScannerOptions(scannerSelect, objData.children); // recursive call
+        });
+    }
+}
+
+function updateScannerList(stellarObjects = []) {
+    let scannerSelect = document.getElementById('planet-select');
+    scannerSelect.innerHTML = "";
 
     let emptyOption = document.createElement('option');
-    emptyOption.innerText = "-- Select a Planet --";
+    emptyOption.innerText = "-- Select --";
     emptyOption.value = -1;
     emptyOption.selected = true;
-    planetSelect.appendChild(emptyOption);
+    scannerSelect.appendChild(emptyOption);
     
-    planetData.forEach((planet) => {
-        const planetId = planet.id;
-        planetSelect.appendChild(createPlanetOption(planet, planet.name, planetId, planetId==userSettings.currentSelection));
-        planet.moons.forEach((moon) => {
-            const moonId = moon.id;
-            planetSelect.appendChild(createPlanetOption(moon, '- '+moon.name, moonId, moonId==userSettings.currentSelection));
-        });
-    });
+    createScannerOptions(scannerSelect, stellarObjects);
 
-    planetSelect.value = -1;
+    scannerSelect.value = -1;
 }
 
 function updateAutoNavigation() {
@@ -128,7 +133,7 @@ function resetUi() {
 
 let ui = {
     init,
-    createPlanetList,
+    updateScannerList,
     setSystemName,
     resetUi,
     showInfoPanel,

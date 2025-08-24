@@ -4,7 +4,7 @@ import { createOrbitalRing } from './createRings.js';
 
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
-function createMoon(moonData, moonIndex, planetIndex) {
+function createMoon(moonData) {
     const moonGroup = new THREE.Group();
 
     const moonMat = createPlanetMaterial(moonData);

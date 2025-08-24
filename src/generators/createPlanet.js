@@ -8,7 +8,7 @@ import { createOrbitalRing, createPlanetaryRings } from './createRings.js';
 // reusable constants
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
-function createPlanet(planetData, planetIndex) {
+function createPlanet(planetData) {
   const orbitOffset = new THREE.Group();
   orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
   orbitOffset.rotation.y = THREE.MathUtils.degToRad(planetData.orbitalIncline.y);
@@ -61,15 +61,16 @@ function createPlanet(planetData, planetIndex) {
   // 3d label text that follows the planet and always faces the camera
   createPlanetText(planetData, planet, orbitGroup);
 
-  // moons!
   const planetAnchor = new THREE.Group();
   planetAnchor.position.x =  planetData.orbitalRadius;
+  console.log(planetData.orbitalRadius)
   planetAnchor.add(planet);
-
+  
+  // moons!
   let moonMeshes = [];
-  planetData.moons.forEach((moonData, moonIndex) => {
+  planetData.children.forEach((moonData) => {
     let moonOffset = new THREE.Group();
-    let moon = createMoon(moonData, moonIndex, planetIndex);
+    let moon = createMoon(moonData);
     moonMeshes.push(moon);
 
     moonOffset.rotation.y = THREE.MathUtils.degToRad(moonData.orbitStart);

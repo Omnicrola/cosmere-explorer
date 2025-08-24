@@ -15,7 +15,7 @@ const nalthis = createPlanetData({
     description : `Nalthis is the single inhabited planet in the Nalthian system, and it's namesake. It is currently inhabited by a single Shard, Endowment.
     Endowment directly created humans on the planet some time after the Shattering, and gives each human born on Nalthis a single Breath which can be used to power the local magic system referred to as Awakening. `,
     coppermind : "https://coppermind.net/wiki/Nalthis",
-    moons: [
+    children: [
         createMoonData({
             id: 'rrendos',
             name : 'Rrendos',
@@ -56,7 +56,7 @@ const farkeeper = createPlanetData({
     axialTilt: 1.2572,
     description: ``,
     coppermind: 'https://coppermind.net/wiki/Nalthian_system#Planets',
-    moons: [
+    children: [
         createMoonData({
             id: 'farkeeper-m-1',
             name : 'Farkeeper-1',
@@ -174,9 +174,7 @@ const nalthisSystemData = createStellarData({
     coppermind: 'https://coppermind.net/wiki/Nalthian_system',
     stellarObjects: [
         cometBelt,
-        cognitiveAnomoly
-    ],
-    planets: [
+        cognitiveAnomoly,
         nalthis, 
         farkeeper,
         nightstar

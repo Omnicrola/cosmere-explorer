@@ -32,7 +32,8 @@ function createMoonData({
     gravity = 0,
     icon = 'icon-planet.svg',
     description = 'Lorem Ipsum',
-    coppermind = ""
+    coppermind = "",
+    children = [],
 }) {
     assertValidId(id);
     return {
@@ -52,6 +53,7 @@ function createMoonData({
         icon,
         description,
         coppermind,
+        children,
     };
 }
 
@@ -120,7 +122,7 @@ function createPlanetData({
     icon = 'resources/icons/icon-planet.svg',
     description = 'Lorem ipsum',
     coppermind = 'https://coppermind.net/wiki',
-    moons = [],
+    children = [],
     rings = {},
 }){
     assertValidId(id);
@@ -148,7 +150,7 @@ function createPlanetData({
         icon,
         description,
         coppermind,
-        moons,
+        children,
         rings,
     };
 }
@@ -174,7 +176,7 @@ function createRingData({
 }
 
 function createBinarySet({
-    binaryPair,
+    children = [],
     separationDistance = 5,
     orbitalDistance = 100,
     orbitStart = 0,
@@ -184,7 +186,7 @@ function createBinarySet({
 }) {
     return {
         stellarObjectType: STELLAR_OBJECT.BINARY_SET,
-        binaryPair,
+        children,
         separationDistance,
         orbitStart,
         orbitalDistance,
@@ -205,7 +207,6 @@ function createStellarData({
     icon = "icon-stellar-system.svg",
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     coppermind = "https://coppermind.net/wiki",
-    planets = [],
     stellarObjects = [],
 }){
     assertValidId(id);
@@ -221,7 +222,6 @@ function createStellarData({
         icon,
         description,
         coppermind,
-        planets,
         stellarObjects
     };
 }

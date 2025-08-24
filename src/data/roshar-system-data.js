@@ -38,7 +38,7 @@ Roshar has a surface gravity of approximately 0.7g, and a radius of approximatel
 Roshar has no axial tilt. It has a solar day of twenty Rosharan hours, and rotates around five-hundred times every orbit.
 Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly eccentric orbits. The planet also used to have a fourth moon, which died and fell before Honor's arrival in the system, though fragments of it landed on Roshar.`,
     coppermind : "https://coppermind.net/wiki/Roshar",
-    moons : [
+    children : [
         createMoonData({
             id: 'salas',
             name : 'Salas',
@@ -197,8 +197,8 @@ const rosharStellarSystem = createStellarData({
     icon : "icon-stellar-system.svg",
     description : "The Rosharan system's central star is a large white sun.",
     coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
-    stellarObjects : [asteroidBelt],
-    planets : [
+    stellarObjects : [
+        asteroidBelt,
         ashyn,
         roshar,
         braize,

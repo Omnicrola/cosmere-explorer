@@ -28,15 +28,12 @@ function createStellarSystem(stellarData) {
     starLight.position.set(0,0,0);
     scene.add(starLight);
 
-    // planets
-    stellarData.planets.forEach((p, index) => {
-        let planet = createPlanet(p, index);
-        stellarSystem.add(planet);
-    });
-
     // other stellar objects
     stellarData.stellarObjects.forEach((objData) => {
         switch(objData.stellarObjectType) {
+            case STELLAR_OBJECT.PLANET : 
+                stellarSystem.add(createPlanet(objData));
+                break;
             case STELLAR_OBJECT.ASTEROID_BELT :
                 scene.add(createAsteroids(objData));
                 break;
@@ -57,7 +54,7 @@ function createStellarSystem(stellarData) {
 
     // user interface
     ui.setSystemName(stellarData.name);
-    ui.createPlanetList(stellarData.planets);
+    ui.updateScannerList(stellarData.stellarObjects);
 
     scene.add(stellarSystem);
 

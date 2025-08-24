@@ -19,7 +19,7 @@ const first = createPlanetData({
                 The primary human inhabitants refer to themselves as the Eelakin, and inhabit a large archipelago of around 40 islands referred to as The Pantheon.
                 First of the sun is notable for two reasons, the first is that it possesses a perpendicularity even though no Shard currently occupies the system. The second is the presence of Aviar, which are birds that can bestow magical talents on their owners.`,
     coppermind : "https://coppermind.net/wiki/First_of_the_Sun",
-    moons: [
+    children: [
         createMoonData({
             id: 'first-of-first',
             name : 'First of the First',
@@ -47,7 +47,7 @@ const second = createPlanetData({
     axialTilt : -2.56,
     description : `Like the other 3 habital planets in the system, Second of the Sun is primarly covered in water.`,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -64,7 +64,7 @@ const third = createPlanetData({
     axialTilt : -2.56,
     description : `Like the other 3 habital planets in the system, Third of the Sun is primarly covered in water.`,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -89,7 +89,7 @@ const fourth = createPlanetData({
     }), 
     description : `Like the other 3 habital planets in the system, Fourth of the Sun is primarly covered in water.`,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -115,7 +115,7 @@ const fifth = createPlanetData({
     }), 
     description : ``,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -140,7 +140,7 @@ const sixth = createPlanetData({
     }), 
     description : ``,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -157,7 +157,7 @@ const seventh = createPlanetData({
     axialTilt : -10.27,
     description : ``,
     coppermind : 'https://coppermind.net/wiki/Drominad_system#Planets',
-    moons: [
+    children: [
     ]
 });
 
@@ -180,16 +180,14 @@ const drominadSystemData = createStellarData({
     description: '',
     coppermind: 'https://coppermind.net/wiki/Drominad_system',
     stellarObjects: [
-        asteroidBelt,
-    ],
-    planets: [
         first,
         second,
         third,
         fourth,
         fifth,
         sixth,
-        seventh
+        seventh,
+        asteroidBelt,
     ],
 
 });
