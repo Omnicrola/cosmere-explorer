@@ -57,9 +57,6 @@ const utolSystemData = createStellarData({
         binaryPlanetSet,
         cometBelt
     ],
-    planets: [
-    ],
-
 });
 
 export { utolSystemData };
