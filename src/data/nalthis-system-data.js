@@ -20,6 +20,7 @@ const nalthis = createPlanetData({
         createMoonData({
             id: 'rrendos',
             name : 'Rrendos',
+            icon: 'Nalthis/icon-rrendos.png',
             radius : 0.1,
             color : 0xffccff,
             orbitalRadius : 3,
@@ -34,6 +35,7 @@ const nalthis = createPlanetData({
 const cognitiveAnomoly = createCognitiveAnomolyData({
     id: 'nalthis-anomoly',
     name: 'Cognitive Anomoly',
+    icon : 'Nalthis/icon-anomoly.png',
     radius: 2,
     orbitalRadius: 175,
     orbitStart: 51,
@@ -48,6 +50,7 @@ const cognitiveAnomoly = createCognitiveAnomolyData({
 const farkeeper = createPlanetData({
     id: 'farkeeper',
     name: 'Farkeeper the Bright',
+    icon : 'Nalthis/icon-farkeeper.png',
     planetRadius : 7.42,
     planetColor: 0xFF5555,
     textureMap: 'Nalthis/p_nalthis_farkeeper.png',
@@ -64,6 +67,7 @@ const farkeeper = createPlanetData({
         createMoonData({
             id: 'farkeeper-m-1',
             name : 'Farkeeper-1',
+            icon : 'Nalthis/icon-farkeeper-m-1.png',
             radius : 0.05435987,
             color : 0xdecfa6,
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_1.png',  
@@ -78,6 +82,7 @@ const farkeeper = createPlanetData({
         createMoonData({
             id: 'farkeeper-m-2',
             name : 'Farkeeper-2',
+            icon : 'Nalthis/icon-farkeeper-m-2.png',
             radius : 0.062773,
             color : 0xb58362,
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_2.png',  
@@ -92,6 +97,7 @@ const farkeeper = createPlanetData({
         createMoonData({
             id: 'farkeeper-m-3',
             name : 'Farkeeper-3',
+            icon : 'Nalthis/icon-farkeeper-m-3.png',
             radius : 0.0737752,
             color : 0xdecfa6,
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_3.png',  
@@ -105,6 +111,7 @@ const farkeeper = createPlanetData({
         }),
         createMoonData({
             id: 'farkeeper-m-4',
+            icon : 'Nalthis/icon-farkeeper-m-4.png',
             name : 'Farkeeper-4',
             radius : 0.055712,
             orbitStart: 256,
@@ -120,6 +127,7 @@ const farkeeper = createPlanetData({
         createMoonData({
             id: 'farkeeper-m-5',
             name : 'Farkeeper-5',
+            icon : 'Nalthis/icon-farkeeper-m-5.png',
             radius : 0.04771,
             color : 0x7a7d5b,
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_5.png',  
@@ -134,6 +142,7 @@ const farkeeper = createPlanetData({
         createMoonData({
             id: 'farkeeper-m-6',
             name : 'Farkeeper-6',
+            icon : 'Nalthis/icon-farkeeper-m-6.png',
             radius : 0.058275,
             color : 0xdecfa6,
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_6.png',  
@@ -149,12 +158,13 @@ const farkeeper = createPlanetData({
 });
 
 const nightstar = createPlanetData({
-    id: 'nightstar-m-3',
+    id: 'nightstar',
     name: 'Nightstar the Hidden',
+    icon : 'Nalthis/icon-nightstar.png',
     planetRadius : 1.52,
     planetColor: 0xFF44FF,
     textureMap: 'Nalthis/p_nalthis_nightstar.png',
-    icon : 'Scadrial/icon-nightstar.png',
+    icon : 'Nalthis/icon-nightstar.png',
     atmosphericColor: new THREE.Vector3(0.7, 0.2, 0.7),
     orbitalRadius: 1200,
     orbitStart: 226,

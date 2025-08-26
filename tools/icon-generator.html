@@ -167,9 +167,12 @@
             currentPlanet.castShadow = true;
             currentPlanet.receiveShadow = true;
 
-            const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
-            atmosphere.scale.setScalar(1.05);
-            currentPlanet.add(atmosphere);
+            // ignore the atmosphere if it's a moon
+            if(planetData.stellarObjectType === STELLAR_OBJECT.PLANET) {
+                const atmosphere = new THREE.Mesh(basic_1U_sphere, createAtmosphericShader(planetData));
+                atmosphere.scale.setScalar(1.05);
+                currentPlanet.add(atmosphere);
+            }
             
             scene.add(currentPlanet);
         }
@@ -250,7 +253,9 @@
 
             currentStellarMap = systemData.stellarObjects
             .flatMap(obj=>[obj].concat(obj.children||[]))
-            .filter(isPlanet || isMoon);
+            .filter(obj => {
+                return obj.stellarObjectType === STELLAR_OBJECT.PLANET || obj.stellarObjectType === STELLAR_OBJECT.MOON;
+            });
 
             currentStellarMap.forEach(stellarObj => {
                 iconSelect.appendChild(createPlanetCheckbox(stellarObj));
@@ -268,10 +273,6 @@
         function toStellarData(checkbox) {
             return currentStellarMap.find(data=>checkbox.value==data.id);
         }
-
-        function isPlanet(obj) { return obj.stellarObjectType === STELLAR_OBJECT.PLANET; }
-        function isMoon(obj) { return obj.stellarObjectType === STELLAR_OBJECT.MOON; }
-
 
         /////////////////////////////////////////////////
         // Initialize the app
