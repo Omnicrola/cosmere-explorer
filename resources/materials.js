@@ -64,10 +64,10 @@ function createFresnelMaterial({
 }
 
 // make material for a planet surface
-function createPlanetMaterial(planetData) {
+function createPlanetMaterial(planetData, pathOverride = './resources/textures/') {
   if(planetData.textureMap){
-    const albedoMap = texLoader.load(`./resources/textures/${planetData.textureMap}`);
-    const oceanMap = planetData.oceanMap ? texLoader.load(`./resources/textures/${planetData.oceanMap}`) : null;
+    const albedoMap = texLoader.load(pathOverride + planetData.textureMap);
+    const oceanMap = planetData.oceanMap ? texLoader.load(pathOverride + planetData.oceanMap) : null;
 
 
     const planetMaterial = new THREE.MeshStandardMaterial({
