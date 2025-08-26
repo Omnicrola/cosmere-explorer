@@ -24,7 +24,7 @@ const roshar = createPlanetData({
     planetRadius : 1,
     planetColor : 0x8888ff,
     icon : 'Roshar/icon-roshar.png',
-   textureMap : 'Roshar/p_rosharan_roshar.png',
+    textureMap : 'Roshar/p_rosharan_roshar.png',
     oceanMap : 'Roshar/p_rosharan_roshar_ocean.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 175,
@@ -41,6 +41,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
     children : [
         createMoonData({
             id: 'salas',
+            icon : 'Roshar/icon-salas.png',
             name : 'Salas',
             radius : 0.05,
             color : 0xffccff,
@@ -53,6 +54,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
         }),
         createMoonData({
             id: 'nomon',
+            icon : 'Roshar/icon-nomon.png',
             name : 'Nomon',
             radius : 0.08,
             color : 0xaaaaff,
@@ -64,6 +66,7 @@ Three moons, Salas, Nomon, and Mishim, orbit the planet in unstable, highly ecce
         }),
         createMoonData({
             id: 'mishim',
+            icon : 'Roshar/icon-mishim.png',
             name : 'Mishim',
             radius : 0.06,
             color : 0xccffff,

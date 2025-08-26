@@ -98,7 +98,7 @@ function createPlanetMaterial(planetData, pathOverride = './resources/textures/'
     return planetMaterial;
 
   } else {
-    return new THREE.MeshStandardMaterial({color: planetData.planetColor});
+    return new THREE.MeshStandardMaterial({color: planetData.color});
   }
 }
 
