@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createAsteroidBeltData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createAsteroidBeltData, createRingData } from "./stellarData.js";
 
 const donne = createPlanetData({
     id: 'donne',
@@ -20,7 +20,7 @@ const donne = createPlanetData({
 const sel = createPlanetData({
     id: 'sel',
     name : "Sel",
-    orbitalRadius: 162,
+    orbitalRadius: 242,
     orbitalSpeed: 1.75,
     orbitStart: 56,    
     orbitalIncline: new THREE.Vector2(0.62, 21),
@@ -70,6 +70,60 @@ const ky = createPlanetData({
     axialTilt : 18.57,
     description : `Ky is gas giant, with four known moons. Ky is also referred to as 'Kii', which is the Aon for "justice".`,
     coppermind : "https://coppermind.net/wiki/Selish_system",
+    children: [
+        createMoonData({
+            id: 'ky-m-1',
+            name : 'Ky - 1',
+            radius : 0.516,
+            color : 0xffccff,
+            orbitalRadius : 12,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(1.284, 27),
+            orbitalSpeed : 0.968,
+            orbitStart: -321,
+            description : `This is one of Ky's 4 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ky-m-2',
+            name : 'Ky - 2',
+            radius : 0.789,
+            color : 0xffccff,
+            orbitalRadius : 25,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(-1.345, 53),
+            orbitalSpeed : 0.968,
+            orbitStart: 275,
+            description : `This is one of Ky's 4 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ky-m-3',
+            name : 'Ky - 3',
+            radius : 0.8788,
+            color : 0xffccff,
+            orbitalRadius : 34,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(1.5872, 148),
+            orbitalSpeed : 0.968,
+            orbitStart: 12,
+            description : `This is one of Ky's 4 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ky-m-4',
+            name : 'Ky - 4',
+            radius : 0.7374,
+            color : 0xffccff,
+            orbitalRadius : 48,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(1.8542, 94),
+            orbitalSpeed : 0.968,
+            orbitStart: 234,
+            description : `This is one of Ky's 4 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),             
+    ]
 });
 
 const ralen = createPlanetData({
@@ -86,13 +140,88 @@ const ralen = createPlanetData({
     axialTilt : 9.72,
     description : `Ralen is the largest planet in the Selish system, and posseses a ring system and 5 known moons. It is also referred to as "Raa". `,
     coppermind : "https://coppermind.net/wiki/Selish_system",
+    rings: createRingData({ 
+        visible: true, 
+        radius: 1.87, 
+        spread: 0.44, 
+        inclination: 9.6, 
+        albedoMap: 'planetary-rings-02.png',
+        alphaMap: 'planetary-rings-02-alpha.png'
+    }), 
+    children: [
+        createMoonData({
+            id: 'ralen-m-1',
+            name : 'Ralen - 1',
+            radius : 0.5644,
+            color : 0xffccff,
+            orbitalRadius : 47,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(1.3653, 27),
+            orbitalSpeed : 0.968,
+            orbitStart: -321,
+            description : `This is one of Ralen's 5 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ralen-m-2',
+            name : 'Ralen - 2',
+            radius : 0.672,
+            color : 0xffccff,
+            orbitalRadius : 59,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(-1.1234, 53),
+            orbitalSpeed : 0.968,
+            orbitStart: 275,
+            description : `This is one of Ralen's 5 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ralen-m-3',
+            name : 'Ralen - 3',
+            radius : 0.4942,
+            color : 0xffccff,
+            orbitalRadius : 76,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(2.345, 148),
+            orbitalSpeed : 0.968,
+            orbitStart: 12,
+            description : `This is one of Ralen's 5 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),        
+        createMoonData({
+            id: 'ralen-m-4',
+            name : 'Ralen - 4',
+            radius : 0.7712,
+            color : 0xffccff,
+            orbitalRadius : 87,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(3.5423, 94),
+            orbitalSpeed : 0.968,
+            orbitStart: 234,
+            description : `This is one of Ralen's 5 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),             
+        createMoonData({
+            id: 'ralen-m-5',
+            name : 'Ralen - 5',
+            radius : 0.324587,
+            color : 0xffccff,
+            orbitalRadius : 98,
+            orbitalEccentricity : 0.2671,
+            orbitalInclination : new THREE.Vector2(3.234, 94),
+            orbitalSpeed : 0.968,
+            orbitStart: 234,
+            description : `This is one of Ralen's 5 known moons.`,
+            coppermind : 'https://coppermind.net/wiki/Selish_system'
+        }),             
+    ]
 });
 
 const dwarf1 = createPlanetData({
     id: 'dwarf-1',
     name : 'Dwarf 1',
     planetRadius : .56,
-    orbitalRadius: 1562,
+    orbitalRadius: 2235,
     orbitalIncline: new THREE.Vector2(12.57, 175),
     orbitalSpeed: 2,
     orbitStart: 17,    
@@ -107,7 +236,7 @@ const dwarf1 = createPlanetData({
 
 const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "comet belt" for now
         density: 2000,
-        orbitalRadius: 2000,
+        orbitalRadius: 1548,
         orbitalSpread: 200,
         orbitalSpeed: 0.1,
 });

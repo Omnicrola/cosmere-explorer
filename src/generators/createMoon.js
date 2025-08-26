@@ -32,7 +32,8 @@ function createMoon(moonData) {
 
     moonGroup.add(orbitalRing);
     moonGroup.add(moon);
-    moonGroup.rotation.x = THREE.MathUtils.degToRad(moonData.orbitalInclination);
+    moonGroup.rotation.x = THREE.MathUtils.degToRad(moonData.orbitalInclination.x);
+    moonGroup.rotation.y = THREE.MathUtils.degToRad(moonData.orbitalInclination.y);
 
     return moonGroup;
 }

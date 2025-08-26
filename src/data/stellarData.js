@@ -25,7 +25,7 @@ function createMoonData({
     orbitalRadius = 1,
     orbitStart = 0,
     orbitalEccentricity = 0,
-    orbitalInclination = 0,
+    orbitalInclination = new THREE.Vector2(0,0),
     axialTilt = 0,
     radius = 1.0,
     orbitalSpeed = 1.0,
