@@ -8,7 +8,7 @@ const first = createPlanetData({
     name : "First of the Sun",
     planetRadius : 1.156,
     planetColor : 0x8888ff,
-    // icon : 'Drominad/icon-drominad.png',
+    icon : 'Drominad/icon-first.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     orbitalRadius : 155,
     orbitStart: 298,
@@ -24,6 +24,7 @@ const first = createPlanetData({
         createMoonData({
             id: 'first-of-first',
             name : 'First of the First',
+            icon : 'Drominad/icon-first-of-first.png',
             radius : 0.156,
             color : 0xffccff,
             orbitalRadius : 3.57,
@@ -39,6 +40,7 @@ const first = createPlanetData({
 const second = createPlanetData({
     id: 'second',
     name : "Second of the Sun",
+    icon : 'Drominad/icon-second.png',
     planetRadius : 0.97,
     planetColor : 0x8888ff,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -57,6 +59,7 @@ const second = createPlanetData({
 const third = createPlanetData({
     id: 'third',
     name : "Third of the Sun",
+    icon : 'Drominad/icon-third.png',
     planetRadius : 0.81,
     planetColor : 0x8888ff,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -75,6 +78,7 @@ const third = createPlanetData({
 const fourth = createPlanetData({
     id: 'fourth',
     name : "Fourth of the Sun",
+    icon : 'Drominad/icon-fourth.png',
     planetRadius : 1.05,
     planetColor : 0x8888ff,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -102,6 +106,7 @@ const fourth = createPlanetData({
 const fifth = createPlanetData({
     id: 'fifth',
     name : "Fifth of the Sun",
+    icon : 'Drominad/icon-fifth.png',
     planetRadius : 5.27,
     planetColor : 0x8bffd8,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -128,6 +133,7 @@ const fifth = createPlanetData({
 const sixth = createPlanetData({
     id: 'sixth',
     name : "Sixth of the Sun",
+    icon : 'Drominad/icon-sixth.png',
     planetRadius : 8.48,
     planetColor : 0x52fd9f,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -154,6 +160,7 @@ const sixth = createPlanetData({
 const seventh = createPlanetData({
     id: 'seventh',
     name : "Seventh of the Sun",
+    icon : 'Drominad/icon-seventh.png',
     planetRadius : 6.62,
     planetColor : 0x33aef5,
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),

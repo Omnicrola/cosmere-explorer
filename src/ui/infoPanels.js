@@ -46,7 +46,7 @@ function buildPanel(info, statsContent) {
             </button>
             <button id="close-info-panel" class="close" title="Close info panel">X</button>
         </h1>
-        <div class="description"><img class="planet-icon" src="resources/icons/${info.icon}"/>${description}</div>
+        <div class="description"><img class="planet-icon" src="resources/Textures/${info.icon}"/>${description}</div>
         ${statsContent}
         `;
         
