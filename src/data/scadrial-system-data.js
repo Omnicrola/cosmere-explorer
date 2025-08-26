@@ -40,6 +40,7 @@ const aagalNod = createPlanetData({
     children : [
         createMoonData({
             id: 'nod-m-1',
+            icon : 'Scadrial/icon-nod-m-1.png',
             name : 'Nod-1',
             radius : 0.05435987,
             color : 0xdecfa6,
@@ -54,6 +55,7 @@ const aagalNod = createPlanetData({
         }),
         createMoonData({
             id: 'nod-m-2',
+            icon : 'Scadrial/icon-nod-m-2.png',
             name : 'Nod-2',
             radius : 0.062773,
             color : 0xb58362,
@@ -68,6 +70,7 @@ const aagalNod = createPlanetData({
         }),
         createMoonData({
             id: 'nod-m-3',
+            icon : 'Scadrial/icon-nod-m-3.png',
             name : 'Nod-3',
             radius : 0.0737752,
             color : 0xdecfa6,
@@ -82,6 +85,7 @@ const aagalNod = createPlanetData({
         }),
         createMoonData({
             id: 'nod-m-4',
+            icon : 'Scadrial/icon-nod-m-4.png',
             name : 'Nod-4',
             radius : 0.055712,
             color : 0xdecfa6,
@@ -96,6 +100,7 @@ const aagalNod = createPlanetData({
         }),
         createMoonData({
             id: 'nod-m-5',
+            icon : 'Scadrial/icon-nod-m-5.png',
             name : 'Nod-5',
             radius : 0.04771,
             color : 0x7a7d5b,
@@ -110,6 +115,7 @@ const aagalNod = createPlanetData({
         }),
         createMoonData({
             id: 'nod-m-6',
+            icon : 'Scadrial/icon-nod-m-6.png',
             name : 'Nod-6',
             radius : 0.058275,
             color : 0xdecfa6,
@@ -127,6 +133,7 @@ const aagalNod = createPlanetData({
 
 const aagalUch = createPlanetData({
     id: 'aagal-uch',
+    icon : 'Scadrial/icon-aagal-uch.png',
     name: 'Aagal Uch',
     planetRadius : 8.6,
     planetColor: 0xFF5555,
@@ -150,6 +157,7 @@ const aagalUch = createPlanetData({
     children: [
         createMoonData({
             id: 'uch-m-1',
+            icon : 'Scadrial/icon-uch-m-1.png',
             name : 'Uch-1',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -164,6 +172,7 @@ const aagalUch = createPlanetData({
         }),
         createMoonData({
             id: 'uch-m-2',
+            icon : 'Scadrial/icon-uch-m-2.png',
             name : 'Uch-2',
             radius : 0.09147,
             color : 0xdecfa6,
@@ -178,6 +187,7 @@ const aagalUch = createPlanetData({
         }),
         createMoonData({
             id: 'uch-m-3',
+            icon : 'Scadrial/icon-uch-m-3.png',
             name : 'Uch-3',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -192,6 +202,7 @@ const aagalUch = createPlanetData({
         }),
         createMoonData({
             id: 'uch-m-4',
+            icon : 'Scadrial/icon-uch-m-4.png',
             name : 'Uch-4',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -206,6 +217,7 @@ const aagalUch = createPlanetData({
         }),
         createMoonData({
             id: 'uch-m-5',
+            icon : 'Scadrial/icon-uch-m-5.png',
             name : 'Uch-5',
             radius : 0.07147,
             color : 0xdecfa6,
@@ -224,6 +236,7 @@ const aagalUch = createPlanetData({
 
 const dwarf1 = createPlanetData({
     id: 'dwarf-1',
+    icon : 'Scadrial/icon-dwarf-1.png',
     name: 'Dwarf 1', 
     planetRadius: 0.1987,
     planetColor: 0x937fa7,
@@ -241,6 +254,7 @@ const dwarf1 = createPlanetData({
 
 const dwarf2 = createPlanetData({
     id: 'dwarf-2',
+    icon : 'Scadrial/icon-dwarf-2.png',
     name: 'Dwarf 2', 
     planetRadius: 0.1877,
     planetColor: 0x937fa7,
