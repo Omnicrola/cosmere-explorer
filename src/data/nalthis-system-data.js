@@ -74,7 +74,7 @@ const farkeeper = createPlanetData({
             orbitalRadius : 13.14,
             orbitStart: 26,
             orbitalEccentricity : 0.1,
-            orbitalInclination: 0.27,
+            orbitalInclination: new THREE.Vector2(0.27, 17),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
@@ -89,7 +89,7 @@ const farkeeper = createPlanetData({
             orbitalRadius : 25.27,
             orbitStart: 72,
             orbitalEccentricity : 0.1,
-            orbitalInclination: 6.27,
+            orbitalInclination: new THREE.Vector2(6.27, 42),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
@@ -104,7 +104,7 @@ const farkeeper = createPlanetData({
             orbitalRadius : 31.27,
             orbitStart: 36,
             orbitalEccentricity : 0.1,
-            orbitalInclination: 2.98,
+            orbitalInclination: new THREE.Vector2(2.98, -175),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
@@ -119,7 +119,7 @@ const farkeeper = createPlanetData({
             textureMap: 'Nalthis/p_nalthis_farkeeper_moon_4.png',  
             orbitalRadius : 41.271,
             orbitalEccentricity : 0.1,
-            orbitalInclination: 1.27,
+            orbitalInclination: new THREE.Vector2(1.27, 22),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
@@ -134,7 +134,7 @@ const farkeeper = createPlanetData({
             orbitalRadius : 49.52,
             orbitStart: 247,
             orbitalEccentricity : 0.1,
-            orbitalInclination: -5.27,
+            orbitalInclination: new THREE.Vector2(-5.27, -84),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
@@ -149,7 +149,7 @@ const farkeeper = createPlanetData({
             orbitalRadius : 54.516,
             orbitStart: 250,
             orbitalEccentricity : 0.1,
-            orbitalInclination: -3.2,
+            orbitalInclination: new THREE.Vector2(-3.2, 17),
             orbitalSpeed : 0.9,
             description : `This is one of Farkeeper the Bright's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Nalthian_system#Planets'
