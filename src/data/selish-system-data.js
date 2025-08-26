@@ -4,12 +4,14 @@ import { createMoonData, createPlanetData, createStellarData, createAsteroidBelt
 const donne = createPlanetData({
     id: 'donne',
     name : "Donne",
+    icon: 'Sel/icon-donne.png',
     orbitalRadius: 150,
     orbitalSpeed: 2,
     orbitStart: 17,
     orbitalIncline: new THREE.Vector2(-2.72, 140),
     planetRadius : 0.96,
     color : 0xaf8b55,
+    textureMap: 'Sel/p_sel_donne.png',
     icon : 'Sel/icon-donne.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     axialTilt : -7.27,
@@ -36,6 +38,7 @@ const sel = createPlanetData({
     children: [
         createMoonData({
             id: 'oem',
+             icon: 'Sel/icon-oem.png',
             name : 'Oem',
             radius : 0.216,
             color : 0xffccff,
@@ -65,6 +68,7 @@ const ky = createPlanetData({
     orbitStart: 17,    
     orbitalIncline: new THREE.Vector2(-1.7737, 16),
     color : 0x735fa3,
+    textureMap: 'Sel/p_sel_ky.png',
     icon : 'Sel/icon-ky.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     axialTilt : 18.57,
@@ -73,6 +77,7 @@ const ky = createPlanetData({
     children: [
         createMoonData({
             id: 'ky-m-1',
+            icon: 'Sel/icon-ky-m-1.png',
             name : 'Ky - 1',
             radius : 0.516,
             color : 0xffccff,
@@ -86,6 +91,7 @@ const ky = createPlanetData({
         }),        
         createMoonData({
             id: 'ky-m-2',
+            icon: 'Sel/icon-ky-m-2.png',
             name : 'Ky - 2',
             radius : 0.789,
             color : 0xffccff,
@@ -99,6 +105,7 @@ const ky = createPlanetData({
         }),        
         createMoonData({
             id: 'ky-m-3',
+            icon: 'Sel/icon-ky-m-3.png',
             name : 'Ky - 3',
             radius : 0.8788,
             color : 0xffccff,
@@ -112,6 +119,7 @@ const ky = createPlanetData({
         }),        
         createMoonData({
             id: 'ky-m-4',
+            icon: 'Sel/icon-ky-m-4.png',
             name : 'Ky - 4',
             radius : 0.7374,
             color : 0xffccff,
@@ -136,6 +144,7 @@ const ralen = createPlanetData({
     orbitStart: -28,    
     color : 0xa043b3,
     icon : 'Sel/icon-ralen.png',
+    textureMap: 'Sel/p_sel_ralen.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
     axialTilt : 9.72,
     description : `Ralen is the largest planet in the Selish system, and posseses a ring system and 5 known moons. It is also referred to as "Raa". `,
@@ -151,6 +160,7 @@ const ralen = createPlanetData({
     children: [
         createMoonData({
             id: 'ralen-m-1',
+            icon: 'Sel/icon-ralen-m-1.png',
             name : 'Ralen - 1',
             radius : 0.5644,
             color : 0xffccff,
@@ -164,6 +174,7 @@ const ralen = createPlanetData({
         }),        
         createMoonData({
             id: 'ralen-m-2',
+            icon: 'Sel/icon-ralen-m-2.png',
             name : 'Ralen - 2',
             radius : 0.672,
             color : 0xffccff,
@@ -177,6 +188,7 @@ const ralen = createPlanetData({
         }),        
         createMoonData({
             id: 'ralen-m-3',
+            icon: 'Sel/icon-ralen-m-3.png',
             name : 'Ralen - 3',
             radius : 0.4942,
             color : 0xffccff,
@@ -190,6 +202,7 @@ const ralen = createPlanetData({
         }),        
         createMoonData({
             id: 'ralen-m-4',
+            icon: 'Sel/icon-ralen-m-4.png',
             name : 'Ralen - 4',
             radius : 0.7712,
             color : 0xffccff,
@@ -203,6 +216,7 @@ const ralen = createPlanetData({
         }),             
         createMoonData({
             id: 'ralen-m-5',
+            icon: 'Sel/icon-ralen-m-5.png',
             name : 'Ralen - 5',
             radius : 0.324587,
             color : 0xffccff,
@@ -219,6 +233,7 @@ const ralen = createPlanetData({
 
 const dwarf1 = createPlanetData({
     id: 'dwarf-1',
+    icon: 'Sel/icon-dwarf-1.png',
     name : 'Dwarf 1',
     planetRadius : .56,
     orbitalRadius: 2235,

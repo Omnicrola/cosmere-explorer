@@ -12,7 +12,8 @@ const allStellarSystems = [
     rosharStellarSystem, 
     scadrialSystemData, 
     selishSystemData,
-    utolSystemData
+    utolSystemData,
+    // defaultStellarSystem
 ];
 
 export { allStellarSystems };
