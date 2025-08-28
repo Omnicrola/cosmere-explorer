@@ -48,7 +48,6 @@ function updateAutoNavigation() {
         let planetSelect = document.getElementById('planet-select');
         planetSelect.value = selection;
         planetSelect.dispatchEvent(new Event('change'));
-        console.log('hi')
     }
 }
 
@@ -104,21 +103,21 @@ function init() {
     let systemSelector = document.getElementById('system-selector');
     systemSelector.innerHTML = "";
     let newOption = null;
-    const selectedKey = userSettings.currentSystem;
+    const selectedId = userSettings.currentSystem;
     allStellarSystems.forEach((system, index) => {
         newOption = document.createElement('option');
-        newOption.value = system.key;
-        newOption.selected = system.key == selectedKey;
+        newOption.value = system.id;
+        newOption.selected = system.id == selectedId;
         newOption.textContent = system.name;
         systemSelector.appendChild(newOption);
     });
 
     // handle switching stellar systems
     systemSelector.addEventListener('change', (e) => {
-        const systemKey = e.target.value;
-        let selectedSystem = allStellarSystems.find(s=>s.key==systemKey);
+        const systemId = e.target.value;
+        let selectedSystem = allStellarSystems.find(s=>s.id==systemId);
         if(selectedSystem) {
-            userSettings.currentSystem = selectedSystem.key;
+            userSettings.currentSystem = selectedSystem.id;
             userSettings.currentSelection = null;
             resetScene(selectedSystem);
         }

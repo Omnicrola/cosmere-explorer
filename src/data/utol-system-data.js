@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createBinarySet } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createBinarySet, createStarData } from "./stellarData.js";
 
 const utol = createPlanetData({
     id: 'utol',
@@ -39,21 +39,32 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
         orbitalRadius: 2000,
         orbitalSpread: 200,
         orbitalSpeed: 0.1,
-    });
+});
+
+
+const star = createStarData({
+    id: 'utol-star',
+    name: 'UTol Star',
+    colorIndex: 0.725,
+    mass: 0,
+    axialTilt: 0,
+    icon: 'UTol/utol-star.png',
+    radius: 5.41,
+    absoluteMagnitude: -3.9271,
+    planets: 2,
+    description: `The central star of the UTol system is larger than average among the inhabited Cosmere systems, and has a distinct red-orange hue. `
+});
 
 const utolSystemData = createStellarData({
-    id: 'utol-star',
-    key: 'utol',
+    id: 'utol-system',
     name: 'UTol System',
-    luminosity: 5.15,
-    starRadius: 5.141,
-    starColor: 0xff8464,
     skyboxTexture: 'UTol/sky_utol',
     icon: 'icon-stellar-system.svg',
     description: `The UTol system contains a unique binary planet pair formed from the system's namesake UTol and the planet Komashi. This pair of planets orbit their mutual gravitational center, causing them to appear to dance around one another as they travel along their orbit around their parent star.
             The UTol sun is a larger red-orange star, with it's two main inhabited planets orbiting on the inner edges of the habitable zone.`,
     coppermind: 'https://coppermind.net/wiki/UTol_system',
     stellarObjects: [
+        star,
         binaryPlanetSet,
         cometBelt
     ],

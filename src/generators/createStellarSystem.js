@@ -20,9 +20,6 @@ function createStellarSystem(stellarData) {
         });
     };
 
-    // star
-    stellarSystem.add(createStar(stellarData));
-
     // main light
     const starLight = new THREE.PointLight(0xffffff, stellarData.luminosity, 0, 0.2);
     starLight.position.set(0,0,0);
@@ -31,6 +28,9 @@ function createStellarSystem(stellarData) {
     // other stellar objects
     stellarData.stellarObjects.forEach((objData) => {
         switch(objData.stellarObjectType) {
+            case STELLAR_OBJECT.STAR : 
+                stellarSystem.add(createStar(objData));
+                break;
             case STELLAR_OBJECT.PLANET : 
                 stellarSystem.add(createPlanet(objData));
                 break;

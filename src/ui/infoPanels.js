@@ -3,6 +3,14 @@ import { stopFollowingStellarObject } from "./interactions.js";
 import { ui } from "./userInterface.js";
 import { userSettings } from "../data/userSettings.js";
 
+
+const STATS = {
+    planetCount : (objs=[]) => {
+        console.log(objs);
+        objs.filter(o=>o.stellarObjectType===STELLAR_OBJECT.PLANET).length;
+    }
+}
+
 function showInfoPanel(sceneObject) {
     const info = sceneObject.userData.info;
 
@@ -69,10 +77,12 @@ function buildPanel(info, statsContent) {
 function makeStarStats(info) {
     return `
     <ul class="stats">
-        <li><b>Luminosity: <b> ${info.luminosity??0.0}</li>
-        <li><b>Planets: <b> ${info.planets.length}</li>
-        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0}</li>
-        <li><b>Size:</b> ${info.starRadius??'??'} stellar masses</li>
+        <li><b><a href="https://en.wikipedia.org/wiki/Absolute_magnitude">Absolute Magnitude:</a> <b> ${info.absoluteMagnitude??0.0} </li>
+        <li><b>Mass:<b> ${info.mass??0.0} kg</li>
+        <li><b><a href="https://en.wikipedia.org/wiki/Color_index">Color Index (B-V)</a>:<b> ${info.colorIndex??0.0} </li>
+        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0} (ecliptic)</li>
+        <li><b>Equatorial Radius:</b> ${info.starRadius*100000??'??'} km</li>
+        <li><b>Planets: <b> ${info.planets}</li>
         <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
     </ul>
     `; 
@@ -83,7 +93,7 @@ function makePlanetStats(info) {
     <ul class="stats">
         <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
         <li><b>Orbital Eccentricity:</b> ${info.orbitalEccentricity??0.0}</li>
-        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0}</li>
+        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0} (ecliptic)</li>
         <li><b>Radius:</b> ${info.radius??'??'} standard</li>
         <li><b>Surface Gravity:</b> ${info.gravity??'??'} standard</li>
         <li><b>Known Perpendicularities:</b> ${info.perpendicularities??0}</li>

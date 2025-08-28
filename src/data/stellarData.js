@@ -17,6 +17,33 @@ function assertValidId(id) {
 }
 
 // data creation
+function createStarData({
+    id,
+    name,               // usually the same as the system name
+    colorIndex,         // B-V stellar color index
+    mass,               // in octilligrams (10^27) - terran sun is 141.2og
+    axialTilt,          // in relation to the system ecliptic plane
+    icon,
+    radius,             // in 100km 
+    absoluteMagnitude,  // using terran absolute magnitude distance of 10 parsecs
+    planets,            // just a number
+    description
+}) {
+    return {
+        id,
+        stellarObjectType: STELLAR_OBJECT.STAR,
+        name,
+        colorIndex,
+        mass,
+        axialTilt,
+        icon,
+        radius,
+        absoluteMagnitude,
+        planets,
+        description
+    };
+}
+
 function createMoonData({
     id,
     name = 'moon',
@@ -198,10 +225,6 @@ function createBinarySet({
 
 function createStellarData({
     id,
-    key = 'key',
-    starRadius = 2,
-    luminosity = 1,
-    starColor = 0xffff99,
     skyboxTexture = null,
     name = "the star",
     icon = "icon-stellar-system.svg",
@@ -212,11 +235,6 @@ function createStellarData({
     assertValidId(id);
     return {
         id,
-        stellarObjectType: STELLAR_OBJECT.STAR,
-        key,
-        starRadius,
-        luminosity,
-        starColor,
         skyboxTexture,
         name,
         icon,
@@ -227,6 +245,7 @@ function createStellarData({
 }
 
 export {
+    createStarData,
     createMoonData,
     createAsteroidBeltData,
     createPlanetData,
