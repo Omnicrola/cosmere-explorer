@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData, createStarData } from "./stellarData.js";
 
 const nalthis = createPlanetData({
     id: 'nalthis',
@@ -182,18 +182,30 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
         orbitalSpeed: 1,
     });
 
+const star = createStarData({
+    id: 'nalthis-star',
+    name: 'Nalthis Star',
+    colorIndex: 0.636,
+    mass: 1.021,
+    axialTilt: 4.259,
+    icon: 'Nalthis/icon-star.png',
+    radius: 6.7561,
+    absoluteMagnitude: 4.21,
+    planets: 3,
+    description: `The Nalthian sun is a main sequence star of average size and luminosity, similar to those of Scadrial and Sel.`
+});
+
+
+
 const nalthisSystemData = createStellarData({
     id: 'nalthis-star',
-    key: 'nalthis',
     name: 'Nalthian System',
-    luminosity: 3.45,
-    starRadius: 4.471,
-    starColor: 0xFFEFEE,
     skyboxTexture: 'Nalthis/sky_nalthis',
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Nalthian_system',
     stellarObjects: [
+        star,
         cometBelt,
         cognitiveAnomoly,
         nalthis, 

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createAsteroidBeltData, createRingData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createAsteroidBeltData, createRingData, createStarData } from "./stellarData.js";
 
 const donne = createPlanetData({
     id: 'donne',
@@ -256,18 +256,29 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
         orbitalSpeed: 0.1,
 });
 
+const star = createStarData({
+    id: 'sel-star',
+    name: 'Mashe',
+    colorIndex: 0.578,
+    mass: 1.275,
+    axialTilt: 0.174,
+    icon: 'Sel/icon-mashe.png',
+    radius: 6.025,
+    absoluteMagnitude: 4.62,
+    planets: 5,
+    description: `The Selish system contains a single main-sequnce star of average size and brightness. It is referred to as 'Mashe' by the inhabitants of Sel.`
+});
+
+
 const selishSystemData = createStellarData({
     id: 'sel-star',
-    key: 'selish',
     name: 'Selish System',
-    luminosity: 4.16,
-    starRadius: 3.96,
-    starColor: 0xffaaaa,
     skyboxTexture: 'Sel/sky_sel',
     icon: 'icon-stellar-system.svg',
     description: ``,
     coppermind: 'https://coppermind.net/wiki/Selish_system',
     stellarObjects: [
+        star,
         donne,
         sel,
         asteroidBelt,

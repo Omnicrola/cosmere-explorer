@@ -42,7 +42,6 @@ function createStarCorona(starRadius = 3, color = 0xff0000) {
 
 function createStar(starData) {
     const rgbColor = bvColorIndexToRGB(starData.colorIndex);
-    console.log(rgbColor);
     let sunMat = new THREE.MeshStandardMaterial({
         emissive: rgbColor ,
     });
@@ -82,7 +81,6 @@ function bvColorIndexToRGB(bvIndex) {
   let r, g, b;
 
   // Temperature ranges based on the B-V index, translated to RGB values
-  // A similar algorithm can be found in the Stack Overflow post
   if (bv < -0.4) {
     // Hot, blue stars (e.g., O and B spectral types)
     r = 0.61 + 0.11 * bv + 0.1 * bv * bv;

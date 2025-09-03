@@ -35,13 +35,13 @@ function createStellarSystem(stellarData) {
                 stellarSystem.add(createPlanet(objData));
                 break;
             case STELLAR_OBJECT.ASTEROID_BELT :
-                scene.add(createAsteroids(objData));
+                stellarSystem.add(createAsteroids(objData));
                 break;
             case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
-                scene.add(createCognitiveAnomoly(objData));
+                stellarSystem.add(createCognitiveAnomoly(objData));
                 break;
             case STELLAR_OBJECT.BINARY_SET :
-                scene.add(createBinaryPlanets(objData));
+                stellarSystem.add(createBinaryPlanets(objData));
                 break;
             default : 
                 console.log('Error: unknown stellar object type : ');

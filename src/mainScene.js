@@ -9,7 +9,7 @@ import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
 import { allStellarSystems } from "./data/all-systems.js";
-import { userSettings } from "./data/userSettings.js";
+import { isValidId, userSettings } from "./data/userSettings.js";
 import { createMixPass, enableTransmissonMeshes, disableTransmissionMeshes } from "./rendering/RenderTools.js";
 
 const w = window.innerWidth;
@@ -79,7 +79,7 @@ async function init() {
     orbitControls.dampingFactor = 0.03;
     // 
 
-    const currentSystem = allStellarSystems.find(s => s.key==userSettings.currentSystem) ?? allStellarSystems[0];
+    const currentSystem = allStellarSystems.find(s => s.id==userSettings.currentSystem) ?? allStellarSystems[0];
     resetScene(currentSystem);
     ui.init();
 
@@ -196,7 +196,7 @@ function warpIntoScene(newSystemGraph) {
 
     // if there is a selection ID in local storage, go to that planet, 
     // otherwise zoom in on center
-    if(userSettings.currentSelection) {
+    if(isValidId(userSettings.currentSelection)) {
         let currentSelection = userSettings.currentSelection
         window.setTimeout(()=>{
             focusOnStellarObject({selectedId: currentSelection});

@@ -44,4 +44,9 @@ function getUrlParam(key) {
     return urlParams.get(key);
 }
 
-export { userSettings };
+function isValidId(val) {
+    const isEmpty = val === "" || val === 'null' || val === null || val === undefined;
+    return !isEmpty;
+}
+
+export { userSettings, isValidId };

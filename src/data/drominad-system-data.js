@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData, createStarData } from "./stellarData.js";
 
 
 
@@ -183,18 +183,29 @@ const asteroidBelt = createAsteroidBeltData({
         orbitalSpeed: 1,
     });
 
+const star = createStarData({
+    id: 'drominad-star',
+    name: 'Drominad Star',
+    colorIndex: 0.616,
+    mass: 1.121,
+    axialTilt: 1.27,
+    icon: 'Drominad/icon-star.png',
+    radius: 7.271,
+    absoluteMagnitude: 4.115,
+    planets: 7,
+    description: `The central star of the Drominad system is a main sequence star of average size and luminosity.`
+});
+
+
 const drominadSystemData = createStellarData({
     id: 'drominad-star',
-    key: 'drominad',
     name: 'Drominad System',
-    luminosity: 3.565,
-    starRadius: 4.526,
-    starColor: 0xFFEAEE,
     skyboxTexture: 'Drominad/sky_drominad',
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Drominad_system',
     stellarObjects: [
+        star,
         first,
         second,
         third,

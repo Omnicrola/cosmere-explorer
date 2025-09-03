@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createStarData } from "./stellarData.js";
 
 const scadrial = createPlanetData({
     id: 'scadrial',
@@ -278,19 +278,29 @@ const cometBelt = createAsteroidBeltData({ // going to pretend asteroids are a "
         orbitalSpeed: 1,
     });
 
+const star = createStarData({
+    id: 'scadrial-star',
+    name: 'Scadrian Star',
+    colorIndex: 0.656,
+    mass: 1.0,
+    axialTilt: 7.25,
+    icon: 'Scadrial/icon-star.png',
+    radius: 6.957,
+    absoluteMagnitude: 4.62,
+    planets: 5,
+    description: `The Scadrian star is a main sequence star of average mass and luminosity. 
+    Like the planet Scadrial itself, it is often used as the baseline unit for measuring other stellar objects. For this reason it has a mass of exactly 1.0 solar masses.`
+});
 
 const scadrialSystemData = createStellarData({
     id: 'scadrial-star',
-    key: 'scadrial',
     name: 'Scadrian System',
-    luminosity: 3.5,
-    starRadius: 4.7,
-    starColor: 0xFFEFEE,
     skyboxTexture: 'Scadrial/sky_scadrial',
     icon: 'icon-stellar-system.svg',
     description: '',
     coppermind: 'https://coppermind.net/wiki/Scadrian_system',
     stellarObjects: [
+        star,
         cometBelt,
         scadrial, 
         aagalNod, 

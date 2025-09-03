@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createAsteroidBeltData, createMoonData, createPlanetData,createStellarData } from "./stellarData.js";
+import { createAsteroidBeltData, createMoonData, createPlanetData,createStarData,createStellarData } from "./stellarData.js";
 
 const ashyn = createPlanetData({
     id: 'ashyn',
@@ -192,18 +192,29 @@ const ishi = createPlanetData({orbitalRadius : 5506, planetRadius : 7.5, name : 
    coppermind : 'https://coppermind.net/wiki/Rosharan_system#Gas_Giants'
 });
 
+
+const star = createStarData({
+    id: 'roshar-star',
+    name: 'Roshar Star',
+    colorIndex: 0.2984,
+    mass: 1.785,
+    axialTilt: 5.275,
+    icon: 'Roshar/icon-star.png',
+    radius: 8.582,
+    absoluteMagnitude: 3.62,
+    planets: 10,
+    description: `The Rosharan sun is a larger main sequence star that burns brighter than most inhabited systems and emits a more white toned light.`
+});
+
 const rosharStellarSystem = createStellarData({
     id: 'roshar-star',
-    key: 'roshar',
-    starRadius : 5,
-    luminosity : 5,
-    starColor: 0xEEEEFF,
-    skyboxTexture : 'Roshar/sky_roshar',
     name : "Rosharan System",
+    skyboxTexture : 'Roshar/sky_roshar',
     icon : "icon-stellar-system.svg",
-    description : "The Rosharan system's central star is a large white sun.",
+    description : "",
     coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
     stellarObjects : [
+        star,
         asteroidBelt,
         ashyn,
         roshar,
