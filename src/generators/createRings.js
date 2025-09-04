@@ -16,7 +16,7 @@ function getRingVerts(radius) {
 }
 
 // orbital path ring
-function createOrbitalRing( radius, hue = 0, lightness = 1.0, width = 2 ) {
+function createOrbitalPath( radius, hue = 0, lightness = 1.0, width = 2 ) {
 
     const color = new THREE.Color().setRGB(lightness, lightness, lightness);
     const ringMat = new LineMaterial({
@@ -44,4 +44,4 @@ function createPlanetaryRings(ringData) {
     return ringMesh;
 }
 
-export { createOrbitalRing, createPlanetaryRings };
+export { createOrbitalPath, createPlanetaryRings };

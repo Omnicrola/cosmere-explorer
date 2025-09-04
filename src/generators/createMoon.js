@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { createPlanetMaterial } from '../../resources/materials.js';
-import { createOrbitalRing } from './createRings.js';
+import { createOrbitalPath } from './createRings.js';
 
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
@@ -17,7 +17,7 @@ function createMoon(moonData) {
     moon.position.x =  moonData.orbitalRadius;
     moon.rotation.y = Math.random() * Math.PI * 2; // set to a random position along it's orbit
 
-    const orbitalRing = createOrbitalRing(moonData.orbitalRadius, 1.0, .4, 2);
+    const orbitalRing = createOrbitalPath(moonData.orbitalRadius, 1.0, .4, 2);
     orbitalRing.visible = false;
     
     let _showOrbitalRing = false;

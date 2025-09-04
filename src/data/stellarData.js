@@ -16,17 +16,31 @@ function assertValidId(id) {
     }
 }
 
+const coronaStyle = {
+    noiseIntensity : 4.0,
+    noiseSpeed : 4.0,
+    noiseScale : 3.0
+}
+
 // data creation
 function createStarData({
     id,
-    name,               // usually the same as the system name
-    colorIndex,         // B-V stellar color index
-    mass,               // in octilligrams (10^27) - terran sun is 141.2og
-    axialTilt,          // in relation to the system ecliptic plane
+    name,                   // usually the same as the system name
+    colorIndex,             // B-V stellar color index
+    mass,                   // in standard stellar masses (or in our case, Scadrian stellar masses)
+    axialTilt,              // in relation to the system ecliptic plane
+    orbitalIncline = new THREE.Vector2(0,0),
     icon,
-    radius,             // in 100km 
-    absoluteMagnitude,  // using terran absolute magnitude distance of 10 parsecs
-    planets,            // just a number
+    orbitalRadius = 0,      // usually zero, except for binary systems
+    coronaStyle = {         // just for visual styling, controls how 'tall' the turbulence goes
+        noiseIntensity : 4.0,
+        noiseSpeed : 4.0,
+        noiseScale : 3.0
+    }, 
+    radius,                 // in 100km 
+    showOrbitalPath = false,// most stars don't orbit, so don't bother creating their orbital path
+    absoluteMagnitude,      // using terran absolute magnitude distance of 10 parsecs
+    planets,                // just a number
     description
 }) {
     return {
@@ -35,9 +49,13 @@ function createStarData({
         name,
         colorIndex,
         mass,
+        orbitalRadius,
+        coronaStyle,
         axialTilt,
+        orbitalIncline,
         icon,
         radius,
+        showOrbitalPath,
         absoluteMagnitude,
         planets,
         description

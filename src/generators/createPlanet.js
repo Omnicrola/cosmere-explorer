@@ -3,18 +3,15 @@ import { fonts } from '../data/fileResources.js';
 import { TextGeometry } from 'jsm/geometries/TextGeometry.js';
 import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
 import { createMoon } from './createMoon.js';
-import { createOrbitalRing, createPlanetaryRings } from './createRings.js';
+import { createOrbitalPath, createPlanetaryRings } from './createRings.js';
+import { createOrbital } from './createOrbital.js';
 
 // reusable constants
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
 function createPlanet(planetData) {
-  const orbitOffset = new THREE.Group();
-  orbitOffset.rotation.x = THREE.MathUtils.degToRad(planetData.orbitalIncline.x);
-  orbitOffset.rotation.y = THREE.MathUtils.degToRad(planetData.orbitalIncline.y);
 
-  const orbitGroup = new THREE.Group();
-  orbitOffset.add(orbitGroup);
+  const { stellarAnchor, orbitGroupAnchor } = createOrbital(planetData);
 
   const planetMaterial = createPlanetMaterial(planetData);
   const planet = new THREE.Mesh(basic_1U_sphere, planetMaterial);
@@ -31,7 +28,7 @@ function createPlanet(planetData) {
     get showOrbitalRing() { return _showOrbitalRing; },
     set showOrbitalRing(val) { 
       _showOrbitalRing = val;
-      orbitalRingMesh.visible = val;
+      orbitalPath.visible = val;
     },
     get isSelected() { return _showMoonOrbitals; },
     set isSelected(val) {
@@ -59,10 +56,10 @@ function createPlanet(planetData) {
   }
   
   // 3d label text that follows the planet and always faces the camera
-  createPlanetText(planetData, planet, orbitGroup);
+  createPlanetText(planetData, planet, orbitGroupAnchor);
 
   const planetAnchor = new THREE.Group();
-  planetAnchor.position.x =  planetData.orbitalRadius;
+  // planetAnchor.position.x =  planetData.orbitalRadius;
   planetAnchor.add(planet);
   
   // moons!
@@ -80,21 +77,16 @@ function createPlanet(planetData) {
     planetAnchor.add(moonOffset);
   });
 
+  orbitGroupAnchor.add(planetAnchor);
 
-  orbitGroup.add(planetAnchor);
-  const orbitalRingMesh = createOrbitalRing(planetData.orbitalRadius, 0, 0.1);
-  orbitGroup.add(orbitalRingMesh);
-  orbitGroup.rotation.y = THREE.MathUtils.degToRad(planetData.orbitStart);
+  // add the orbital path as a line
+  const orbitalPath = createOrbitalPath(planetData.orbitalRadius, 0, 0.1);
+  stellarAnchor.add(orbitalPath);
 
-  orbitOffset.userData = {
-    update:(deltaTime) => {
-      orbitGroup.rotation.y += deltaTime * planetData.orbitalSpeed / 10000;
-    },
-  };
   // start with moon orbits hidden
-  orbitGroup.userData.showMoonOrbitals = false;
+  orbitGroupAnchor.userData.showMoonOrbitals = false;
 
-  return orbitOffset;
+  return stellarAnchor;
 }
 
 

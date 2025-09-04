@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { createPlanet } from './createPlanet.js';
-import { createOrbitalRing } from './createRings.js';
+import { createOrbitalPath } from './createRings.js';
 
 function createBinaryPlanets(binaryData) {
 
@@ -25,7 +25,7 @@ function createBinaryPlanets(binaryData) {
     const planet1 = createPlanet(p1Data);
     const planet2 = createPlanet(p2Data);
 
-    const orbitalRingMesh = createOrbitalRing(binaryData.orbitalDistance, 0, 0.1);
+    const orbitalRingMesh = createOrbitalPath(binaryData.orbitalDistance, 0, 0.1);
 
     anchor.add(orbitalRingMesh);
     orbitalGroup.add(planet1);
