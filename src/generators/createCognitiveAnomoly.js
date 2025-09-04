@@ -14,7 +14,7 @@ function createDistortionMesh(objData, geo, material, isSelectable, rot) {
     distortionMesh.userData = {
         isSelectable : isSelectable,
         info: objData,
-        update: coronaTurbulence(geo, radius)
+        update: coronaTurbulence(geo, radius, objData.noiseStyle)
     };
     return distortionMesh
 }

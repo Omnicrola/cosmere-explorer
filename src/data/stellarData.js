@@ -16,12 +16,6 @@ function assertValidId(id) {
     }
 }
 
-const coronaStyle = {
-    noiseIntensity : 4.0,
-    noiseSpeed : 4.0,
-    noiseScale : 3.0
-}
-
 // data creation
 function createStarData({
     id,
@@ -128,6 +122,11 @@ function createCognitiveAnomolyData({
     icon = null,
     description = '',
     coppermind = '',
+    noiseStyle = {         
+        noiseIntensity : 4.0,
+        noiseSpeed : 4.0,
+        noiseScale : 3.0
+    }, 
 }) {
     assertValidId(id);
     return {
@@ -141,6 +140,7 @@ function createCognitiveAnomolyData({
         orbitalEccentricity,
         icon,
         description,
+        noiseStyle,
         coppermind,
     };
 }

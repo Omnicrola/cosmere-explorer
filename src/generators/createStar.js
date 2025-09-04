@@ -37,10 +37,9 @@ function createStarCorona(starData, color = 0xff0000, intensity) {
         emissiveIntensity: intensity,
         side: THREE.BackSide,
     });
-    
+   
     const geo = new THREE.IcosahedronGeometry(radius, 7);
     const mesh = new THREE.Mesh(geo, material);
-
     mesh.userData.update = coronaTurbulence(geo, radius, starData.coronaStyle);
 
     return mesh;

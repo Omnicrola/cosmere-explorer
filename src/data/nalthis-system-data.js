@@ -41,6 +41,11 @@ const cognitiveAnomoly = createCognitiveAnomolyData({
     orbitStart: 51,
     orbitalSpeed: 0,
     orbitalEccentricity: 0.0156,
+    noiseStyle : {         
+        noiseIntensity : 3.0,
+        noiseSpeed : 8.0,
+        noiseScale : 2.0
+    }, 
     icon: 'Nalthis/icon-cognitive-anomoly.png',
     description: `This unexplored cognitive anomoly occupies the same orbital path as Nalthis.`,
     coppermind : "https://coppermind.net/wiki/Nalthis",
