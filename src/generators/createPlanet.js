@@ -19,22 +19,17 @@ function createPlanet(planetData) {
   // create a unique ID that we can use to focus the camera on this later
   planet.name = planetData.id; 
 
-  // allow the orbital ring to be toggled on and off
-  let _showOrbitalRing = true;
   let _showMoonOrbitals = false;
   planet.userData = {
     info : planetData,
     isSelectable : true,
-    get showOrbitalRing() { return _showOrbitalRing; },
-    set showOrbitalRing(val) { 
-      _showOrbitalRing = val;
-      orbitalPath.visible = val;
-    },
     get isSelected() { return _showMoonOrbitals; },
     set isSelected(val) {
       _showMoonOrbitals = val;
-      moonMeshes.forEach((m) => {
-        m.userData.showOrbitalRing = val;
+      planet.traverse((obj) =>{
+        if(obj.hasOrbitalRing) {
+          obj.showOrbitalRing = _showMoonOrbitals;
+        }
       });
     }
   };
@@ -58,26 +53,13 @@ function createPlanet(planetData) {
   // 3d label text that follows the planet and always faces the camera
   createPlanetText(planetData, planet, orbitGroupAnchor);
 
-  const planetAnchor = new THREE.Group();
-  // planetAnchor.position.x =  planetData.orbitalRadius;
-  planetAnchor.add(planet);
+  orbitGroupAnchor.add(planet);
   
   // moons!
-  let moonMeshes = [];
   planetData.children.forEach((moonData) => {
-    let moonOffset = new THREE.Group();
-    let moon = createMoon(moonData);
-    moonMeshes.push(moon);
-
-    moonOffset.rotation.y = THREE.MathUtils.degToRad(moonData.orbitStart);
-    moonOffset.add(moon);
-    moonOffset.userData.update = (deltaTime) => {
-      moonOffset.rotation.y += deltaTime * moonData.orbitalSpeed / 100;
-    };
-    planetAnchor.add(moonOffset);
+    orbitGroupAnchor.add(createMoon(moonData));
   });
 
-  orbitGroupAnchor.add(planetAnchor);
 
   // add the orbital path as a line
   const orbitalPath = createOrbitalPath(planetData.orbitalRadius, 0, 0.1);

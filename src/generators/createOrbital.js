@@ -11,9 +11,11 @@ function createOrbital(orbitData) {
     stellarAnchor.add(orbitGroupAnchor);
 
     const orbitalSpeed = orbitData.orbitalSpeed ?? 0;
+    console.log(orbitData.id + ' -- '+orbitalSpeed)
     stellarAnchor.userData = {
         update:(deltaTime) => {
-            orbitGroupAnchor.rotation.y += deltaTime * orbitalSpeed / 10000;
+            orbitGroupAnchor.rotation.y += deltaTime * orbitalSpeed / 1000;
+            console.log(orbitData.id + ' ry ' + orbitalSpeed+ ' = ' + orbitGroupAnchor.rotation.y);
         },
     };
 

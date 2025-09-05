@@ -52,7 +52,7 @@ const taldain = createPlanetData({
             orbitStart: 166,
             orbitalEccentricity : 1.65,
             orbitalInclination : new THREE.Vector2(90,0),
-            orbitalSpeed : 0.852,
+            orbitalSpeed : 1.852,
             description : `The only moon of Taldain occupies a perfect polar orbit over the terminator line. This orbit is constantly adjusted by the influence of Autonomy to keep the orientation over the terminator line as Taldain orbits AisDa.
             Since Taldain is tidally locked to the central star, the orbit of NizhDa is used by the inhabitants to define the length of the day.`,
             coppermind : 'https://coppermind.net/wiki/Taldain_system'

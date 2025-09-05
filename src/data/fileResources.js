@@ -27,7 +27,7 @@ function meshPromise(path) {
     });
 }
 
-const asteroidMeshes = meshFiles.map((fileName) => meshPromise('resources/rocks/'+fileName+'.obj'));
+const asteroidMeshes = meshFiles.map((fileName) => meshPromise('resources/meshes/'+fileName+'.obj'));
 
 
 export { fonts, asteroidMeshes };

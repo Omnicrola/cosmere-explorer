@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import { createPlanetMaterial } from '../../resources/materials.js';
 import { createOrbitalPath } from './createRings.js';
+import { createOrbital } from './createOrbital.js';
 
 const basic_1U_sphere = new THREE.IcosahedronGeometry(1, 6);
 
 function createMoon(moonData) {
-    const moonGroup = new THREE.Group();
+    const { stellarAnchor, orbitGroupAnchor} = createOrbital(moonData);
 
     const moonMat = createPlanetMaterial(moonData);
     
@@ -14,15 +15,14 @@ function createMoon(moonData) {
     moon.userData.info = moonData;
     
     moon.scale.setScalar(moonData.radius);
-    moon.position.x =  moonData.orbitalRadius;
-    moon.rotation.y = Math.random() * Math.PI * 2; // set to a random position along it's orbit
 
     const orbitalRing = createOrbitalPath(moonData.orbitalRadius, 1.0, .4, 2);
-    orbitalRing.visible = false;
+    // orbitalRing.visible = false;
     
     let _showOrbitalRing = false;
-    moonGroup.userData = {
+    moon.userData = {
         isSelectable: true,
+        hasOrbitalRing: true,
         get showOrbitalRing() { return _showOrbitalRing; },
         set showOrbitalRing(val) {
             _showOrbitalRing = val;
@@ -30,12 +30,10 @@ function createMoon(moonData) {
         }
     }
 
-    moonGroup.add(orbitalRing);
-    moonGroup.add(moon);
-    moonGroup.rotation.x = THREE.MathUtils.degToRad(moonData.orbitalInclination.x);
-    moonGroup.rotation.y = THREE.MathUtils.degToRad(moonData.orbitalInclination.y);
+    stellarAnchor.add(orbitalRing);
+    orbitGroupAnchor.add(moon);
 
-    return moonGroup;
+    return stellarAnchor;
 }
 
 export { createMoon };
