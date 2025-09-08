@@ -3,6 +3,7 @@ import { ImprovedNoise } from 'jsm/math/ImprovedNoise.js';
 import { createFresnelMaterial } from '../../resources/materials.js';
 import { createOrbital } from './createOrbital.js';
 import { createOrbitalPath } from './createRings.js';
+import { StellarObject } from '../stellarObjects/StellarObject.js';
 
 function coronaTurbulence(geo, radius, coronaStyle) {
     let p = new THREE.Vector3()
@@ -136,8 +137,8 @@ function emissiveFromAbsoluteMagnitude(absoluteMagnitude) {
   const minMagnitude = -10;
   const maxMagnitude = 15;
 
-  const maxIntensity = 1.5;
-  const minIntensity = 0.1;
+  const maxIntensity = 2.0;
+  const minIntensity = 0.8;
 
   const clampedMagnitude = Math.max(minMagnitude, Math.min(maxMagnitude, absoluteMagnitude));
   const normalizedBrightness = (maxMagnitude - clampedMagnitude) / (maxMagnitude - minMagnitude);

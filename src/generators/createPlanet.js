@@ -26,11 +26,14 @@ function createPlanet(planetData) {
     get isSelected() { return _showMoonOrbitals; },
     set isSelected(val) {
       _showMoonOrbitals = val;
-      planet.traverse((obj) =>{
+      planet.traverse((obj) => {
         if(obj.hasOrbitalRing) {
           obj.showOrbitalRing = _showMoonOrbitals;
         }
       });
+    },
+    update : (deltaTime) => {
+      planet.rotation.y += deltaTime * planetData.spinRate;
     }
   };
   planet.scale.setScalar(planetData.planetRadius);
@@ -66,11 +69,10 @@ function createPlanet(planetData) {
   stellarAnchor.add(orbitalPath);
 
   // start with moon orbits hidden
-  orbitGroupAnchor.userData.showMoonOrbitals = false;
+  planet.userData.showMoonOrbitals = false;
 
   return stellarAnchor;
 }
-
 
 // create 3d planet text
 function createPlanetText(planetData, parentPlanet) {

@@ -36,7 +36,7 @@ const taldain = createPlanetData({
     orbitStart: 125,
     orbitalEccentricity: 0.0014,
     orbitalIncline : new THREE.Vector2(1.57,258),
-    orbitalSpeed : 5,
+    orbitalSpeed : 1.2,
     axialTilt : 0.017,
     description : `Taldain is the sole planet in the Taldain system, and occupies an unstable orbit around one of the Lagrange points between the two stars of this binary system.
     Taldain is tidally locked in such a way that one side of the planet always faces directly towards AisDa and the other side always faces toward the smaller Eye of Ridos.`,

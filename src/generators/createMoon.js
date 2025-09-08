@@ -22,12 +22,13 @@ function createMoon(moonData) {
     let _showOrbitalRing = false;
     moon.userData = {
         isSelectable: true,
+        info: moonData,
         hasOrbitalRing: true,
         get showOrbitalRing() { return _showOrbitalRing; },
         set showOrbitalRing(val) {
             _showOrbitalRing = val;
             orbitalRing.visible = val;
-        }
+        },
     }
 
     stellarAnchor.add(orbitalRing);
