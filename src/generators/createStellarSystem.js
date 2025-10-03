@@ -1,24 +1,19 @@
 import * as THREE from 'three';
-import { createStar } from './createStar.js';
 import { createPlanet } from './createPlanet.js';
 import { scene } from '../mainScene.js';
 import { ui } from '../ui/userInterface.js';
 import { createSkybox } from './createSkybox.js';
 import { createAsteroids } from './createAsteroids.js';
 import { STELLAR_OBJECT } from '../data/stellarData.js';
-import { createCognitiveAnomoly } from './createCognitiveAnomoly.js';
 import { createBinaryPlanets } from './createBinaryPair.js';
+import { Star } from '../stellarObjects/Star.js';
+import { CognitiveAnomoly } from '../stellarObjects/CognitiveAnomoly.js';
 
 
 function createStellarSystem(stellarData) {
 
     // init
     const stellarSystem = new THREE.Group();
-    stellarSystem.userData.update = (deltaTime) => {
-        stellarSystem.children.forEach((child) => {
-            child.userData.update?.(deltaTime);
-        });
-    };
 
     // main light
     const starLight = new THREE.PointLight(0xffffff, stellarData.luminosity, 0, 0.2);
@@ -29,7 +24,7 @@ function createStellarSystem(stellarData) {
     stellarData.stellarObjects.forEach((objData) => {
         switch(objData.stellarObjectType) {
             case STELLAR_OBJECT.STAR : 
-                stellarSystem.add(createStar(objData));
+                stellarSystem.add(new Star(objData));
                 break;
             case STELLAR_OBJECT.PLANET : 
                 stellarSystem.add(createPlanet(objData));
@@ -38,7 +33,7 @@ function createStellarSystem(stellarData) {
                 stellarSystem.add(createAsteroids(objData));
                 break;
             case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
-                stellarSystem.add(createCognitiveAnomoly(objData));
+                stellarSystem.add(new CognitiveAnomoly(objData));
                 break;
             case STELLAR_OBJECT.BINARY_SET :
                 stellarSystem.add(createBinaryPlanets(objData));

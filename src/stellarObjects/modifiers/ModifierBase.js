@@ -3,7 +3,7 @@ export class ModifierBase {
         // nothing yet
     }
 
-    update(deltaTime, parentObject) {
+    update(deltaTime, sceneData) {
         // this property should be overloaded/replaced by child classes
     }
 

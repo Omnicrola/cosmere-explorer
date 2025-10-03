@@ -5,6 +5,7 @@ import * as THREE from 'three';
 ************/
 export class StellarObject extends THREE.Group {
     constructor(orbitalData) {
+        super();
         this.modifiers = [];
 
         const orbitCentroid = new THREE.Group();
@@ -31,8 +32,8 @@ export class StellarObject extends THREE.Group {
     }
 
     userData = {
-        update : (deltaTime) => {
-            this.modifiers.forEach(m => m.update(deltaTime, this));
+        update : (deltaTime, sceneData) => {
+            this.modifiers.forEach(m => m.update(deltaTime, {...sceneData, parentObj:this }));
         }
     };
 }

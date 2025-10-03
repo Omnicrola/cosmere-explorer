@@ -1,12 +1,13 @@
 import * as THREE from 'three';
-import { StellarObject } from "./StellarObject";
+import { StellarObject } from "./StellarObject.js";
+import { GeoNoise } from './modifiers/GeoNoise.js';
 
 export class Star extends StellarObject {
     constructor(starData) {
-        super(starData);
+        super(starData, true);
     
-        const rgbColor = bvColorIndexToRGB(starData.colorIndex);
-        const intensity = emissiveFromAbsoluteMagnitude(starData.absoluteMagnitude);
+        const rgbColor = Star.bvColorIndexToRGB(starData.colorIndex);
+        const intensity = Star.emissiveFromAbsoluteMagnitude(starData.absoluteMagnitude);
 
         let sunMat = new THREE.MeshStandardMaterial({
             emissive: rgbColor ,
@@ -14,9 +15,27 @@ export class Star extends StellarObject {
         });
 
         // glowy sun center
-        const geo = new THREE.IcosahedronGeometry(starData.radius, 6);
-        const star = new THREE.Mesh(geo, sunMat);
-        this.add(star);
+        const starGeo = new THREE.IcosahedronGeometry(starData.radius, 6);
+        const starMesh = new THREE.Mesh(starGeo, sunMat);
+        this.add(starMesh);
+
+        starMesh.name = starData.id;
+        starMesh.userData = {
+            isSelectable: true,
+            info: starData
+        };
+        
+        const coronaGeo = new THREE.IcosahedronGeometry(starData.radius * 0.98, 7);
+        const coronaMaterial = new THREE.MeshStandardMaterial({
+            emissive: rgbColor,
+            emissiveIntensity: intensity,
+            side: THREE.BackSide,
+        });
+        const coronaMesh = new THREE.Mesh(coronaGeo, coronaMaterial);
+        this.add(coronaMesh);
+
+        this.addModifier(new GeoNoise(coronaGeo, starData.radius, starData.coronaStyle));
+
     }
 
     /**
