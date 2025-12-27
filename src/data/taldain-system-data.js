@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createStarData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createStarData, createBinarySet } from "./stellarData.js";
 
 
 // IRL reference : Procyon B
@@ -20,8 +20,9 @@ const ridos = createStarData({
     absoluteMagnitude: 10.7,
     planets: 1,
     showOrbitalPath: true,
+    orbitalSpeed: 0.1,
     coppermind: 'https://coppermind.net/wiki/Taldain_system',
-    description: `The Eye of Ridos is the smaller binary companion of the much larger AisDa, and orbits further out than Taldain itself. 
+    description: `The Eye of Ridos is the small white dwarf binary companion of the much larger AisDa, and orbits further out than Taldain itself. 
     Every seven orbits of AisDa it emits a pulse of light and Investiture, which powers the magic system used by the Starcarved on the Darkside of Taldain .`
 });
 
@@ -60,7 +61,6 @@ const taldain = createPlanetData({
     ]
 });
 
-
 // IRL reference : Rigel
 const aisda = createStarData({
     id: 'ais-da',
@@ -78,7 +78,7 @@ const aisda = createStarData({
     absoluteMagnitude: -0.34,
     planets: 1,
     coppermind: 'https://coppermind.net/wiki/Taldain_system',
-    description: `The central star of the Taldain is a massive blue-white supergiant star, and forms a binary pair with a white dwarf star.  
+    description: `The central star of the Taldain system is a massive blue-white supergiant star, and forms a binary pair with a white dwarf star.  
     The light from AisDa also charges the microflora that inhabit the sand of Taldain Dayside with Investiture, which in turn powers Sand Mastery, the dominant magical system of Dayside.`
 });
 

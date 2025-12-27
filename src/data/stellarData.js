@@ -31,11 +31,13 @@ function createStarData({
         noiseSpeed : 4.0,
         noiseScale : 3.0
     }, 
+    orbitalSpeed = 0,       // in Scadrian years
     radius,                 // in 100km 
     showOrbitalPath = false,// most stars don't orbit, so don't bother creating their orbital path
     absoluteMagnitude,      // using terran absolute magnitude distance of 10 parsecs
     planets,                // just a number
-    description
+    description,
+    coppermind
 }) {
     return {
         id,
@@ -45,6 +47,7 @@ function createStarData({
         mass,
         orbitalRadius,
         coronaStyle,
+        orbitalSpeed,
         axialTilt,
         orbitalIncline,
         icon,
@@ -52,7 +55,8 @@ function createStarData({
         showOrbitalPath,
         absoluteMagnitude,
         planets,
-        description
+        description,
+        coppermind
     };
 }
 
@@ -155,7 +159,7 @@ function createPlanetData({
     oceanMap = null,
     orbitalRadius = 5,
     orbitStart = 0,
-    orbitalSpeed = 1,
+    orbitalSpeed = 1,               // in Scadrian years
     orbitalEccentricity = 0,
     axialTilt = 10,
     orbitalIncline = new THREE.Vector2(0,0),
