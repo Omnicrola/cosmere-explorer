@@ -74,14 +74,15 @@ function buildPanel(info, statsContent) {
         });
 }
 
+// S3M - Scadrian Standard Solar Mass
 function makeStarStats(info) {
     return `
     <ul class="stats">
         <li><b><a href="https://en.wikipedia.org/wiki/Absolute_magnitude">Absolute Magnitude:</a> <b> ${info.absoluteMagnitude??0.0} </li>
-        <li><b>Mass:<b> ${info.mass??0.0} kg</li>
+        <li><b>Mass:<b> ${info.mass??0.0} S3M</li>
         <li><b><a href="https://en.wikipedia.org/wiki/Color_index">Color Index (B-V)</a>:<b> ${info.colorIndex??0.0} </li>
         <li><b>Axial Tilt:</b> ${info.axialTilt??0.0} (ecliptic)</li>
-        <li><b>Equatorial Radius:</b> ${info.starRadius*100000??'??'} km</li>
+        <li><b>Equatorial Radius:</b> ${(info.radius*100000).toLocaleString()??'??'} km</li>
         <li><b>Planets: <b> ${info.planets}</li>
         <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
     </ul>

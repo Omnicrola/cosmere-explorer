@@ -31,11 +31,13 @@ function createStarData({
         noiseSpeed : 4.0,
         noiseScale : 3.0
     }, 
+    orbitalSpeed = 0,       // in Scadrian years
     radius,                 // in 100km 
     showOrbitalPath = false,// most stars don't orbit, so don't bother creating their orbital path
     absoluteMagnitude,      // using terran absolute magnitude distance of 10 parsecs
     planets,                // just a number
-    description
+    description,
+    coppermind
 }) {
     return {
         id,
@@ -45,6 +47,7 @@ function createStarData({
         mass,
         orbitalRadius,
         coronaStyle,
+        orbitalSpeed,
         axialTilt,
         orbitalIncline,
         icon,
@@ -52,7 +55,8 @@ function createStarData({
         showOrbitalPath,
         absoluteMagnitude,
         planets,
-        description
+        description,
+        coppermind
     };
 }
 
@@ -62,6 +66,7 @@ function createMoonData({
     color = 0xffffff,
     textureMap = null,
     orbitalRadius = 1,
+    showOrbitalPath = true,
     orbitStart = 0,
     orbitalEccentricity = 0,
     orbitalIncline = new THREE.Vector2(0,0),
@@ -82,6 +87,7 @@ function createMoonData({
         color,
         textureMap,
         orbitalRadius,
+        showOrbitalPath,
         orbitStart,
         orbitalEccentricity,
         orbitalIncline,
@@ -119,6 +125,7 @@ function createCognitiveAnomolyData({
     orbitalSpeed = 1,
     orbitStart = 0,
     orbitalEccentricity,
+    orbitalIncline = new THREE.Vector2(0,0),
     icon = null,
     description = '',
     coppermind = '',
@@ -138,6 +145,7 @@ function createCognitiveAnomolyData({
         orbitalSpeed,
         orbitStart,
         orbitalEccentricity,
+        orbitalIncline,
         icon,
         description,
         noiseStyle,
@@ -149,13 +157,14 @@ function createPlanetData({
     id,
     system = '',
     planetRadius = 1,
+    showOrbitalPath = true,
     color = 0xffffff,
     textureMap = null,
     atmosphericColor = new THREE.Vector3(0.4, 0.4, 1.0),
     oceanMap = null,
     orbitalRadius = 5,
     orbitStart = 0,
-    orbitalSpeed = 1,
+    orbitalSpeed = 1,               // in Scadrian years
     orbitalEccentricity = 0,
     axialTilt = 10,
     orbitalIncline = new THREE.Vector2(0,0),
@@ -174,6 +183,7 @@ function createPlanetData({
     return {
         id,
         stellarObjectType: STELLAR_OBJECT.PLANET,
+        showOrbitalPath,
         system,
         description,
         planetRadius,
@@ -223,7 +233,7 @@ function createRingData({
 function createBinarySet({
     children = [],
     separationDistance = 5,
-    orbitalDistance = 100,
+    orbitalRadius = 100,
     orbitStart = 0,
     orbitalEccentricity = 0.0,
     orbitalSpeed = 1,
@@ -234,7 +244,7 @@ function createBinarySet({
         children,
         separationDistance,
         orbitStart,
-        orbitalDistance,
+        orbitalRadius,
         orbitalEccentricity,
         orbitalSpeed,
         orbitalIncline
