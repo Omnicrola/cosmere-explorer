@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitalPath } from './OrbitalPath.js';
+import { MODIFIER_NAME } from '../data/stellarData.js';
+import { AutoFaceStar } from './modifiers/AutoFaceStar.js';
 
 /************
  *  
@@ -33,6 +35,17 @@ export class StellarObject extends THREE.Group {
         if(stellarData.showOrbitalPath) {
             orbitCentroid.add(new OrbitalPath(stellarData.orbitalRadius, 0, 0.1));
         }
+
+        // modifiers
+        stellarData.modifiers.forEach((modName) => {
+            switch(modName) {
+                case MODIFIER_NAME.AUTO_FACE:
+                    this.addModifier(new AutoFaceStar());
+                    break;
+                default:
+                    console.log('Error: unknown modifier name : ' + modName);
+            }
+        });
         
     }
 

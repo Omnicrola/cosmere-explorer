@@ -39,7 +39,7 @@ function createStellarSystem(stellarData) {
                 stellarSystem.add(new BinaryPair(objData));
                 break;
             default : 
-                console.log('Error: unknown stellar object type : ');
+                console.log('Error: unknown stellar object type : ' + objData.stellarObjectType);
         }
     });
 

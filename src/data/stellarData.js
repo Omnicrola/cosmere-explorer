@@ -10,6 +10,11 @@ const STELLAR_OBJECT = {
     get BINARY_SET () {return 6;},
 }
 
+const MODIFIER_NAME = {
+    get AUTO_FACE () {return 1;},
+    get SPINNER () {return 2;},
+}
+
 function assertValidId(id) {
     if(id === null || id === undefined || id < 0) {
         throw new Error('Invalid stellar ID : '+ id);
@@ -37,7 +42,8 @@ function createStarData({
     absoluteMagnitude,      // using terran absolute magnitude distance of 10 parsecs
     planets,                // just a number
     description,
-    coppermind
+    coppermind,
+    modifiers = [],
 }) {
     return {
         id,
@@ -56,7 +62,8 @@ function createStarData({
         absoluteMagnitude,
         planets,
         description,
-        coppermind
+        coppermind,
+        modifiers
     };
 }
 
@@ -78,6 +85,7 @@ function createMoonData({
     description = 'Lorem Ipsum',
     coppermind = "",
     children = [],
+    modifiers = [],
 }) {
     assertValidId(id);
     return {
@@ -99,6 +107,7 @@ function createMoonData({
         description,
         coppermind,
         children,
+        modifiers
     };
 }
 
@@ -178,6 +187,7 @@ function createPlanetData({
     coppermind = 'https://coppermind.net/wiki',
     children = [],
     rings = {},
+    modifiers = [],
 }){
     assertValidId(id);
     return {
@@ -207,6 +217,7 @@ function createPlanetData({
         coppermind,
         children,
         rings,
+        modifiers
     };
 }
 
@@ -281,5 +292,6 @@ export {
     createRingData,
     createCognitiveAnomolyData,
     createBinarySet,
-    STELLAR_OBJECT
+    STELLAR_OBJECT,
+    MODIFIER_NAME
 };

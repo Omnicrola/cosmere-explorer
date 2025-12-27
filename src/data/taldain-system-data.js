@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createStarData, createBinarySet } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createStarData, createBinarySet, MODIFIER_NAME } from "./stellarData.js";
 
 
 // IRL reference : Procyon B
@@ -7,7 +7,8 @@ const ridos = createStarData({
     id: 'eye-of-ridos',
     name: 'The Eye of ridos',
     colorIndex: 0.42,
-    orbitalRadius: 1257,
+    orbitalRadius: 825,
+    orbitStart: 125,
     mass: 0.6,
     axialTilt: 2.17,
     icon: 'Taldain/taldain-star.png',
@@ -54,6 +55,7 @@ const taldain = createPlanetData({
             orbitalEccentricity : 1.65,
             orbitalIncline : new THREE.Vector2(90,0),
             orbitalSpeed : 1.852,
+            modifiers: [MODIFIER_NAME.AUTO_FACE],
             description : `The only moon of Taldain occupies a perfect polar orbit over the terminator line. This orbit is constantly adjusted by the influence of Autonomy to keep the orientation over the terminator line as Taldain orbits AisDa.
             Since Taldain is tidally locked to the central star, the orbit of NizhDa is used by the inhabitants to define the length of the day.`,
             coppermind : 'https://coppermind.net/wiki/Taldain_system'
