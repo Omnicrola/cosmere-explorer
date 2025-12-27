@@ -4,7 +4,7 @@ import { GeoNoise } from './modifiers/GeoNoise.js';
 
 export class Star extends StellarObject {
     constructor(starData) {
-        super(starData, true);
+        super(starData);
     
         const rgbColor = Star.bvColorIndexToRGB(starData.colorIndex);
         const intensity = Star.emissiveFromAbsoluteMagnitude(starData.absoluteMagnitude);

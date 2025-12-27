@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { createPlanet } from './createPlanet.js';
 import { scene } from '../mainScene.js';
 import { ui } from '../ui/userInterface.js';
 import { createSkybox } from './createSkybox.js';
-import { createAsteroids } from './createAsteroids.js';
 import { STELLAR_OBJECT } from '../data/stellarData.js';
-import { createBinaryPlanets } from './createBinaryPair.js';
 import { Star } from '../stellarObjects/Star.js';
+import { Planet } from '../stellarObjects/Planet.js';
 import { CognitiveAnomoly } from '../stellarObjects/CognitiveAnomoly.js';
+import { BinaryPair } from '../stellarObjects/BinaryPair.js';
+import { AsteroidBelt } from '../stellarObjects/AsteroidBelt.js';
 
 
 function createStellarSystem(stellarData) {
@@ -27,22 +27,21 @@ function createStellarSystem(stellarData) {
                 stellarSystem.add(new Star(objData));
                 break;
             case STELLAR_OBJECT.PLANET : 
-                stellarSystem.add(createPlanet(objData));
+                stellarSystem.add(new Planet(objData));
                 break;
             case STELLAR_OBJECT.ASTEROID_BELT :
-                stellarSystem.add(createAsteroids(objData));
+                stellarSystem.add(new AsteroidBelt(objData));
                 break;
             case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
                 stellarSystem.add(new CognitiveAnomoly(objData));
                 break;
             case STELLAR_OBJECT.BINARY_SET :
-                stellarSystem.add(createBinaryPlanets(objData));
+                stellarSystem.add(new BinaryPair(objData));
                 break;
             default : 
                 console.log('Error: unknown stellar object type : ');
         }
     });
-    scene.add(createAsteroids(stellarData.asteroidBelt));
 
     // background
     scene.background = createSkybox(stellarData.skyboxTexture);

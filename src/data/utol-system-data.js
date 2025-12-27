@@ -28,7 +28,7 @@ const komashi = createPlanetData({
 const binaryPlanetSet = createBinarySet({
     children: [utol, komashi],
     separationDistance: 18,
-    orbitalDistance: 166,
+    orbitalRadius: 166,
     orbitalEccentricity: 0.0571,
     orbitalSpeed: 5,
     orbitalIncline: new THREE.Vector2(1.57, 95),

@@ -81,7 +81,7 @@ function focusOnStellarObject({selectedId, stellarObj}) {
         duration : 1,
         x: center.x,
         y: center.y,
-        z: center.z + (size.z *2),
+        z: center.z + Math.max((size.z *2), 2),
         ease: 'expo.out',
         onUpdate: () => { 
         },

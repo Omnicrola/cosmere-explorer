@@ -5,28 +5,33 @@ import { OrbitalPath } from './OrbitalPath.js';
  *  
 ************/
 export class StellarObject extends THREE.Group {
-    constructor(orbitalData) {
+    constructor(stellarData) {
         super();
         this.modifiers = [];
 
         const orbitCentroid = new THREE.Group();
+        orbitCentroid.rotation.x = THREE.MathUtils.degToRad(stellarData.orbitalIncline.x);
+        orbitCentroid.rotation.y = THREE.MathUtils.degToRad(stellarData.orbitalIncline.y);
+
         const objectAnchor = new THREE.Group();
 
-        const orbitalSpeedInRadians = StellarObject.orbitalSpeedToRadiansPerSecond(orbitalData.orbitalSpeed);
-        orbitCentroid.userData = {
+        const orbitalSpeedInRadians = StellarObject.orbitalSpeedToRadiansPerSecond(stellarData.orbitalSpeed);
+        orbitCentroid.rotation.y = THREE.MathUtils.degToRad(stellarData.orbitStart??0);
+        objectAnchor.userData = {
             update: (deltaTime) => {
                 orbitCentroid.rotation.y += (deltaTime * orbitalSpeedInRadians);
             }
         };
-        objectAnchor.position.x = orbitalData.orbitalRadius;
+        objectAnchor.position.x = stellarData.orbitalRadius;
+    
 
         orbitCentroid.add(objectAnchor);
         this.add(orbitCentroid);
         this.objectAnchor = objectAnchor;
 
         // optional orbit path
-        if(orbitalData.showOrbitalPath) {
-            this.add(new OrbitalPath(orbitalData.orbitalRadius, 0, 0.1));
+        if(stellarData.showOrbitalPath) {
+            orbitCentroid.add(new OrbitalPath(stellarData.orbitalRadius, 0, 0.1));
         }
         
     }
