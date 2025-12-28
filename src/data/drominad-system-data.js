@@ -193,6 +193,7 @@ const star = createStarData({
     radius: 7.271,
     absoluteMagnitude: 4.115,
     planets: 7,
+    coppermind: 'https://coppermind.net/wiki/Drominad_system',
     description: `The central star of the Drominad system is a main sequence star of average size and luminosity.`
 });
 

@@ -197,6 +197,7 @@ const star = createStarData({
     radius: 6.7561,
     absoluteMagnitude: 4.21,
     planets: 3,
+    coppermind: 'https://coppermind.net/wiki/Nalthian_system',
     description: `The Nalthian sun is a main sequence star of average size and luminosity, similar to those of Scadrial and Sel.`
 });
 

@@ -288,6 +288,7 @@ const star = createStarData({
     radius: 6.957,
     absoluteMagnitude: 4.62,
     planets: 5,
+    coppermind: 'https://coppermind.net/wiki/Scadrian_system',
     description: `The Scadrian star is a main sequence star of average mass and luminosity. 
     Like the planet Scadrial itself, it is often used as the baseline unit for measuring other stellar objects. For this reason it has a mass of exactly 1.0 solar masses.`
 });

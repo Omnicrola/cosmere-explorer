@@ -208,6 +208,7 @@ const star = createStarData({
     radius: 8.582,
     absoluteMagnitude: 3.62,
     planets: 10,
+    coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
     description: `The Rosharan sun is a larger main sequence star that burns brighter than most inhabited systems and emits a more white toned light.`
 });
 
@@ -217,7 +218,7 @@ const rosharStellarSystem = createStellarData({
     skyboxTexture : 'Roshar/sky_roshar',
     icon : "icon-stellar-system.svg",
     description : "",
-    coppermind : "https://coppermind.net/wiki/Rosharan_system#The_Sun",
+    coppermind : "https://coppermind.net/wiki/Rosharan_system",
     stellarObjects : [
         star,
         asteroidBelt,

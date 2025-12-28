@@ -52,6 +52,7 @@ const star = createStarData({
     radius: 5.41,
     absoluteMagnitude: -3.9271,
     planets: 2,
+    coppermind: 'https://coppermind.net/wiki/UTol_system',
     description: `The central star of the UTol system is larger than average among the inhabited Cosmere systems, and has a distinct red-orange hue. `
 });
 

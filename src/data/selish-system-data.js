@@ -266,6 +266,7 @@ const star = createStarData({
     radius: 6.025,
     absoluteMagnitude: 4.62,
     planets: 5,
+    coppermind: 'https://coppermind.net/wiki/Selish_system',
     description: `The Selish system contains a single main-sequnce star of average size and brightness. It is referred to as 'Mashe' by the inhabitants of Sel.`
 });
 
