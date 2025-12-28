@@ -262,7 +262,7 @@ const star = createStarData({
     colorIndex: 0.578,
     mass: 1.275,
     axialTilt: 0.174,
-    icon: 'Sel/icon-mashe.png',
+    icon: 'Sel/icon-star.png',
     radius: 6.025,
     absoluteMagnitude: 4.62,
     planets: 5,

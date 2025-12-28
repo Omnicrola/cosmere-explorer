@@ -48,7 +48,7 @@ const star = createStarData({
     colorIndex: 0.725,
     mass: 0,
     axialTilt: 0,
-    icon: 'UTol/utol-star.png',
+    icon: 'UTol/icon-star.png',
     radius: 5.41,
     absoluteMagnitude: -3.9271,
     planets: 2,

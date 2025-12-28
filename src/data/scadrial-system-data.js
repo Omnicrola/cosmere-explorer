@@ -48,10 +48,10 @@ const aagalNod = createPlanetData({
             orbitalRadius : 14,
             orbitStart: 56,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 0.27,
+            orbitalIncline: new THREE.Vector2(1,27),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
-            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
+            coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets',
         }),
         createMoonData({
             id: 'nod-m-2',
@@ -63,7 +63,7 @@ const aagalNod = createPlanetData({
             orbitalRadius : 21.27,
             orbitStart: 156,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 6.27,
+            orbitalIncline: new THREE.Vector2(6.15,97),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -78,7 +78,7 @@ const aagalNod = createPlanetData({
             orbitalRadius : 32.27,
             orbitStart: 230,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 2.98,
+            orbitalIncline: new THREE.Vector2(-1.27,276),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -93,7 +93,7 @@ const aagalNod = createPlanetData({
             orbitalRadius : 39.271,
             orbitStart: 264,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 1.27,
+            orbitalIncline: new THREE.Vector2(1.27,147),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -108,7 +108,7 @@ const aagalNod = createPlanetData({
             orbitalRadius : 48.271,
             orbitStart: -93,
             orbitalEccentricity : 0.1,
-            orbitalIncline: -5.27,
+            orbitalIncline: new THREE.Vector2(-5.27, 117),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -123,7 +123,7 @@ const aagalNod = createPlanetData({
             orbitalRadius : 55.16,
             orbitStart: -155,
             orbitalEccentricity : 0.1,
-            orbitalIncline: -3.2,
+            orbitalIncline: new THREE.Vector2(-3.2, 18),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Nod's 6 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -165,7 +165,7 @@ const aagalUch = createPlanetData({
             orbitalRadius : 36.52,
             orbitStart: 44,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 12.17,
+            orbitalIncline: new THREE.Vector2(12.17, 18),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Uch's 5 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -180,7 +180,7 @@ const aagalUch = createPlanetData({
             orbitalRadius : 42.25,
             orbitStart: 95,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 0.14,
+            orbitalIncline: new THREE.Vector2(0.14, -172),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Uch's 5 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -195,7 +195,7 @@ const aagalUch = createPlanetData({
             orbitalRadius : 54.14,
             orbitStart: 14,
             orbitalEccentricity : 0.1,
-            orbitalIncline: -4.14,
+            orbitalIncline: new THREE.Vector2(-4.14, 112.5),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Uch's 5 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -210,7 +210,7 @@ const aagalUch = createPlanetData({
             orbitalRadius : 68.21,
             orbitStart: 84,
             orbitalEccentricity : 0.1,
-            orbitalIncline: 0.24,
+            orbitalIncline: new THREE.Vector2(0.24, 143),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Uch's 5 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
@@ -225,7 +225,7 @@ const aagalUch = createPlanetData({
             orbitalRadius : 81.24,
             orbitStart: 144,
             orbitalEccentricity : 0.1,
-            orbitalIncline: -2.55,
+            orbitalIncline: new THREE.Vector2(-2.55, 115),
             orbitalSpeed : 0.9,
             description : `This is one of Aagal Uch's 5 known moons.`,
             coppermind : 'https://coppermind.net/wiki/Scadrian_system#Planets'
