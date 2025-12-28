@@ -142,7 +142,8 @@ function createCognitiveAnomolyData({
         noiseIntensity : 4.0,
         noiseSpeed : 4.0,
         noiseScale : 3.0
-    }, 
+    },
+    modifiers=[],
 }) {
     assertValidId(id);
     return {
@@ -159,6 +160,7 @@ function createCognitiveAnomolyData({
         description,
         noiseStyle,
         coppermind,
+        modifiers
     };
 }
 
