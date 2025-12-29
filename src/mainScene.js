@@ -76,7 +76,7 @@ async function init() {
 
     orbitControls = new OrbitControls( camera, renderer.domElement );
     orbitControls.enableDamping = true;
-    orbitControls.dampingFactor = 0.03;
+    orbitControls.dampingFactor = 0.05;
     // 
 
     const currentSystem = allStellarSystems.find(s => s.id==userSettings.currentSystem) ?? allStellarSystems[0];

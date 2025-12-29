@@ -62,6 +62,9 @@ function focusOnStellarObject({selectedId, stellarObj}) {
 
     if(camera.cameraFollowTarget) {
         resetCameraTravel(camera.cameraFollowTarget.position);
+    } else {
+        const lookDirection = camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(50).add(camera.position);
+        resetCameraTravel(lookDirection);
     }
     userSettings.currentSelection = selectedId;
     camera.cameraFollowTarget = stellarObj;
@@ -73,15 +76,24 @@ function focusOnStellarObject({selectedId, stellarObj}) {
     let center = aabb.getCenter( new THREE.Vector3() );
     let size = aabb.getSize( new THREE.Vector3() );
 
+    let viewingPosition = new THREE.Vector3()
+            .copy(camera.position)
+            .sub(center)
+            .setY(0)
+            .normalize()
+            .multiplyScalar(Math.max(size.z*2, 2))
+            .setY(size.y/2)
+            .add(center);
+
     ui.showInfoPanel(stellarObj);
     stellarObj.userData.isSelected = true;
 
     gsap.to(camera.position, {
         delay: 0.5,
         duration : 1,
-        x: center.x,
-        y: center.y,
-        z: center.z + Math.max((size.z *2), 2),
+        x: viewingPosition.x,
+        y: viewingPosition.y,
+        z: viewingPosition.z,
         ease: 'expo.out',
         onUpdate: () => { 
         },
