@@ -32,7 +32,11 @@ function showInfoPanel(sceneObject) {
             buildPanel(info, stats);
             break;
         }
-        default : {}
+        default : {
+            const stats = makeGenericDescriptionPanel(info);
+            buildPanel(info, stats);
+            break;
+        }
     }
 
     // unhide the info panel 
@@ -54,7 +58,7 @@ function buildPanel(info, statsContent) {
             </button>
             <button id="close-info-panel" class="close" title="Close info panel">X</button>
         </h1>
-        <div class="description"><img class="planet-icon" src="resources/Textures/${info.icon}"/>${description}</div>
+        <div class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${description}</div>
         ${statsContent}
         `;
         
@@ -113,5 +117,12 @@ function makeCognitiveAnomolyStats(info) {
     `;
 }
 
+function makeGenericDescriptionPanel(info) {
+    return `
+    <ul class="stats">
+        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+    </ul>
+    `;
+}
 
 export { showInfoPanel };

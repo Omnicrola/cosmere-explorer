@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { StellarObject } from "./StellarObject.js";
-import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
+import { createPlanetMaterial, createAtmosphericShader } from '../../resources/materials.js';
 import { PlanetaryRings } from './PlanetaryRings.js';
 import { Moon } from './Moon.js';
 
@@ -28,10 +28,6 @@ export class Planet extends StellarObject {
             planet.add(new PlanetaryRings(planetData.rings));
         }
 
-        // moons!
-        planetData.children.forEach((moonData) => {
-            this.addStellarObject(new Moon(moonData));
-        });
 
     }
 } 

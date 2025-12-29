@@ -8,6 +8,7 @@ const STELLAR_OBJECT = {
     get ASTEROID_BELT  ()  {return 4;},
     get COGNITIVE_ANOMOLY () {return 5;},
     get BINARY_SET () {return 6;},
+    get PARTICULATE_RING () {return 7;},
 }
 
 const MODIFIER_NAME = {
@@ -31,6 +32,7 @@ function createStarData({
     orbitalIncline = new THREE.Vector2(0,0),
     icon,
     orbitalRadius = 0,      // usually zero, except for binary systems
+    orbitStart = 0,
     coronaStyle = {         // just for visual styling, controls how 'tall' the turbulence goes
         noiseIntensity : 4.0,
         noiseSpeed : 4.0,
@@ -52,6 +54,7 @@ function createStarData({
         colorIndex,
         mass,
         orbitalRadius,
+        orbitStart,
         coronaStyle,
         orbitalSpeed,
         axialTilt,
@@ -264,6 +267,46 @@ function createBinarySet({
     };
 }
 
+function createParticulateRing({
+    id,
+    name = '',
+    icon = '',
+    coppermind = '',
+    description = '',
+    orbitalIncline = new THREE.Vector2(0,0),
+    radius = 1,
+    orbitalRadius = 10,
+    orbitStart = 0,
+    orbitalSpeed = 1,
+    ringDiameter = 1,
+    ringRadius = 2,
+    color = 0xffffff,
+    opacity = 1,
+    modifiers = [],
+    children = []
+}) {
+    assertValidId(id);
+    return {
+        id,
+        stellarObjectType: STELLAR_OBJECT.PARTICULATE_RING,
+        name,
+        coppermind,
+        description,
+        icon,
+        orbitalIncline,
+        radius,
+        orbitalRadius,
+        orbitStart,
+        orbitalSpeed,
+        ringDiameter,
+        ringRadius,
+        color,
+        opacity,
+        modifiers,
+        children,
+    };
+}
+
 function createStellarData({
     id,
     skyboxTexture = null,
@@ -294,6 +337,7 @@ export {
     createRingData,
     createCognitiveAnomolyData,
     createBinarySet,
+    createParticulateRing,
     STELLAR_OBJECT,
     MODIFIER_NAME
 };

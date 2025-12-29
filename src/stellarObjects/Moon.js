@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { StellarObject } from "./StellarObject.js";
-import { createPlanetMaterial, createAtmosphericShader, createFresnelMaterial } from '../../resources/materials.js';
+import { createPlanetMaterial} from '../../resources/materials.js';
 
 export class Moon extends StellarObject {
     constructor(moonData) {
