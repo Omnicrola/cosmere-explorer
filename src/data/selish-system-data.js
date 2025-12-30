@@ -275,8 +275,11 @@ const selishSystemData = createStellarData({
     id: 'sel-star',
     name: 'Selish System',
     skyboxTexture: 'Sel/sky_sel',
-    icon: 'icon-stellar-system.svg',
-    description: ``,
+    icon: 'Sel/icon-system-sel.png',
+    description: `The Selish system contains four total planets, the second of which is inhabited and the system's namesake. 
+        Travel to the Sel system via subastral is extremely hazardous due to the splintering of the Shards of Devotion and Dominion. `,
+    shards: 'Devotion (splintered), Dominion (splintered)',
+    investedArts: 'Aon Dor, ChayShan, Dakhor, Forgery, Bloodsealing',
     coppermind: 'https://coppermind.net/wiki/Selish_system',
     stellarObjects: [
         star,

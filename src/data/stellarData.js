@@ -255,6 +255,14 @@ function createBinarySet({
     orbitalSpeed = 1,
     orbitalIncline = new THREE.Vector2(0,0),
 }) {
+    const orbitalData = {
+        orbitalRadius : separationDistance,
+        orbitalIncline : orbitalIncline,
+        orbitalEccentricity : orbitalEccentricity,
+        orbitalSpeed : orbitalSpeed,
+    }
+    const len = children.length;
+    children = children.map((p, i) => ({...p, ...orbitalData, orbitStart: i*(360/len)}))
     return {
         stellarObjectType: STELLAR_OBJECT.BINARY_SET,
         children,
@@ -313,6 +321,9 @@ function createStellarData({
     name = "the star",
     icon = "icon-stellar-system.svg",
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
+    shards = 'None',
+    investedArts = '',
+    inhabitedPlanets = [],
     coppermind = "https://coppermind.net/wiki",
     stellarObjects = [],
 }){
@@ -323,6 +334,9 @@ function createStellarData({
         name,
         icon,
         description,
+        shards,
+        investedArts,
+        inhabitedPlanets,
         coppermind,
         stellarObjects
     };

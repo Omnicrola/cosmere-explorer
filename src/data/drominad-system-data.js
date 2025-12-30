@@ -202,8 +202,12 @@ const drominadSystemData = createStellarData({
     id: 'drominad-star',
     name: 'Drominad System',
     skyboxTexture: 'Drominad/sky_drominad',
-    icon: 'icon-stellar-system.svg',
-    description: '',
+    icon: 'Drominad/icon-system-drominad.png',
+    description: `The Drominad system contains 7 planets, 3 of which are known to have human life. This makes it the system with the most inhabited planets in the Cosmere. There is also an asteroid belt and 3 gas giants with many assorted moons.
+            Trade through the perpendicularity on First of the Sun is one of the easier ways of acquire aether spores from Lumar, due to it's relatively close proximity in the physical realm.`,
+    shards: 'None',
+    inhabitedPlanets: [first],
+    investedArts: 'Aviar',
     coppermind: 'https://coppermind.net/wiki/Drominad_system',
     stellarObjects: [
         star,

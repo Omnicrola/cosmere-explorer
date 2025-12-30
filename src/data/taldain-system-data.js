@@ -110,8 +110,12 @@ const taldainSystemData = createStellarData({
     id: 'taldain-system',
     name: 'Taldain System',
     skyboxTexture: 'Taldain/sky_taldain',
-    icon: 'icon-stellar-system.svg',
-    description: ``,
+    icon: 'Taldain/icon-system-taldain.png',
+    description: `The Taldain system posesses the most unique stellar arrangement of all the known star systems. The single planet maintains an artificially stabilized orbit around the Lagrange point between a binary star pair composed of a supergiant and a white dwarf.
+            Additionally, the single moon of Taldain maintains a polar orbit over the tidally-locked planet's terminator line. These unique features are not possible using standard physics model, and are assumed to be maintained by the direct influence of the resident Shard.`,
+    shards: 'Autonomy',
+    investedArts: 'Sand Mastery, Starmarks',
+    inhabitedPlanets: 1,
     coppermind: 'https://coppermind.net/wiki/Taldain_system',
     stellarObjects: [
         aisda,

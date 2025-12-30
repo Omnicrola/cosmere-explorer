@@ -148,6 +148,10 @@
           width:24px;
         }
       }
+      .btn-no-style {
+        border:none;
+        background:transparent;
+      }
     </style>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script type="importmap">
@@ -167,7 +171,11 @@
             <option value="1">Stellar System Name</option>
           </select>
       </div>
-      <div class="panel"><h1 id="system-name">System Name</h1></div>
+      <div class="panel">
+        <button class="btn-no-style" id="btn-system-info">
+          <h1 id="system-name">System Name</h1>
+        </button>
+      </div>
       <div class="panel">
         <button id="previous-planet" class="panel-button" title="Go to the previous planet in the list">&lt; Previous</button>
         <select id="planet-select" class="panel-select">

@@ -216,8 +216,12 @@ const rosharStellarSystem = createStellarData({
     id: 'roshar-star',
     name : "Rosharan System",
     skyboxTexture : 'Roshar/sky_roshar',
-    icon : "icon-stellar-system.svg",
-    description : "",
+    icon : "Roshar/icon-system-roshar.png",
+    description : `The Rosharan system has numerous planets but remarkably none of the gas giants have any moons. THe only moons in the system orbit Roshar itself, of which there are 3.
+            Of the three terrestrial planets in the system, only 2 are inhabited by humans. Most inhabitants reside on Roshar, with a sparse few remaining on Ashyn after it's Surgebinding-fueled cataclysm.`,
+    shards: 'Honor, Cultivation, Odium, Retribution',
+    inhabitedPlanets: 2,
+    investedArts: 'Surgebinding, Voidbinding, Old Magic',
     coppermind : "https://coppermind.net/wiki/Rosharan_system",
     stellarObjects : [
         star,

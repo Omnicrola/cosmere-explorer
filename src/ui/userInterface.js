@@ -3,7 +3,7 @@ import { resetScene } from "../mainScene.js";
 import { allStellarSystems } from "../data/all-systems.js";
 import { focusOnStellarObject } from "./interactions.js";
 import { userSettings } from "../data/userSettings.js";
-import { showInfoPanel } from "./infoPanels.js";
+import { showInfoPanel, showSystemInfoPanel } from "./infoPanels.js";
 
 
 function createScannerOption(planetData, name, selectionValue, isSelected) {
@@ -88,7 +88,7 @@ function init() {
         planetSelect.dispatchEvent(new Event('change'));
     });
 
-     document.getElementById('next-planet').addEventListener('click', (e) => {
+    document.getElementById('next-planet').addEventListener('click', (e) => {
         let planetSelect = document.getElementById('planet-select');
         
         if(planetSelect.selectedIndex >= planetSelect.options.length - 1) {
@@ -97,6 +97,12 @@ function init() {
             planetSelect.selectedIndex++;
         }
         planetSelect.dispatchEvent(new Event('change'));
+    });
+
+    document.getElementById('btn-system-info').addEventListener('click', (e) => {
+        const currentSystem = userSettings.currentSystem;
+        const systemData = allStellarSystems.find(s=>s.id==currentSystem);
+        showSystemInfoPanel(systemData);
     });
 
     // populate the stellar system selector options

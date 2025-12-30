@@ -297,8 +297,11 @@ const scadrialSystemData = createStellarData({
     id: 'scadrial-star',
     name: 'Scadrian System',
     skyboxTexture: 'Scadrial/sky_scadrial',
-    icon: 'icon-stellar-system.svg',
-    description: '',
+    icon: 'Scadrial/icon-system-scadrial.png',
+    description: `The Scadrian system has a sparse few planets, and only one inhabited world, which possesses no moon.`,
+    shards: 'Preservation, Ruin, Harmony',
+    investedArts: 'Allomancy, Feruchemy, Hemalurgy',
+    inhabitedPlanets: 1,
     coppermind: 'https://coppermind.net/wiki/Scadrian_system',
     stellarObjects: [
         star,

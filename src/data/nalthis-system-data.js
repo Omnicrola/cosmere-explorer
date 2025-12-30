@@ -207,8 +207,12 @@ const nalthisSystemData = createStellarData({
     id: 'nalthis-star',
     name: 'Nalthian System',
     skyboxTexture: 'Nalthis/sky_nalthis',
-    icon: 'icon-stellar-system.svg',
-    description: '',
+    icon: 'Nalthis/icon-system-nalthis.png',
+    description: `The Nalthis system contains a single inhabited planet from which the system dervies it's name. A cognitive anomaly of unknown nature shares the orbit of the Nalthian homeworld, and warrants further investigation.
+                The Nalthian subastral is popular with Worldhoppers and traders, and has a well maintained customs checkpoint near the local perpendicularity.`,
+    shards: 'Endowment',
+    investedArts: 'Awakening',
+    inhabitedPlanets: 1,
     coppermind: 'https://coppermind.net/wiki/Nalthian_system',
     stellarObjects: [
         star,

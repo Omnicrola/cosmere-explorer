@@ -6,32 +6,23 @@ export class BinaryPair extends THREE.Group {
     constructor(binaryData) {
         super();
 
-        const orbitalData = {
-            orbitalRadius : binaryData.separationDistance,
-            orbitalIncline : binaryData.orbitalIncline,
-            orbitalEccentricity : binaryData.orbitalEccentricity,
-            orbitalSpeed : binaryData.orbitalSpeed,
-        }
-
-        const p1Data = {...binaryData.children[0], ... orbitalData, orbitStart: 20};
-        const p2Data = {...binaryData.children[1], ... orbitalData, orbitStart: 200};
+        console.log(binaryData)
 
         const anchor = new THREE.Group();
         anchor.rotation.x = THREE.MathUtils.degToRad(binaryData.orbitalIncline.x);
         anchor.rotation.y = THREE.MathUtils.degToRad(binaryData.orbitalIncline.y);
 
-        const orbitalGroup = new THREE.Group();
-        anchor.add(orbitalGroup);
-        orbitalGroup.position.x = binaryData.orbitalRadius;
-
-        const planet1 = new Planet(p1Data);
-        const planet2 = new Planet(p2Data);
+        this.orbitalGroup = new THREE.Group();
+        anchor.add(this.orbitalGroup);
+        this.orbitalGroup.position.x = binaryData.orbitalRadius;
 
         anchor.add(new OrbitalPath(binaryData.orbitalRadius, 0, 0.1));
-        orbitalGroup.add(planet1);
-        orbitalGroup.add(planet2);
-
+        
         this.add(anchor);
 
+    }
+
+    addStellarObject(obj) {
+        this.orbitalGroup.add(obj);
     }
 }

@@ -60,9 +60,12 @@ const utolSystemData = createStellarData({
     id: 'utol-system',
     name: 'UTol System',
     skyboxTexture: 'UTol/sky_utol',
-    icon: 'icon-stellar-system.svg',
+    icon: 'icon-system-generic.png',
     description: `The UTol system contains a unique binary planet pair formed from the system's namesake UTol and the planet Komashi. This pair of planets orbit their mutual gravitational center, causing them to appear to dance around one another as they travel along their orbit around their parent star.
             The UTol sun is a larger red-orange star, with it's two main inhabited planets orbiting on the inner edges of the habitable zone.`,
+    shards: 'None',
+    investedArts: 'Hion',
+    inhabitedPlanets: 2,
     coppermind: 'https://coppermind.net/wiki/UTol_system',
     stellarObjects: [
         star,

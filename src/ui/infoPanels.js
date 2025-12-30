@@ -45,11 +45,21 @@ function showInfoPanel(sceneObject) {
 
 }
 
-function buildPanel(info, statsContent) {
-    let infoPanel = document.getElementById('info-panel');
-    let description = info.description.split('\n')
+function formatDescription(description) {
+    return description.split('\n')
         .map((substr) => `<p>${substr}</p>`)
         .join(" ");
+}
+
+function clearCurrentSelection() {
+    let planetSelect = document.getElementById('planet-select');
+    planetSelect.value = -1;
+    userSettings.currentSelection = null;
+}
+
+function buildPanel(info, statsContent) {
+    let infoPanel = document.getElementById('info-panel');
+    let description = formatDescription(info.description);
 
         infoPanel.innerHTML = `
         <h1 class="name">${info.name} 
@@ -66,9 +76,7 @@ function buildPanel(info, statsContent) {
         closeInfoPanel.addEventListener('click', (e) => {
             ui.setElementHidden('info-panel', true);
             stopFollowingStellarObject();
-            let planetSelect = document.getElementById('planet-select');
-            planetSelect.value = -1;
-            userSettings.currentSelection = null;
+            clearCurrentSelection();
         });
 
         document.getElementById('btn-copy-planet-link').addEventListener('click', (e) => {
@@ -125,4 +133,22 @@ function makeGenericDescriptionPanel(info) {
     `;
 }
 
-export { showInfoPanel };
+function showSystemInfoPanel(info) {
+    clearCurrentSelection();
+
+    const planets = info.inhabitedPlanets;
+
+    const systemStats = `
+        <ul class="stats">
+            <li><b>Shards</b>: ${info.shards}</li>
+            <li><b>Invested Arts</b>: ${info.investedArts}</li>
+            <li><b>Inhabited Planets</b>: ${planets}</li>
+            <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+        </ul>
+    `;
+
+    buildPanel(info, systemStats);
+    ui.setElementHidden('info-panel', false);
+}
+
+export { showInfoPanel, showSystemInfoPanel };
