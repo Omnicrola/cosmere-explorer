@@ -193,7 +193,7 @@ const star = createStarData({
     colorIndex: 0.636,
     mass: 1.021,
     axialTilt: 4.259,
-    icon: 'Nalthis/icon-star.png',
+    icon: 'icon-star.png',
     radius: 6.7561,
     absoluteMagnitude: 4.21,
     planets: 3,

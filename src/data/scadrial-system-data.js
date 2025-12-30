@@ -284,7 +284,7 @@ const star = createStarData({
     colorIndex: 0.656,
     mass: 1.0,
     axialTilt: 7.25,
-    icon: 'Scadrial/icon-star.png',
+    icon: 'icon-star.png',
     radius: 6.957,
     absoluteMagnitude: 4.62,
     planets: 5,

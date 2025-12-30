@@ -5,6 +5,7 @@ import { rosharStellarSystem } from "./roshar-system-data.js"
 import { scadrialSystemData } from "./scadrial-system-data.js";
 import { selishSystemData } from "./selish-system-data.js";
 import { taldainSystemData } from "./taldain-system-data.js";
+import { threnodySystemData } from "./threnody-system.js";
 import { utolSystemData } from "./utol-system-data.js";
 
 const allStellarSystems = [
@@ -13,8 +14,9 @@ const allStellarSystems = [
     rosharStellarSystem, 
     scadrialSystemData, 
     selishSystemData,
-    utolSystemData,
     taldainSystemData,
+    threnodySystemData,
+    utolSystemData,
     // defaultStellarSystem
 ];
 

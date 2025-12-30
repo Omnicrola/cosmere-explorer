@@ -189,7 +189,7 @@ const star = createStarData({
     colorIndex: 0.616,
     mass: 1.121,
     axialTilt: 1.27,
-    icon: 'Drominad/icon-star.png',
+    icon: 'icon-star.png',
     radius: 7.271,
     absoluteMagnitude: 4.115,
     planets: 7,

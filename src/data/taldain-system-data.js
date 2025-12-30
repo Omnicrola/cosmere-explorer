@@ -86,7 +86,7 @@ const ridos = createStarData({
     orbitStart: 182,
     mass: 0.6,
     axialTilt: 0,
-    icon: 'Taldain/icon-star.png',
+    icon: 'icon-star.png',
     radius: 1.2,
     coronaStyle: {
         noiseIntensity: 0.2,

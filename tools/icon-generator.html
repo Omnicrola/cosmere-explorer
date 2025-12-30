@@ -281,14 +281,14 @@
         const systemSelect = document.getElementById('system-select');
         allStellarSystems.forEach(systemData => {
             const newOption = document.createElement('option');
-            newOption.value = systemData.key;
+            newOption.value = systemData.id;
             newOption.innerText = systemData.name;
             systemSelect.appendChild(newOption);
         });
 
         systemSelect.addEventListener('change', (e) => {
             const selectedKey = e.target.value;
-            const selectedSystem = allStellarSystems.find(s => s.key == selectedKey);
+            const selectedSystem = allStellarSystems.find(s => s.id == selectedKey);
             populateStellarObjectCheckboxes(selectedSystem);
         });
 

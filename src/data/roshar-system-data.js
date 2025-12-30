@@ -204,7 +204,7 @@ const star = createStarData({
     colorIndex: 0.2984,
     mass: 1.785,
     axialTilt: 5.275,
-    icon: 'Roshar/icon-star.png',
+    icon: 'icon-star.png',
     radius: 8.582,
     absoluteMagnitude: 3.62,
     planets: 10,
