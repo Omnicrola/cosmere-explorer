@@ -7,12 +7,13 @@ import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
 import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { sceneContext } from "./core/sceneContext.js";
 import { updateCamera } from "./core/cameraFollow.js";
-import { computeWarpInCameraPosition } from "./core/warpIn.js";
+import { startWarpIn } from "./core/warpIn.js";
 import { attachPointerHandlers, focusOnStellarObject, setSelectableObjects } from "./ui/interactions.js";
 import { collectSelectableObjects } from "./ui/selection.js";
 import { ui } from "./ui/userInterface.js";
 import { allStellarSystems, findSystemById } from "./data/all-systems.js";
-import { isValidId, userSettings } from "./data/userSettings.js";
+import { isValidId, userSettings, restoreSettingsIntoUrl } from "./data/userSettings.js";
+import { restoreFromUrl } from "./core/historyNavigation.js";
 import { createMixPass, collectTransmissionMeshes, setBloomVisibility } from "./rendering/RenderTools.js";
 import { disposeObject3D } from "./rendering/dispose.js";
 
@@ -24,7 +25,8 @@ const MAX_PIXEL_RATIO = 2;
 let scene, camera, renderer, orbitControls;
 let finalComposer, bloomComposer, clock;
 let transmissionMeshes = [];
-let pendingFocusTimer = null;
+let cancelWarpIn = null;
+let loadedSystem = null;
 
 const params = {
     threshold: 0.85,
@@ -81,9 +83,18 @@ function init() {
     attachPointerHandlers(renderer.domElement);
     window.addEventListener('resize', onWindowResize);
 
+    // the URL is the source of truth from here on: fill it in from the last visit,
+    // and make sure it names the system actually being shown
+    restoreSettingsIntoUrl();
     const currentSystem = findSystemById(userSettings.currentSystem) ?? allStellarSystems[0];
+    userSettings.currentSystem = currentSystem.id;
+
     ui.init({ onSystemSelected: resetScene });
     resetScene(currentSystem);
+
+    window.addEventListener('popstate', () => {
+        restoreFromUrl({ currentSystem: loadedSystem, loadSystem: resetScene });
+    });
 }
 
 // main render loop
@@ -134,13 +145,13 @@ function objectUpdate(delta, clock) {
 
 // stop any animation or delayed focus left over from the previous system
 function cancelPendingTransitions() {
-    window.clearTimeout(pendingFocusTimer);
-    pendingFocusTimer = null;
-    gsap.killTweensOf(scene.scale);
+    cancelWarpIn?.();
+    cancelWarpIn = null;
     gsap.killTweensOf(camera.position);
 }
 
 function resetScene(stellarSystem) {
+    loadedSystem = stellarSystem;
 
     cancelPendingTransitions();
 
@@ -164,7 +175,7 @@ function resetScene(stellarSystem) {
 
     // user interface
     ui.resetUi();
-    ui.setSystemName(stellarSystem.name);
+    ui.setCurrentSystem(stellarSystem);
     ui.updateScannerList(stellarSystem.stellarObjects);
 
     // reset camera
@@ -174,47 +185,21 @@ function resetScene(stellarSystem) {
     orbitControls.target.copy(zero);
     camera.lookAt(zero);
 
-    // zoom in all dramatic-like
-    warpIntoScene(newSystemGraph);
-}
-
-function warpIntoScene(newSystemGraph) {
-    const destination = computeWarpInCameraPosition(scene, newSystemGraph);
-
-    // scale the entire scene up so it appears we are approaching from further away than we are
-    // (a tiny scale rather than zero, which would make every world matrix non-invertible)
-    scene.scale.setScalar(0.0001);
-    gsap.to(scene.scale, {
-        duration: 1.9,
-        delay: 1,
-        x: 1.0,
-        y: 1.0,
-        z: 1.0,
-        ease: 'power4.out',
-    });
-
-    // if there is a remembered selection, go to that planet,
-    // otherwise zoom in on center
+    // zoom in all dramatic-like, then go to the remembered planet (if any)
     const currentSelection = userSettings.currentSelection;
-    if(isValidId(currentSelection)) {
-        pendingFocusTimer = window.setTimeout(()=>{
-            pendingFocusTimer = null;
-            focusOnStellarObject({selectedId: currentSelection});
-        }, 2000);
-    } else {
-        gsap.to(camera.position, {
-            duration : 3,
-            delay: 1,
-            x: destination.x,
-            y: destination.y,
-            z: destination.z,
-            ease: 'power4.out',
-            onUpdate: () => {
-                camera.lookAt(zero);
-            },
-        });
-    }
-
+    cancelWarpIn = startWarpIn({
+        scene,
+        camera,
+        systemGraph: newSystemGraph,
+        onArrive: isValidId(currentSelection)
+            ? () => {
+                // unless the user already picked something else during the warp
+                if(!camera.cameraFollowTarget) {
+                    focusOnStellarObject({ selectedId: currentSelection });
+                }
+            }
+            : null,
+    });
 }
 
 export { init };

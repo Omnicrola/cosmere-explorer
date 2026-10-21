@@ -1,6 +1,6 @@
 import { allStellarSystems, findSystemById } from "../data/all-systems.js";
 import { focusOnStellarObject, clearFocus, clearSelection } from "./interactions.js";
-import { userSettings } from "../data/userSettings.js";
+import { userSettings, recordNavigation } from "../data/userSettings.js";
 import { showSystemInfoPanel } from "./infoPanels.js";
 import { setElementHidden } from "./dom.js";
 
@@ -36,9 +36,10 @@ function updateScannerList(stellarObjects = []) {
     scannerSelect.value = NO_SELECTION;
 }
 
-function setSystemName(name) {
-    const title = document.getElementById('system-name');
-    title.textContent = name;
+// shows which system is loaded, in the title and the system drop-down
+function setCurrentSystem(system) {
+    document.getElementById('system-name').textContent = system.name;
+    document.getElementById('system-selector').value = system.id;
 }
 
 function copySelectionLink() {
@@ -82,7 +83,7 @@ function init({ onSystemSelected }) {
     document.getElementById('btn-system-info').addEventListener('click', () => {
         const systemData = findSystemById(userSettings.currentSystem);
         if(systemData) {
-            clearSelection();
+            recordNavigation(clearSelection);
             showSystemInfoPanel(systemData);
         }
     });
@@ -113,8 +114,10 @@ function init({ onSystemSelected }) {
     systemSelector.addEventListener('change', (e) => {
         const selectedSystem = findSystemById(e.target.value);
         if(selectedSystem) {
-            userSettings.currentSystem = selectedSystem.id;
-            userSettings.currentSelection = null;
+            recordNavigation(() => {
+                userSettings.currentSystem = selectedSystem.id;
+                userSettings.currentSelection = null;
+            });
             onSystemSelected(selectedSystem);
         }
     });
@@ -129,7 +132,7 @@ function resetUi() {
 const ui = {
     init,
     updateScannerList,
-    setSystemName,
+    setCurrentSystem,
     resetUi,
 };
 export { ui };

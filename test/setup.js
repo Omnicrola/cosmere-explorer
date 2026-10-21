@@ -1,7 +1,7 @@
 import { vi, beforeEach } from 'vitest';
 
-// gsap is loaded as a global <script> in index.html; tests get a stub that applies
-// tweens instantly so camera positions can be asserted.
+// gsap is loaded as a global <script> in index.html; tests get a stub that completes
+// tweens instantly (calling onUpdate and onComplete) so end states can be asserted.
 beforeEach(() => {
     globalThis.gsap = {
         to: vi.fn((target, vars) => {
@@ -12,6 +12,7 @@ beforeEach(() => {
             }
             vars.onUpdate?.();
             vars.onComplete?.();
+            return { kill: vi.fn() };
         }),
         killTweensOf: vi.fn(),
     };

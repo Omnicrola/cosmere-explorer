@@ -1,13 +1,9 @@
 import * as THREE from 'three';
 import { loadAsteroidMeshes } from '../data/fileResources.js';
+import { createTumbleMaterial, advanceTumble, TUMBLE_SPEED_ATTRIBUTE } from '../rendering/tumbleMaterial.js';
 
 const MIN_ASTEROID_SCALE = 0.2;
 const MAX_ASTEROID_SCALE = 1.5;
-
-// scratch objects reused by every tumble update, to avoid per-frame allocations
-const TUMBLE_AXIS = new THREE.Vector3(0, 1, 0);
-const rotationMatrix = new THREE.Matrix4();
-const extractionMatrix = new THREE.Matrix4();
 
 export class AsteroidBelt extends THREE.Group {
     constructor(asteroidData) {
@@ -28,25 +24,24 @@ export class AsteroidBelt extends THREE.Group {
             asteroidContainer.rotation.y += deltaTime * (asteroidData.orbitalSpeed / 200);
         };
 
-        const instanceMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, count);
+        // each belt gets its own copy of the rock geometry, since the per-instance
+        // tumble speeds are stored on it
+        const geometry = mesh.geometry.clone();
+        const tumbleSpeeds = new Float32Array(count);
+        const material = createTumbleMaterial(mesh.material);
+        const instanceMesh = new THREE.InstancedMesh(geometry, material, count);
 
-        const tumblers = [];
-        // generate a randomized transform for each asteroid instance
+        // generate a randomized transform and tumble speed for each asteroid instance
         for(let i=0; i<count; i++) {
             instanceMesh.setMatrixAt(i, AsteroidBelt.randomizeTransform(asteroidData.orbitalRadius, asteroidData.orbitalSpread));
-            tumblers.push(Math.random());
+            tumbleSpeeds[i] = Math.random();
         }
+        geometry.setAttribute(TUMBLE_SPEED_ATTRIBUTE, new THREE.InstancedBufferAttribute(tumbleSpeeds, 1));
 
-        // make all the asteroids 'tumble' as they orbit
+        // make all the asteroids 'tumble' as they orbit (the rotation itself happens in the vertex shader)
         instanceMesh.userData.update = (deltaTime) => {
-            for(let i=0; i<count; i++ ) {
-                instanceMesh.getMatrixAt(i, extractionMatrix);
-                rotationMatrix.makeRotationAxis(TUMBLE_AXIS, tumblers[i] * deltaTime);
-                extractionMatrix.multiply(rotationMatrix);
-                instanceMesh.setMatrixAt(i, extractionMatrix);
-            }
-            instanceMesh.instanceMatrix.needsUpdate = true;
-        }
+            advanceTumble(material, deltaTime);
+        };
 
         asteroidContainer.add(instanceMesh);
         return asteroidContainer;

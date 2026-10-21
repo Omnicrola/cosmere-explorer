@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { sceneContext } from "../core/sceneContext.js";
 import { resetCameraTravel } from "../core/cameraFollow.js";
-import { userSettings, isValidId } from "../data/userSettings.js";
+import { userSettings, isValidId, recordNavigation } from "../data/userSettings.js";
 import { showInfoPanel } from "./infoPanels.js";
 import { setElementHidden } from "./dom.js";
 import { findNearestSelectable, isClickGesture, toNormalizedDeviceCoords } from "./selection.js";
@@ -79,10 +79,10 @@ function clearSelection() {
     }
 }
 
-// stop following, forget the selection and hide the info panel
+// stop following, forget the selection and hide the info panel (a back-button step)
 function clearFocus() {
     stopFollowingStellarObject();
-    clearSelection();
+    recordNavigation(clearSelection);
     setElementHidden('info-panel', true);
 }
 
@@ -109,7 +109,7 @@ function focusOnStellarObject({selectedId, stellarObj}) {
 
     // start the travel from wherever the camera is currently looking
     resetCameraTravel(orbitControls.target);
-    userSettings.currentSelection = selectedId;
+    recordNavigation(() => { userSettings.currentSelection = selectedId; });
     camera.cameraFollowTarget = stellarObj;
 
     const planetSelect = document.getElementById('planet-select');

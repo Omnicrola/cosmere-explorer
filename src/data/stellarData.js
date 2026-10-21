@@ -254,9 +254,11 @@ function createBinarySet({
     orbitalSpeed = 1,
     orbitalIncline = new THREE.Vector2(0,0),
 }) {
+    // the children orbit their shared center within the pair's own (already inclined) plane,
+    // so they get no inclination of their own
     const orbitalData = {
         orbitalRadius : separationDistance,
-        orbitalIncline : orbitalIncline,
+        orbitalIncline : new THREE.Vector2(0,0),
         orbitalEccentricity : orbitalEccentricity,
         orbitalSpeed : orbitalSpeed,
     }
