@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createRingMaterial } from '../../resources/materials.js';
+import { createRingMaterial } from '../rendering/materials.js';
 
 export class PlanetaryRings extends THREE.Group {
     constructor(ringData) {

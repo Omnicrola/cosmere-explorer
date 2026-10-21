@@ -1,17 +1,16 @@
-import * as THREE from "three";
-import { resetScene } from "../mainScene.js";
-import { allStellarSystems } from "../data/all-systems.js";
-import { focusOnStellarObject } from "./interactions.js";
+import { allStellarSystems, findSystemById } from "../data/all-systems.js";
+import { focusOnStellarObject, clearFocus, clearSelection } from "./interactions.js";
 import { userSettings } from "../data/userSettings.js";
-import { showInfoPanel, showSystemInfoPanel } from "./infoPanels.js";
+import { showSystemInfoPanel } from "./infoPanels.js";
+import { setElementHidden } from "./dom.js";
 
+const NO_SELECTION = '-1';
 
-function createScannerOption(planetData, name, selectionValue, isSelected) {
-    let option = document.createElement('option');
-    option.innerText = name;
+function createScannerOption(name, selectionValue, isSelected) {
+    const option = document.createElement('option');
+    option.textContent = name;
     option.value = selectionValue;
     option.selected = isSelected;
-    option.planet = planetData;
     return option;
 }
 
@@ -20,7 +19,7 @@ function createScannerOptions(scannerSelect, childrenObjects) {
         childrenObjects.forEach((objData) => {
             const objId = objData.id;
             if(objId){
-                scannerSelect.appendChild(createScannerOption(objData, objData.name, objId, objId==userSettings.currentSelection));
+                scannerSelect.appendChild(createScannerOption(objData.name, objId, objId == userSettings.currentSelection));
             }
             createScannerOptions(scannerSelect, objData.children); // recursive call
         });
@@ -28,59 +27,42 @@ function createScannerOptions(scannerSelect, childrenObjects) {
 }
 
 function updateScannerList(stellarObjects = []) {
-    let scannerSelect = document.getElementById('planet-select');
+    const scannerSelect = document.getElementById('planet-select');
     scannerSelect.innerHTML = "";
 
-    let emptyOption = document.createElement('option');
-    emptyOption.innerText = "-- Select --";
-    emptyOption.value = -1;
-    emptyOption.selected = true;
-    scannerSelect.appendChild(emptyOption);
-    
+    scannerSelect.appendChild(createScannerOption("-- Select --", NO_SELECTION, true));
     createScannerOptions(scannerSelect, stellarObjects);
 
-    scannerSelect.value = -1;
-}
-
-function updateAutoNavigation() {
-    const selection = Number(userSettings.currentSelection);
-    if(selection >= 0) {
-        let planetSelect = document.getElementById('planet-select');
-        planetSelect.value = selection;
-        planetSelect.dispatchEvent(new Event('change'));
-    }
+    scannerSelect.value = NO_SELECTION;
 }
 
 function setSystemName(name) {
-    let title = document.getElementById('system-name');
+    const title = document.getElementById('system-name');
     title.textContent = name;
 }
 
-function setElementHidden(id, isHidden){
-    let systemPanel = document.getElementById(id);
-    if(isHidden) {
-        systemPanel.classList.add('hidden');
-    } else {
-        systemPanel.classList.remove('hidden');
-    }
+function copySelectionLink() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('planet', userSettings.currentSelection);
+    navigator.clipboard?.writeText(url.toString())
+        .catch((err) => console.warn('Could not copy link to clipboard', err));
 }
 
-function init() {
+// onSystemSelected(systemData) is called when the user picks a different stellar system
+function init({ onSystemSelected }) {
 
     // planetary selection drop-down
-    let planetSelect = document.getElementById('planet-select');
-    
+    const planetSelect = document.getElementById('planet-select');
     planetSelect.addEventListener('change', (e) => {
-        let stellarObjectId = e.target.value;
-        userSettings.currentSelection = stellarObjectId;
-        if(stellarObjectId) {
+        const stellarObjectId = e.target.value;
+        if(stellarObjectId === NO_SELECTION) {
+            clearFocus();
+        } else {
             focusOnStellarObject({selectedId: stellarObjectId});
-        }        
+        }
     });
 
-    document.getElementById('previous-planet').addEventListener('click', (e) => {
-        let planetSelect = document.getElementById('planet-select');
-
+    document.getElementById('previous-planet').addEventListener('click', () => {
         planetSelect.selectedIndex--;
         if(planetSelect.selectedIndex <= 0) {
             planetSelect.selectedIndex = planetSelect.options.length - 1;
@@ -88,9 +70,7 @@ function init() {
         planetSelect.dispatchEvent(new Event('change'));
     });
 
-    document.getElementById('next-planet').addEventListener('click', (e) => {
-        let planetSelect = document.getElementById('planet-select');
-        
+    document.getElementById('next-planet').addEventListener('click', () => {
         if(planetSelect.selectedIndex >= planetSelect.options.length - 1) {
             planetSelect.selectedIndex = 1; // not zero, the first item in the list is always "select a planet"
         } else {
@@ -99,19 +79,30 @@ function init() {
         planetSelect.dispatchEvent(new Event('change'));
     });
 
-    document.getElementById('btn-system-info').addEventListener('click', (e) => {
-        const currentSystem = userSettings.currentSystem;
-        const systemData = allStellarSystems.find(s=>s.id==currentSystem);
-        showSystemInfoPanel(systemData);
+    document.getElementById('btn-system-info').addEventListener('click', () => {
+        const systemData = findSystemById(userSettings.currentSystem);
+        if(systemData) {
+            clearSelection();
+            showSystemInfoPanel(systemData);
+        }
+    });
+
+    // info panel buttons are re-rendered with the panel, so handle them by delegation
+    document.getElementById('info-panel').addEventListener('click', (e) => {
+        const action = e.target.closest('[data-action]')?.dataset.action;
+        if(action === 'close') {
+            clearFocus();
+        } else if(action === 'copy-link') {
+            copySelectionLink();
+        }
     });
 
     // populate the stellar system selector options
-    let systemSelector = document.getElementById('system-selector');
+    const systemSelector = document.getElementById('system-selector');
     systemSelector.innerHTML = "";
-    let newOption = null;
     const selectedId = userSettings.currentSystem;
-    allStellarSystems.forEach((system, index) => {
-        newOption = document.createElement('option');
+    allStellarSystems.forEach((system) => {
+        const newOption = document.createElement('option');
         newOption.value = system.id;
         newOption.selected = system.id == selectedId;
         newOption.textContent = system.name;
@@ -120,12 +111,11 @@ function init() {
 
     // handle switching stellar systems
     systemSelector.addEventListener('change', (e) => {
-        const systemId = e.target.value;
-        let selectedSystem = allStellarSystems.find(s=>s.id==systemId);
+        const selectedSystem = findSystemById(e.target.value);
         if(selectedSystem) {
             userSettings.currentSystem = selectedSystem.id;
             userSettings.currentSelection = null;
-            resetScene(selectedSystem);
+            onSystemSelected(selectedSystem);
         }
     });
 
@@ -136,13 +126,10 @@ function resetUi() {
 }
 
 
-let ui = {
+const ui = {
     init,
     updateScannerList,
     setSystemName,
     resetUi,
-    showInfoPanel,
-    setElementHidden,
-    checkAutoNavigation: updateAutoNavigation,
 };
-export { ui }
+export { ui };

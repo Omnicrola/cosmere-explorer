@@ -1,4 +1,3 @@
-import { defaultStellarSystem } from "./default-system.js"
 import { drominadSystemData } from "./drominad-system-data.js";
 import { lumarSystemData } from "./lumar-system.js";
 import { nalthisSystemData } from "./nalthis-system-data.js";
@@ -9,17 +8,21 @@ import { taldainSystemData } from "./taldain-system-data.js";
 import { threnodySystemData } from "./threnody-system.js";
 import { utolSystemData } from "./utol-system-data.js";
 
+// default-system.js holds a test system with placeholder textures; it is not listed here.
 const allStellarSystems = [
-    drominadSystemData, 
+    drominadSystemData,
     lumarSystemData,
-    nalthisSystemData, 
-    rosharStellarSystem, 
-    scadrialSystemData, 
+    nalthisSystemData,
+    rosharStellarSystem,
+    scadrialSystemData,
     selishSystemData,
     taldainSystemData,
     threnodySystemData,
     utolSystemData,
-    // defaultStellarSystem
 ];
 
-export { allStellarSystems };
+function findSystemById(id) {
+    return allStellarSystems.find(s => s.id == id) ?? null;
+}
+
+export { allStellarSystems, findSystemById };

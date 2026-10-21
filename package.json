@@ -1,0 +1,16 @@
+{
+  "name": "cosmere-explorer",
+  "private": true,
+  "type": "module",
+  "description": "3D explorer for the star systems of Brandon Sanderson's Cosmere. The site itself is static; this package only provides dev tooling.",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "serve": "npx --yes http-server -c-1 -p 8080 ."
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "three": "0.179.1",
+    "vitest": "^3.2.7"
+  }
+}

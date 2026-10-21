@@ -33,26 +33,33 @@ function createMixPass(bloomComposer) {
     return mixPass;
 }
 
-// used to traverse the scene before the bloom pass
-function disableTransmissionMeshes(obj) {
-    if(obj.isMesh) {
-        if(obj.material && obj.material.transmission > 0) {
+// Meshes with transmission (glass-like materials) are excluded from the bloom pass.
+// Collected once per system, rather than traversing the whole scene twice per frame.
+function collectTransmissionMeshes(root) {
+    const meshes = [];
+    root.traverse((obj) => {
+        if(obj.isMesh && obj.material?.transmission > 0) {
+            meshes.push(obj);
+        }
+    });
+    return meshes;
+}
+
+// moves meshes between layer 0 (rendered) and layer 1 (hidden from the camera)
+function setBloomVisibility(meshes, isVisible) {
+    meshes.forEach((obj) => {
+        if(isVisible) {
+            obj.layers.enable(0);
+            obj.layers.disable(1);
+        } else {
             obj.layers.disable(0);
             obj.layers.enable(1);
         }
-    }
+    });
 }
 
-function enableTransmissonMeshes(obj) {
-    if(obj.isMesh) {
-        if(obj.material && obj.material.transmission > 0) {
-            obj.layers.enable(0);
-            obj.layers.disable(1);
-        }
-    }
-}
-export { 
+export {
     createMixPass,
-    disableTransmissionMeshes,
-    enableTransmissonMeshes
+    collectTransmissionMeshes,
+    setBloomVisibility,
  };

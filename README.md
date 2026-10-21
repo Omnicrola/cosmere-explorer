@@ -12,6 +12,34 @@ I immediately latched onto an idea another Cosmere fan had mentioned to me sever
 ## How do I use this?
 To run the application, all you need to do is visit the Github pages website here : https://omnicrola.github.io/cosmere-explorer/
 
+## Development
+The site is plain static files (no build step); three.js and gsap load from a CDN via the import map in `index.html`.
+
+To run it locally, serve the folder with any static file server, for example:
+
+```bash
+npm run serve
+```
+
+### Tests
+The regression test suite uses [Vitest](https://vitest.dev/) with jsdom. Install the dev dependencies once, then run the tests:
+
+```bash
+npm install
+npm test
+```
+
+The tests also validate the star system data files, checking for unique ids, missing textures or icons, and malformed links. Run them after adding or editing a system.
+
+### Code layout
+* `src/mainScene.js` - renderer, post-processing, render loop, and switching between systems
+* `src/core/` - shared scene context, camera following, warp-in
+* `src/ui/` - DOM panels, drop-downs, and click selection
+* `src/data/` - stellar system data and user settings (URL + localStorage)
+* `src/generators/`, `src/stellarObjects/` - build the three.js scene graph from the data
+* `src/rendering/` - materials, shaders, post-processing helpers, and GPU resource disposal
+* `test/` - test suite, mirroring the `src/` layout
+
 ## FAQ
 ### Some of the planets don't have information
 Not every single planet and asteroid in the Cosmere has been described in Brandon's books (yet?). So rather than make up information, I have left a '??' in places where information is unknown.

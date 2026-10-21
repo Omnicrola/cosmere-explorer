@@ -6,8 +6,6 @@ export class BinaryPair extends THREE.Group {
     constructor(binaryData) {
         super();
 
-        console.log(binaryData)
-
         const anchor = new THREE.Group();
         anchor.rotation.x = THREE.MathUtils.degToRad(binaryData.orbitalIncline.x);
         anchor.rotation.y = THREE.MathUtils.degToRad(binaryData.orbitalIncline.y);
