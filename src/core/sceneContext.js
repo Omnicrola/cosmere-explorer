@@ -4,7 +4,7 @@
 const sceneContext = {
     scene: null,
     camera: null,
-    orbitControls: null,
+    cameraControls: null,
     renderer: null,
 };
 
