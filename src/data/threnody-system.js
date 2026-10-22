@@ -103,7 +103,7 @@ const threnodySystemData = createStellarData({
     id: 'threnodite-system',
     name: 'Threnodite System',
     skyboxTexture: 'Threnody/sky_threnody',
-    icon: 'Threnody/icon-system-threnody.png',
+    icon: 'icon-system-threnody.png',
     description: `The Threnodite system currently contains four planets, with an unknown number having been destroyed as a result of the conflict between Ambition and Odium.`,
     shards: 'Ambition (splintered)',
     inhabitedPlanets: 1,

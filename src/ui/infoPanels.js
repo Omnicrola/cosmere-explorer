@@ -1,116 +1,65 @@
 import { STELLAR_OBJECT } from "../data/stellarData.js";
-import { stopFollowingStellarObject } from "./interactions.js";
-import { ui } from "./userInterface.js";
-import { userSettings } from "../data/userSettings.js";
+import { escapeHtml, safeUrl, formatStat } from "../util/html.js";
+import { setElementHidden } from "./dom.js";
 
+// Builds the contents of the info panel. All stellar data is escaped before being
+// inserted, so a stray '<' or quote in a description can never inject markup.
+// The panel's buttons are wired up once, via event delegation, in userInterface.init().
 
-const STATS = {
-    planetCount : (objs=[]) => {
-        console.log(objs);
-        objs.filter(o=>o.stellarObjectType===STELLAR_OBJECT.PLANET).length;
+const TEXTURE_PATH = 'resources/textures/';
+const DEFAULT_ICON = 'resources/icons/icon-planet.svg';
+
+// resolves a data 'icon' value to a URL; icons are stored relative to the textures folder
+function iconUrl(icon) {
+    if(!icon) {
+        return DEFAULT_ICON;
     }
+    return icon.startsWith('resources/') ? icon : TEXTURE_PATH + icon;
 }
 
-function showInfoPanel(sceneObject) {
-    const info = sceneObject.userData.info;
-
-
-    switch(info.stellarObjectType) {
-        case STELLAR_OBJECT.STAR : {
-            const stats = makeStarStats(info);
-            buildPanel(info, stats);
-            break;
-        }
-        case STELLAR_OBJECT.PLANET :
-        case STELLAR_OBJECT.MOON : {
-            const stats = makePlanetStats(info);
-            buildPanel(info, stats);
-            break;
-        }
-        case STELLAR_OBJECT.COGNITIVE_ANOMOLY : {
-            const stats = makeCognitiveAnomolyStats(info);
-            buildPanel(info, stats);
-            break;
-        }
-        default : {
-            const stats = makeGenericDescriptionPanel(info);
-            buildPanel(info, stats);
-            break;
-        }
-    }
-
-    // unhide the info panel 
-    ui.setElementHidden('info-panel', false);
-    
-
-}
-
-function formatDescription(description) {
+function formatDescription(description = '') {
     return description.split('\n')
-        .map((substr) => `<p>${substr}</p>`)
+        .map((substr) => `<p>${escapeHtml(substr.trim())}</p>`)
         .join(" ");
 }
 
-function clearCurrentSelection() {
-    let planetSelect = document.getElementById('planet-select');
-    planetSelect.value = -1;
-    userSettings.currentSelection = null;
+// objects without a known Coppermind page get no link, rather than a dead one
+function coppermindLink(info) {
+    if(!info.coppermind) {
+        return '';
+    }
+    return `<li><a href="${escapeHtml(safeUrl(info.coppermind))}" target="_blank" rel="noopener noreferrer">Coppermind Link</a></li>`;
 }
 
-function buildPanel(info, statsContent) {
-    let infoPanel = document.getElementById('info-panel');
-    let description = formatDescription(info.description);
-
-        infoPanel.innerHTML = `
-        <h1 class="name">${info.name} 
-            <button id="btn-copy-planet-link" class="btn-copy-link" title="Copy stellar object URL">
-              <img src="resources/icons/icon-link.png" class="copy-link"/>
-            </button>
-            <button id="close-info-panel" class="close" title="Close info panel">X</button>
-        </h1>
-        <div class="description"><img class="planet-icon" src="resources/textures/${info.icon}"/>${description}</div>
-        ${statsContent}
-        `;
-        
-        let closeInfoPanel = document.getElementById('close-info-panel');
-        closeInfoPanel.addEventListener('click', (e) => {
-            ui.setElementHidden('info-panel', true);
-            stopFollowingStellarObject();
-            clearCurrentSelection();
-        });
-
-        document.getElementById('btn-copy-planet-link').addEventListener('click', (e) => {
-            const url = new URL(window.location.href);
-            url.searchParams.set('planet', userSettings.currentSelection);
-            navigator.clipboard.writeText(url.toString());
-        });
+function statLine(label, value) {
+    return `<li><b>${label}:</b> ${escapeHtml(value)}</li>`;
 }
 
 // S3M - Scadrian Standard Solar Mass
 function makeStarStats(info) {
     return `
     <ul class="stats">
-        <li><b><a href="https://en.wikipedia.org/wiki/Absolute_magnitude">Absolute Magnitude:</a> <b> ${info.absoluteMagnitude??0.0} </li>
-        <li><b>Mass:<b> ${info.mass??0.0} S3M</li>
-        <li><b><a href="https://en.wikipedia.org/wiki/Color_index">Color Index (B-V)</a>:<b> ${info.colorIndex??0.0} </li>
-        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0} (ecliptic)</li>
-        <li><b>Equatorial Radius:</b> ${(info.radius*100000).toLocaleString()??'??'} km</li>
-        <li><b>Planets: <b> ${info.planets}</li>
-        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+        <li><b><a href="https://en.wikipedia.org/wiki/Absolute_magnitude" target="_blank" rel="noopener noreferrer">Absolute Magnitude</a>:</b> ${escapeHtml(formatStat(info.absoluteMagnitude))}</li>
+        ${statLine('Mass', `${formatStat(info.mass)} S3M`)}
+        <li><b><a href="https://en.wikipedia.org/wiki/Color_index" target="_blank" rel="noopener noreferrer">Color Index (B-V)</a>:</b> ${escapeHtml(formatStat(info.colorIndex))}</li>
+        ${statLine('Axial Tilt', `${formatStat(info.axialTilt)} (ecliptic)`)}
+        ${statLine('Equatorial Radius', `${formatStat(info.radius, { scale: 100000, locale: true })} km`)}
+        ${statLine('Planets', formatStat(info.planets))}
+        ${coppermindLink(info)}
     </ul>
-    `; 
+    `;
 }
 
 function makePlanetStats(info) {
     return `
     <ul class="stats">
-        <li><b>Orbital Distance:</b> ${info.orbitalRadius}</li>
-        <li><b>Orbital Eccentricity:</b> ${info.orbitalEccentricity??0.0}</li>
-        <li><b>Axial Tilt:</b> ${info.axialTilt??0.0} (ecliptic)</li>
-        <li><b>Radius:</b> ${info.radius??'??'} standard</li>
-        <li><b>Surface Gravity:</b> ${info.gravity??'??'} standard</li>
-        <li><b>Known Perpendicularities:</b> ${info.perpendicularities??0}</li>
-        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+        ${statLine('Orbital Distance', formatStat(info.orbitalRadius))}
+        ${statLine('Orbital Eccentricity', formatStat(info.orbitalEccentricity))}
+        ${statLine('Axial Tilt', `${formatStat(info.axialTilt)} (ecliptic)`)}
+        ${statLine('Radius', `${formatStat(info.radius)} standard`)}
+        ${statLine('Surface Gravity', `${formatStat(info.gravity)} standard`)}
+        ${statLine('Known Perpendicularities', formatStat(info.perpendicularity))}
+        ${coppermindLink(info)}
     </ul>
     `;
 }
@@ -118,9 +67,9 @@ function makePlanetStats(info) {
 function makeCognitiveAnomolyStats(info) {
     return `
     <ul class="stats">
-        <li><b>Location:</b> ${info.orbitalRadius * 1000} million km from primary star</li>
-        <li><b>Radius:</b>Approximately ${(info.radius * 100)??'??'}k kilometers</li>
-        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+        ${statLine('Location', `${formatStat(info.orbitalRadius, { scale: 1000 })} million km from primary star`)}
+        ${statLine('Radius', `Approximately ${formatStat(info.radius, { scale: 100 })}k kilometers`)}
+        ${coppermindLink(info)}
     </ul>
     `;
 }
@@ -128,27 +77,69 @@ function makeCognitiveAnomolyStats(info) {
 function makeGenericDescriptionPanel(info) {
     return `
     <ul class="stats">
-        <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
+        ${coppermindLink(info)}
     </ul>
     `;
 }
 
-function showSystemInfoPanel(info) {
-    clearCurrentSelection();
-
-    const planets = info.inhabitedPlanets;
-
-    const systemStats = `
-        <ul class="stats">
-            <li><b>Shards</b>: ${info.shards}</li>
-            <li><b>Invested Arts</b>: ${info.investedArts}</li>
-            <li><b>Inhabited Planets</b>: ${planets}</li>
-            <li><a href="${info.coppermind}" target="_new">Coppermind Link</a></li>
-        </ul>
+function makeSystemStats(info) {
+    return `
+    <ul class="stats">
+        ${statLine('Shards', info.shards ?? '??')}
+        ${statLine('Invested Arts', info.investedArts ?? '??')}
+        ${statLine('Inhabited Planets', info.inhabitedPlanets ?? '??')}
+        ${coppermindLink(info)}
+    </ul>
     `;
-
-    buildPanel(info, systemStats);
-    ui.setElementHidden('info-panel', false);
 }
 
-export { showInfoPanel, showSystemInfoPanel };
+function makeStatsForObject(info) {
+    switch(info.stellarObjectType) {
+        case STELLAR_OBJECT.STAR :
+            return makeStarStats(info);
+        case STELLAR_OBJECT.PLANET :
+        case STELLAR_OBJECT.MOON :
+            return makePlanetStats(info);
+        case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
+            return makeCognitiveAnomolyStats(info);
+        default :
+            return makeGenericDescriptionPanel(info);
+    }
+}
+
+function renderPanelHtml(info, statsContent) {
+    return `
+        <h1 class="name">${escapeHtml(info.name)}
+            <button data-action="copy-link" class="btn-copy-link" title="Copy stellar object URL">
+              <img src="resources/icons/icon-link.png" class="copy-link" alt="Copy link"/>
+            </button>
+            <button data-action="close" class="close" title="Close info panel">X</button>
+        </h1>
+        <div class="description"><img class="planet-icon" src="${escapeHtml(iconUrl(info.icon))}" alt=""/>${formatDescription(info.description)}</div>
+        ${statsContent}
+        `;
+}
+
+function buildPanel(info, statsContent) {
+    const infoPanel = document.getElementById('info-panel');
+    infoPanel.innerHTML = renderPanelHtml(info, statsContent);
+    setElementHidden('info-panel', false);
+}
+
+function showInfoPanel(sceneObject) {
+    const info = sceneObject.userData.info;
+    buildPanel(info, makeStatsForObject(info));
+}
+
+function showSystemInfoPanel(info) {
+    buildPanel(info, makeSystemStats(info));
+}
+
+export {
+    showInfoPanel,
+    showSystemInfoPanel,
+    renderPanelHtml,
+    makeStatsForObject,
+    makeSystemStats,
+    iconUrl,
+};

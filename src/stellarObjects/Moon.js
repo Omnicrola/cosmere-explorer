@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { StellarObject } from "./StellarObject.js";
-import { createPlanetMaterial} from '../../resources/materials.js';
+import { createPlanetMaterial} from '../rendering/materials.js';
 
 export class Moon extends StellarObject {
     constructor(moonData) {
@@ -11,7 +11,6 @@ export class Moon extends StellarObject {
         const moonGeo = new THREE.IcosahedronGeometry(moonData.radius, 6);
         const moon = new THREE.Mesh(moonGeo, moonMat);
         moon.name = moonData.id;
-        moon.userData.info = moonData;
                 
         let _showOrbitalRing = false;
         moon.userData = {

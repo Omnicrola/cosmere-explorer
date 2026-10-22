@@ -5,7 +5,7 @@ import { GeoNoise } from './modifiers/GeoNoise.js';
 export class CognitiveAnomoly extends StellarObject {
 
     constructor(objData) {
-        super(objData, true);
+        super(objData);
 
         const rot = {x:1.27,y:1.1655,z:-2.452};
 

@@ -1,6 +1,4 @@
 import * as THREE from 'three';
-import { scene } from '../mainScene.js';
-import { ui } from '../ui/userInterface.js';
 import { createSkybox } from './createSkybox.js';
 import { STELLAR_OBJECT } from '../data/stellarData.js';
 import { Star } from '../stellarObjects/Star.js';
@@ -11,8 +9,19 @@ import { AsteroidBelt } from '../stellarObjects/AsteroidBelt.js';
 import { ParticulateRing } from '../stellarObjects/ParticulateRing.js';
 import { Moon } from '../stellarObjects/Moon.js';
 
+const STELLAR_OBJECT_CLASSES = {
+    [STELLAR_OBJECT.STAR]: Star,
+    [STELLAR_OBJECT.PLANET]: Planet,
+    [STELLAR_OBJECT.MOON]: Moon,
+    [STELLAR_OBJECT.ASTEROID_BELT]: AsteroidBelt,
+    [STELLAR_OBJECT.COGNITIVE_ANOMOLY]: CognitiveAnomoly,
+    [STELLAR_OBJECT.BINARY_SET]: BinaryPair,
+    [STELLAR_OBJECT.PARTICULATE_RING]: ParticulateRing,
+};
 
-function createStellarSystem(stellarData) {
+// Builds the scene graph for a stellar system. Returns the root group (which includes the
+// system's light) and the skybox texture; adding them to the scene is up to the caller.
+function createStellarSystem(stellarData, { loadSkybox = createSkybox } = {}) {
 
     // init
     const stellarSystem = new THREE.Group();
@@ -21,54 +30,27 @@ function createStellarSystem(stellarData) {
     // main light
     const starLight = new THREE.PointLight(0xffffff, stellarData.luminosity, 0, 0.2);
     starLight.position.set(0,0,0);
-    scene.add(starLight);
+    stellarSystem.add(starLight);
 
     stellarData.stellarObjects.forEach((objData) => createStellarObject(stellarSystem, objData));
 
-    // background
-    scene.background = createSkybox(stellarData.skyboxTexture);
+    const skybox = stellarData.skyboxTexture ? loadSkybox(stellarData.skyboxTexture) : null;
 
-    // user interface
-    ui.setSystemName(stellarData.name);
-    ui.updateScannerList(stellarData.stellarObjects);
-
-    scene.add(stellarSystem);
-
-    return stellarSystem;
+    return { group: stellarSystem, skybox };
 }
 
 function createStellarObject(parent, objData) {
-
-    var newObj = null;
-    switch(objData.stellarObjectType) {
-        case STELLAR_OBJECT.STAR : 
-            newObj = new Star(objData);
-            break;
-        case STELLAR_OBJECT.PLANET : 
-            newObj = new Planet(objData);
-            break;
-        case STELLAR_OBJECT.MOON :
-            newObj = new Moon(objData);
-            break;
-        case STELLAR_OBJECT.ASTEROID_BELT :
-            newObj = new AsteroidBelt(objData);
-            break;
-        case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
-            newObj = new CognitiveAnomoly(objData);
-            break;
-        case STELLAR_OBJECT.BINARY_SET :
-            newObj = new BinaryPair(objData);
-            break;
-        case STELLAR_OBJECT.PARTICULATE_RING :
-            newObj = new ParticulateRing(objData);
-            break;
-        default : 
-            console.log('Error: unknown stellar object type : ' + objData.stellarObjectType);
+    const StellarObjectClass = STELLAR_OBJECT_CLASSES[objData.stellarObjectType];
+    if(!StellarObjectClass) {
+        console.error('Error: unknown stellar object type : ' + objData.stellarObjectType);
+        return;
     }
+
+    const newObj = new StellarObjectClass(objData);
     parent.addStellarObject(newObj);
     if(objData.children) {
         objData.children.forEach(childData => createStellarObject(newObj, childData));
     }
 }
 
-export {createStellarSystem};
+export { createStellarSystem };

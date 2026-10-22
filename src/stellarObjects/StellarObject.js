@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { OrbitalPath } from './OrbitalPath.js';
 import { MODIFIER_NAME } from '../data/stellarData.js';
 import { AutoFaceStar } from './modifiers/AutoFaceStar.js';
+import { createOrbitalPlane } from './orbitalPlane.js';
 
 /************
  *  
@@ -11,24 +12,27 @@ export class StellarObject extends THREE.Group {
         super();
         this.modifiers = [];
 
+        const { node, plane } = createOrbitalPlane(stellarData.orbitalIncline);
+
+        // spins within the (inclined) orbital plane, carrying the object around its orbit
         const orbitCentroid = new THREE.Group();
-        orbitCentroid.rotation.x = THREE.MathUtils.degToRad(stellarData.orbitalIncline.x);
-        orbitCentroid.rotation.y = THREE.MathUtils.degToRad(stellarData.orbitalIncline.y);
+        orbitCentroid.rotation.y = THREE.MathUtils.degToRad(stellarData.orbitStart??0);
 
         const objectAnchor = new THREE.Group();
 
         const orbitalSpeedInRadians = StellarObject.orbitalSpeedToRadiansPerSecond(stellarData.orbitalSpeed);
-        orbitCentroid.rotation.y = THREE.MathUtils.degToRad(stellarData.orbitStart??0);
         objectAnchor.userData = {
             update: (deltaTime) => {
                 orbitCentroid.rotation.y += (deltaTime * orbitalSpeedInRadians);
             }
         };
         objectAnchor.position.x = stellarData.orbitalRadius;
-    
+
 
         orbitCentroid.add(objectAnchor);
-        this.add(orbitCentroid);
+        plane.add(orbitCentroid);
+        this.add(node);
+        this.orbitCentroid = orbitCentroid;
         this.objectAnchor = objectAnchor;
 
         // optional orbit path

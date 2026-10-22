@@ -84,7 +84,7 @@ function createMoonData({
     radius = 1.0,
     orbitalSpeed = 1.0,
     gravity = 0,
-    icon = 'icon-planet.svg',
+    icon = null,                    // relative to resources/textures; null uses the generic planet icon
     description = 'Lorem Ipsum',
     coppermind = "",
     children = [],
@@ -187,7 +187,7 @@ function createPlanetData({
     gravity,
     perpendicularity,
     name = 'default',
-    icon = 'resources/icons/icon-planet.svg',
+    icon = null,                    // relative to resources/textures; null uses the generic planet icon
     description = 'Lorem ipsum',
     coppermind = 'https://coppermind.net/wiki',
     children = [],
@@ -218,7 +218,6 @@ function createPlanetData({
         perpendicularity,
         name,
         icon,
-        description,
         coppermind,
         children,
         rings,
@@ -255,9 +254,11 @@ function createBinarySet({
     orbitalSpeed = 1,
     orbitalIncline = new THREE.Vector2(0,0),
 }) {
+    // the children orbit their shared center within the pair's own (already inclined) plane,
+    // so they get no inclination of their own
     const orbitalData = {
         orbitalRadius : separationDistance,
-        orbitalIncline : orbitalIncline,
+        orbitalIncline : new THREE.Vector2(0,0),
         orbitalEccentricity : orbitalEccentricity,
         orbitalSpeed : orbitalSpeed,
     }
@@ -278,7 +279,7 @@ function createBinarySet({
 function createParticulateRing({
     id,
     name = '',
-    icon = '',
+    icon = null,
     coppermind = '',
     description = '',
     orbitalIncline = new THREE.Vector2(0,0),
@@ -319,7 +320,7 @@ function createStellarData({
     id,
     skyboxTexture = null,
     name = "the star",
-    icon = "icon-stellar-system.svg",
+    icon = "resources/icons/icon-stellar-system.svg",
     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ",
     shards = 'None',
     investedArts = '',

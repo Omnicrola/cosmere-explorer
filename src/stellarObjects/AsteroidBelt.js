@@ -1,78 +1,69 @@
 import * as THREE from 'three';
-import { asteroidMeshes } from '../data/fileResources.js';
+import { loadAsteroidMeshes } from '../data/fileResources.js';
+import { createTumbleMaterial, advanceTumble, TUMBLE_SPEED_ATTRIBUTE } from '../rendering/tumbleMaterial.js';
+
+const MIN_ASTEROID_SCALE = 0.2;
+const MAX_ASTEROID_SCALE = 1.5;
 
 export class AsteroidBelt extends THREE.Group {
     constructor(asteroidData) {
         super();
 
-        asteroidMeshes.forEach((p) => {
+        loadAsteroidMeshes().forEach((p) => {
             p.then((mesh) => {
                 this.add(AsteroidBelt.createInstancedGroup(mesh, asteroidData.density, asteroidData));
-            });
+            }).catch((err) => console.error('Failed to load asteroid mesh', err));
         });
     }
 
     static createInstancedGroup(mesh, count, asteroidData) {
         const asteroidContainer = new THREE.Group();
-        
+
         // move the entire group of instanced meshes around their orbital ring
         asteroidContainer.userData.update = (deltaTime) => {
             asteroidContainer.rotation.y += deltaTime * (asteroidData.orbitalSpeed / 200);
         };
-    
-        const instanceMesh = new THREE.InstancedMesh(mesh.geometry, mesh.material, count);
-        
-        let randomizedMatrix;
-        const tumblers = [];
-        // generate a randomized transform for each asteroid instance
+
+        // each belt gets its own copy of the rock geometry, since the per-instance
+        // tumble speeds are stored on it
+        const geometry = mesh.geometry.clone();
+        const tumbleSpeeds = new Float32Array(count);
+        const material = createTumbleMaterial(mesh.material);
+        const instanceMesh = new THREE.InstancedMesh(geometry, material, count);
+
+        // generate a randomized transform and tumble speed for each asteroid instance
         for(let i=0; i<count; i++) {
-            randomizedMatrix = AsteroidBelt.randomizeTransform(asteroidData.orbitalRadius, asteroidData.orbitalSpread);
-            instanceMesh.setMatrixAt(i, randomizedMatrix);
-            tumblers.push(Math.random());
+            instanceMesh.setMatrixAt(i, AsteroidBelt.randomizeTransform(asteroidData.orbitalRadius, asteroidData.orbitalSpread));
+            tumbleSpeeds[i] = Math.random();
         }
-    
-        // make all the asteroids 'tumble' as they orbit
+        geometry.setAttribute(TUMBLE_SPEED_ATTRIBUTE, new THREE.InstancedBufferAttribute(tumbleSpeeds, 1));
+
+        // make all the asteroids 'tumble' as they orbit (the rotation itself happens in the vertex shader)
         instanceMesh.userData.update = (deltaTime) => {
-            const rotationMatrix = new THREE.Matrix4();
-            const axisX = new THREE.Vector3(0, 1, 0);
-            let angle = 0;
-    
-            const extractionMatrix = new THREE.Matrix4();
-    
-            for(let i=0; i<count; i++ ) {
-                instanceMesh.getMatrixAt(i, extractionMatrix);
-        
-                angle = tumblers[i] * deltaTime;
-                rotationMatrix.makeRotationAxis(axisX, angle);
-                extractionMatrix.multiply(rotationMatrix);
-    
-                instanceMesh.setMatrixAt(i, extractionMatrix);
-            }
-            instanceMesh.instanceMatrix.needsUpdate = true;
-        }
-    
+            advanceTumble(material, deltaTime);
+        };
+
         asteroidContainer.add(instanceMesh);
         return asteroidContainer;
     }
-    
+
     static randomizeTransform(orbitalRadius, orbitalSpread) {
-    
-        let matrix = new THREE.Matrix4();
+
+        const matrix = new THREE.Matrix4();
         const radius = orbitalRadius + (Math.random() * orbitalSpread);
         const angle = Math.random() * Math.PI * 2;
         const x = Math.cos(angle) * radius;
         const y = Math.random() * 5 - 2.5;
         const z = Math.sin(angle) * radius;
-        let position = new THREE.Vector3(x,y,z);
-    
-        let quaternion = new THREE.Quaternion();
-        quaternion.random();
-    
-        let scale = new THREE.Vector3().setScalar(Math.random() * 2 - 0.5);
-    
+        const position = new THREE.Vector3(x,y,z);
+
+        const quaternion = new THREE.Quaternion().random();
+
+        // always positive: a negative scale turns the rock inside-out
+        const scale = new THREE.Vector3().setScalar(
+            MIN_ASTEROID_SCALE + Math.random() * (MAX_ASTEROID_SCALE - MIN_ASTEROID_SCALE));
+
         matrix.compose(position, quaternion, scale);
         return matrix;
     }
-    
-
 }
