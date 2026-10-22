@@ -1,0 +1,15 @@
+# GitHub Pages builds the site from the gh-pages branch with Jekyll.
+# Everything not needed to run the explorer is kept out of the published site.
+exclude:
+  # source artwork (Photoshop/Blender files, stored in Git LFS)
+  - source-art/
+  # standalone asset-making tools
+  - tools/
+  # development only
+  - test/
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - vitest.config.js
+  - .github/
+  - README.md

@@ -38,7 +38,12 @@ The tests also validate the star system data files, checking for unique ids, mis
 * `src/data/` - stellar system data and user settings (URL + localStorage)
 * `src/generators/`, `src/stellarObjects/` - build the three.js scene graph from the data
 * `src/rendering/` - materials, shaders, post-processing helpers, and GPU resource disposal
+* `styles.css` - page styles
 * `test/` - test suite, mirroring the `src/` layout
+* `source-art/` - Photoshop and Blender source files (stored in [Git LFS](https://git-lfs.com/); run `git lfs install` once to fetch them)
+* `tools/` - standalone pages for generating icons, textures and rings
+
+The published site leaves out `source-art/`, `tools/` and the development files (see `_config.yml`).
 
 ## FAQ
 ### Some of the planets don't have information

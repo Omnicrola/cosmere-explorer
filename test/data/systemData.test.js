@@ -90,6 +90,31 @@ describe('system data file conventions', () => {
     });
 });
 
+describe('deployment', () => {
+    const config = fs.readFileSync(path.join(ROOT, '_config.yml'), 'utf-8');
+
+    it.each(['source-art/', 'tools/', 'test/'])('keeps %s out of the published site', (folder) => {
+        expect(config).toMatch(new RegExp(`^\\s*-\\s*${folder}\\s*$`, 'm'));
+    });
+
+    it('keeps source artwork out of the deployed resources folder', () => {
+        const strays = [];
+        const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+            const full = path.join(dir, entry.name);
+            if(entry.isDirectory()) walk(full);
+            else if(/\.(psd|blend)$/i.test(entry.name)) strays.push(path.relative(ROOT, full));
+        });
+        walk(path.join(ROOT, 'resources'));
+        expect(strays).toEqual([]);
+    });
+
+    it('stores source artwork in Git LFS', () => {
+        const attributes = fs.readFileSync(path.join(ROOT, '.gitattributes'), 'utf-8');
+        expect(attributes).toMatch(/^\*\.psd filter=lfs/m);
+        expect(attributes).toMatch(/^\*\.blend filter=lfs/m);
+    });
+});
+
 describe('findSystemById', () => {
     it('finds systems by id and returns null for unknown ids', () => {
         expect(findSystemById(allStellarSystems[0].id)).toBe(allStellarSystems[0]);
