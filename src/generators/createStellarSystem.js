@@ -3,7 +3,7 @@ import { createSkybox } from './createSkybox.js';
 import { STELLAR_OBJECT } from '../data/stellarData.js';
 import { Star } from '../stellarObjects/Star.js';
 import { Planet } from '../stellarObjects/Planet.js';
-import { CognitiveAnomoly } from '../stellarObjects/CognitiveAnomoly.js';
+import { CognitiveAnomaly } from '../stellarObjects/CognitiveAnomaly.js';
 import { BinaryPair } from '../stellarObjects/BinaryPair.js';
 import { AsteroidBelt } from '../stellarObjects/AsteroidBelt.js';
 import { ParticulateRing } from '../stellarObjects/ParticulateRing.js';
@@ -14,7 +14,7 @@ const STELLAR_OBJECT_CLASSES = {
     [STELLAR_OBJECT.PLANET]: Planet,
     [STELLAR_OBJECT.MOON]: Moon,
     [STELLAR_OBJECT.ASTEROID_BELT]: AsteroidBelt,
-    [STELLAR_OBJECT.COGNITIVE_ANOMOLY]: CognitiveAnomoly,
+    [STELLAR_OBJECT.COGNITIVE_ANOMALY]: CognitiveAnomaly,
     [STELLAR_OBJECT.BINARY_SET]: BinaryPair,
     [STELLAR_OBJECT.PARTICULATE_RING]: ParticulateRing,
 };

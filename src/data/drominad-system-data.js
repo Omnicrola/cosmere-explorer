@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData, createStarData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomalyData, createStarData } from "./stellarData.js";
 
 
 

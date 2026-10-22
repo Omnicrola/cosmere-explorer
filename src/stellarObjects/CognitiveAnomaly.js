@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { StellarObject } from "./StellarObject.js";
 import { GeoNoise } from './modifiers/GeoNoise.js';
 
-export class CognitiveAnomoly extends StellarObject {
+export class CognitiveAnomaly extends StellarObject {
 
     constructor(objData) {
         super(objData);

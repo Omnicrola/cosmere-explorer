@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData, createStarData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomalyData, createStarData } from "./stellarData.js";
 
 const nalthis = createPlanetData({
     id: 'nalthis',
@@ -32,10 +32,10 @@ const nalthis = createPlanetData({
         }),    ]
 });
 
-const cognitiveAnomoly = createCognitiveAnomolyData({
-    id: 'nalthis-anomoly',
-    name: 'Cognitive Anomoly',
-    icon : 'Nalthis/icon-anomoly.png',
+const cognitiveAnomaly = createCognitiveAnomalyData({
+    id: 'nalthis-anomaly',
+    name: 'Cognitive Anomaly',
+    icon : 'Nalthis/icon-anomaly.png',
     radius: 2,
     orbitalRadius: 175,
     orbitStart: 51,
@@ -46,8 +46,8 @@ const cognitiveAnomoly = createCognitiveAnomolyData({
         noiseSpeed : 8.0,
         noiseScale : 2.0
     }, 
-    icon: 'Nalthis/icon-cognitive-anomoly.png',
-    description: `This unexplored cognitive anomoly occupies the same orbital path as Nalthis.`,
+    icon: 'Nalthis/icon-cognitive-anomaly.png',
+    description: `This unexplored cognitive anomaly occupies the same orbital path as Nalthis.`,
     coppermind : "https://coppermind.net/wiki/Nalthis",
 });
 
@@ -217,7 +217,7 @@ const nalthisSystemData = createStellarData({
     stellarObjects: [
         star,
         cometBelt,
-        cognitiveAnomoly,
+        cognitiveAnomaly,
         nalthis, 
         farkeeper,
         nightstar

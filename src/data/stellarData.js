@@ -6,7 +6,7 @@ const STELLAR_OBJECT = {
     get PLANET () {return 2;},
     get MOON () {return 3;},
     get ASTEROID_BELT  ()  {return 4;},
-    get COGNITIVE_ANOMOLY () {return 5;},
+    get COGNITIVE_ANOMALY () {return 5;},
     get BINARY_SET () {return 6;},
     get PARTICULATE_RING () {return 7;},
 }
@@ -129,9 +129,9 @@ function createAsteroidBeltData({
     };
 }
 
-function createCognitiveAnomolyData({
+function createCognitiveAnomalyData({
     id,
-    name = 'anomoly',
+    name = 'anomaly',
     radius = 1,
     orbitalRadius = 10,
     orbitalSpeed = 1,
@@ -151,7 +151,7 @@ function createCognitiveAnomolyData({
     assertValidId(id);
     return {
         id,
-        stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMOLY,
+        stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMALY,
         name,
         radius,
         orbitalRadius,
@@ -350,7 +350,7 @@ export {
     createPlanetData,
     createStellarData,
     createRingData,
-    createCognitiveAnomolyData,
+    createCognitiveAnomalyData,
     createBinarySet,
     createParticulateRing,
     STELLAR_OBJECT,
