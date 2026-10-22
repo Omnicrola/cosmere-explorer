@@ -1,20 +1,20 @@
 import * as THREE from 'three';
 
 
-const STELLAR_OBJECT = {
-    get STAR () {return 1;},
-    get PLANET () {return 2;},
-    get MOON () {return 3;},
-    get ASTEROID_BELT  ()  {return 4;},
-    get COGNITIVE_ANOMALY () {return 5;},
-    get BINARY_SET () {return 6;},
-    get PARTICULATE_RING () {return 7;},
-}
+const STELLAR_OBJECT = Object.freeze({
+    STAR: 1,
+    PLANET: 2,
+    MOON: 3,
+    ASTEROID_BELT: 4,
+    COGNITIVE_ANOMALY: 5,
+    BINARY_SET: 6,
+    PARTICULATE_RING: 7,
+});
 
-const MODIFIER_NAME = {
-    get AUTO_FACE () {return 1;},
-    get SPINNER () {return 2;},
-}
+const MODIFIER_NAME = Object.freeze({
+    AUTO_FACE: 1,
+    SPINNER: 2,
+});
 
 function assertValidId(id) {
     if(id === null || id === undefined || id < 0) {

@@ -1,66 +1,41 @@
 import * as THREE from "three";
 import atmo_fragmentShader from './shaders/atmo_fragment.glsl.js';
 import atmo_vertexShader from './shaders/atmo_vertex.glsl.js';
+import fresnel_fragmentShader from './shaders/fresnel_fragment.glsl.js';
+import fresnel_vertexShader from './shaders/fresnel_vertex.glsl.js';
 
 const texLoader = new THREE.TextureLoader();
 
+// Glow that depends on how edge-on the surface is to the camera.
+//   backSide       - render the inside of the mesh (for a halo drawn around an object)
+//   invertFalloff  - brightest facing the camera, fading towards the rim (a hazy cloud)
+//   intensity      - overall brightness/opacity multiplier
 function createFresnelMaterial({
-    rimHex = 0x0088ff, 
+    rimHex = 0x0088ff,
     facingHex = 0x000000,
-    bias = 0.2,
+    bias = 0.2,       // size of the *rim*
     scale = 1.5,
     power = 4,
-    invert = false
+    backSide = false,
+    invertFalloff = false,
+    intensity = 1.0,
 } = {}) {
-  const uniforms = {
-    color1: { value: new THREE.Color(rimHex) },
-    color2: { value: new THREE.Color(facingHex) },
-    fresnelBias: { value: bias}, // size of the *rim*
-    fresnelScale: { value: scale },
-    fresnelPower: { value: power },
-  };
-  const vs = `
-  uniform float fresnelBias;
-  uniform float fresnelScale;
-  uniform float fresnelPower;
-  
-  varying float vReflectionFactor;
-  
-  void main() {
-    vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-    vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-  
-    vec3 worldNormal = normalize( mat3( modelMatrix[0].xyz, modelMatrix[1].xyz, modelMatrix[2].xyz ) * normal );
-  
-    vec3 I = worldPosition.xyz - cameraPosition;
-  
-    vReflectionFactor = fresnelBias + fresnelScale * pow( 1.0 + dot( normalize( I ), worldNormal ), fresnelPower );
-  
-    gl_Position = projectionMatrix * mvPosition;
-  }
-  `;
-  const fs = `
-  uniform vec3 color1;
-  uniform vec3 color2;
-  
-  varying float vReflectionFactor;
-  
-  void main() {
-    float f = clamp( vReflectionFactor, 0.0, 1.0 );
-    gl_FragColor = vec4(mix(color2, color1, vec3(f)), f);
-  }
-  `;
-  const fresnelMat = new THREE.ShaderMaterial({
-    uniforms: uniforms,
-    vertexShader: vs,
-    fragmentShader: fs,
+  return new THREE.ShaderMaterial({
+    uniforms: {
+      color1: { value: new THREE.Color(rimHex) },
+      color2: { value: new THREE.Color(facingHex) },
+      fresnelBias: { value: bias },
+      fresnelScale: { value: scale },
+      fresnelPower: { value: power },
+      intensity: { value: intensity },
+    },
+    defines: invertFalloff ? { INVERT_FALLOFF: '' } : {},
+    vertexShader: fresnel_vertexShader,
+    fragmentShader: fresnel_fragmentShader,
     transparent: true,
     blending: THREE.AdditiveBlending,
-    side: invert?THREE.BackSide : 0
-
-    // wireframe: true,
+    side: backSide ? THREE.BackSide : THREE.FrontSide,
   });
-  return fresnelMat;
 }
 
 // make material for a planet surface
