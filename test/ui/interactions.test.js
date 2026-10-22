@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, it, expect, beforeEach } from 'vitest';
-import { mountAppDom, installSceneContext, makeSelectableSphere } from '../helpers.js';
+import { mountAppDom, installSceneContext, makeSelectableSphere, simulateCamera } from '../helpers.js';
 import {
     attachPointerHandlers,
     setSelectableObjects,
@@ -9,17 +9,17 @@ import {
     stopFollowingStellarObject,
     clearFocus,
 } from '../../src/ui/interactions.js';
-import { updateCamera } from '../../src/core/cameraFollow.js';
+import { updateCamera } from '../../src/core/cameraRig.js';
 import { userSettings } from '../../src/data/userSettings.js';
 import { collectSelectableObjects } from '../../src/ui/selection.js';
 
 const RECT = { left: 0, top: 0, width: 100, height: 100 };
 
-let scene, camera, orbitControls, planet, star;
+let scene, camera, cameraControls, planet, star;
 
 beforeEach(() => {
     mountAppDom();
-    ({ scene, camera, orbitControls } = installSceneContext());
+    ({ scene, camera, cameraControls } = installSceneContext());
 
     // camera at z=10 looking at the origin: the planet sits directly in front of the star
     star = makeSelectableSphere('star', 2, new THREE.Vector3(0, 0, 0));
@@ -99,37 +99,11 @@ describe('focusOnStellarObject', () => {
         expect(focusOnStellarObject({ selectedId: '' })).toBe(false);
     });
 
-    it('overrides any in-flight camera tween such as the warp-in (regression)', () => {
+    it('flies the camera to the object and keeps it centered', () => {
         focusOnStellarObject({ selectedId: 'planet' });
-        expect(gsap.to).toHaveBeenCalledWith(camera.position, expect.objectContaining({ overwrite: 'auto' }));
-    });
-
-    it('starts camera travel from the current look target, not the mesh local position (regression)', () => {
-        // a moon whose mesh sits at local (0,0,0) inside an anchor that is far from the origin
-        const anchor = new THREE.Group();
-        anchor.position.set(100, 0, 0);
-        const moon = makeSelectableSphere('moon', 0.5, new THREE.Vector3(0, 0, 0));
-        anchor.add(moon);
-        scene.add(anchor);
-        scene.updateMatrixWorld(true);
-
-        // the camera is currently looking at a planet at x=10
-        orbitControls.target.set(10, 0, 0);
-        focusOnStellarObject({ stellarObj: moon });
-
-        // after 0.1s the travel is 20% of the way from x=10 to x=100
-        updateCamera(0.1);
-        expect(orbitControls.target.x).toBeCloseTo(10 + 0.2 * 90);
-    });
-
-    it('keeps following the target once the camera has arrived', () => {
-        focusOnStellarObject({ stellarObj: planet });
-        updateCamera(1);
-        planet.position.set(3, 0, 5);
-        scene.updateMatrixWorld(true);
-        updateCamera(0.016);
-        expect(orbitControls.target.x).toBeCloseTo(3);
-        expect(orbitControls.autoRotate).toBe(true);
+        simulateCamera(3, updateCamera);
+        const target = cameraControls.getTarget(new THREE.Vector3());
+        expect(target.distanceTo(planet.getWorldPosition(new THREE.Vector3()))).toBeLessThan(0.05);
     });
 });
 

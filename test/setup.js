@@ -14,6 +14,10 @@ beforeEach(() => {
             vars.onComplete?.();
             return { kill: vi.fn() };
         }),
+        delayedCall: vi.fn((delay, callback) => {
+            callback();
+            return { kill: vi.fn() };
+        }),
         killTweensOf: vi.fn(),
     };
     localStorage.clear();

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { sceneContext } from "../core/sceneContext.js";
-import { resetCameraTravel } from "../core/cameraFollow.js";
+import { flyToObject, stopFollowing } from "../core/cameraRig.js";
 import { userSettings, isValidId, recordNavigation } from "../data/userSettings.js";
 import { showInfoPanel } from "./infoPanels.js";
 import { setElementHidden } from "./dom.js";
@@ -48,26 +48,7 @@ function pickObjectAt(clientX, clientY, rect) {
 }
 
 function stopFollowingStellarObject() {
-    const { camera, orbitControls } = sceneContext;
-    orbitControls.autoRotate = false;
-    if(!camera.cameraFollowTarget) {
-        return;
-    }
-    camera.cameraFollowTarget = null;
-
-    // ease the camera back a little so the user can see they've let go of the object
-    const backward = new THREE.Vector3();
-    camera.getWorldDirection(backward).multiplyScalar(-5);
-    backward.add(camera.position);
-
-    gsap.to(camera.position, {
-        duration : 1,
-        x: backward.x,
-        y: backward.y,
-        z: backward.z,
-        ease: 'expo.out',
-        overwrite: 'auto', // cancel any other in-flight camera move (e.g. the warp-in)
-    });
+    stopFollowing();
 }
 
 // clears the remembered selection and resets the planet drop-down
@@ -89,7 +70,7 @@ function clearFocus() {
 // Moves the camera to a stellar object, by object or by id.
 // Returns false (and clears any stale selection) when the object doesn't exist in the scene.
 function focusOnStellarObject({selectedId, stellarObj}) {
-    const { scene, camera, orbitControls } = sceneContext;
+    const { scene, camera } = sceneContext;
 
     if(stellarObj) {
         selectedId = stellarObj.name;
@@ -107,38 +88,13 @@ function focusOnStellarObject({selectedId, stellarObj}) {
         return true;
     }
 
-    // start the travel from wherever the camera is currently looking
-    resetCameraTravel(orbitControls.target);
     recordNavigation(() => { userSettings.currentSelection = selectedId; });
-    camera.cameraFollowTarget = stellarObj;
 
     const planetSelect = document.getElementById('planet-select');
     planetSelect.value = selectedId;
 
-    const aabb = new THREE.Box3().setFromObject( stellarObj );
-    const center = aabb.getCenter( new THREE.Vector3() );
-    const size = aabb.getSize( new THREE.Vector3() );
-
-    const viewingPosition = new THREE.Vector3()
-            .copy(camera.position)
-            .sub(center)
-            .setY(0)
-            .normalize()
-            .multiplyScalar(Math.max(size.z*2, 2))
-            .setY(size.y/2)
-            .add(center);
-
     showInfoPanel(stellarObj);
-
-    gsap.to(camera.position, {
-        delay: 0.5,
-        duration : 1,
-        x: viewingPosition.x,
-        y: viewingPosition.y,
-        z: viewingPosition.z,
-        ease: 'expo.out',
-        overwrite: 'auto', // cancel any other in-flight camera move (e.g. the warp-in)
-    });
+    flyToObject(stellarObj);
     return true;
 }
 

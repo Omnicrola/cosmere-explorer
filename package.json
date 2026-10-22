@@ -9,6 +9,7 @@
     "serve": "npx --yes http-server -c-1 -p 8080 ."
   },
   "devDependencies": {
+    "camera-controls": "^3.1.2",
     "jsdom": "^26.1.0",
     "three": "0.179.1",
     "vitest": "^3.2.7"

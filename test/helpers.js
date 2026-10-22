@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { vi } from 'vitest';
 import { sceneContext } from '../src/core/sceneContext.js';
+import { createCameraControls } from '../src/core/cameraRig.js';
 
 // The DOM elements from index.html that the UI modules expect to find.
 function mountAppDom() {
@@ -15,23 +15,29 @@ function mountAppDom() {
     `;
 }
 
-// A real scene and camera, with a minimal stand-in for OrbitControls.
+// A real scene, camera and camera controls (not connected to any DOM element).
 function installSceneContext() {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 1000);
-    camera.position.set(0, 0, 10);
-    camera.lookAt(0, 0, 0);
-    camera.updateMatrixWorld();
+    const camera = new THREE.PerspectiveCamera(40, 1, 1, 20000); // same near/far planes as the app
     scene.add(camera);
 
-    const orbitControls = {
-        target: new THREE.Vector3(),
-        autoRotate: false,
-        update: vi.fn(),
-    };
+    const cameraControls = createCameraControls(camera);
+    cameraControls.setLookAt(0, 0, 10, 0, 0, 0, false);
+    cameraControls.update(0);
+    camera.updateMatrixWorld();
 
-    Object.assign(sceneContext, { scene, camera, orbitControls, renderer: null });
-    return { scene, camera, orbitControls };
+    Object.assign(sceneContext, { scene, camera, cameraControls, renderer: null });
+    return { scene, camera, cameraControls };
+}
+
+// runs the camera for a number of seconds at 60fps, calling onFrame after each frame
+function simulateCamera(seconds, updateCamera, onFrame = () => {}) {
+    const frames = Math.round(seconds * 60);
+    for(let i = 0; i < frames; i++) {
+        updateCamera(1 / 60);
+        sceneContext.camera.updateMatrixWorld();
+        onFrame(i);
+    }
 }
 
 function makeSelectableSphere(name, radius, position) {
@@ -42,4 +48,4 @@ function makeSelectableSphere(name, radius, position) {
     return mesh;
 }
 
-export { mountAppDom, installSceneContext, makeSelectableSphere };
+export { mountAppDom, installSceneContext, makeSelectableSphere, simulateCamera };

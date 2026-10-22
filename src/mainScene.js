@@ -1,12 +1,11 @@
 import * as THREE from "three";
-import { OrbitControls } from 'jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'jsm/postprocessing/OutputPass.js';
 import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { sceneContext } from "./core/sceneContext.js";
-import { updateCamera } from "./core/cameraFollow.js";
+import { createCameraControls, updateCamera, jumpTo, flyToOverview, setCameraObstacles } from "./core/cameraRig.js";
 import { startWarpIn } from "./core/warpIn.js";
 import { attachPointerHandlers, focusOnStellarObject, setSelectableObjects } from "./ui/interactions.js";
 import { collectSelectableObjects } from "./ui/selection.js";
@@ -16,13 +15,15 @@ import { isValidId, userSettings, restoreSettingsIntoUrl } from "./data/userSett
 import { restoreFromUrl } from "./core/historyNavigation.js";
 import { createMixPass, collectTransmissionMeshes, setBloomVisibility } from "./rendering/RenderTools.js";
 import { disposeObject3D } from "./rendering/dispose.js";
+import { STELLAR_OBJECT } from "./data/stellarData.js";
 
 const zero = new THREE.Vector3();
+const WARP_START_POSITION = new THREE.Vector3(0, 9000, 100);
 
 // rendering at very high device pixel ratios costs far more than it looks better
 const MAX_PIXEL_RATIO = 2;
 
-let scene, camera, renderer, orbitControls;
+let scene, camera, renderer, cameraControls;
 let finalComposer, bloomComposer, clock;
 let transmissionMeshes = [];
 let cancelWarpIn = null;
@@ -74,11 +75,9 @@ function init() {
 
     //
 
-    orbitControls = new OrbitControls( camera, renderer.domElement );
-    orbitControls.enableDamping = true;
-    orbitControls.dampingFactor = 0.05;
+    cameraControls = createCameraControls( camera, renderer.domElement );
 
-    Object.assign(sceneContext, { scene, camera, orbitControls, renderer });
+    Object.assign(sceneContext, { scene, camera, cameraControls, renderer });
 
     attachPointerHandlers(renderer.domElement);
     window.addEventListener('resize', onWindowResize);
@@ -143,11 +142,17 @@ function objectUpdate(delta, clock) {
     }
 }
 
+// stars, planets and moons: things the camera should fly around rather than through
+// (rings and cognitive anomalies span large, mostly empty regions)
+const SOLID_BODY_TYPES = [STELLAR_OBJECT.STAR, STELLAR_OBJECT.PLANET, STELLAR_OBJECT.MOON];
+function isSolidBody(obj) {
+    return SOLID_BODY_TYPES.includes(obj.userData.info?.stellarObjectType);
+}
+
 // stop any animation or delayed focus left over from the previous system
 function cancelPendingTransitions() {
     cancelWarpIn?.();
     cancelWarpIn = null;
-    gsap.killTweensOf(camera.position);
 }
 
 function resetScene(stellarSystem) {
@@ -170,7 +175,9 @@ function resetScene(stellarSystem) {
     scene.add(newSystemGraph);
     scene.background = skybox;
 
-    setSelectableObjects(collectSelectableObjects(newSystemGraph));
+    const selectables = collectSelectableObjects(newSystemGraph);
+    setSelectableObjects(selectables);
+    setCameraObstacles(selectables.filter(isSolidBody));
     transmissionMeshes = collectTransmissionMeshes(newSystemGraph);
 
     // user interface
@@ -178,19 +185,15 @@ function resetScene(stellarSystem) {
     ui.setCurrentSystem(stellarSystem);
     ui.updateScannerList(stellarSystem.stellarObjects);
 
-    // reset camera
-    camera.cameraFollowTarget = null;
-    camera.position.set(0, 9000, 100);
-    orbitControls.autoRotate = false;
-    orbitControls.target.copy(zero);
-    camera.lookAt(zero);
+    // start far above the star
+    jumpTo(WARP_START_POSITION, zero);
 
     // zoom in all dramatic-like, then go to the remembered planet (if any)
     const currentSelection = userSettings.currentSelection;
     cancelWarpIn = startWarpIn({
         scene,
-        camera,
         systemGraph: newSystemGraph,
+        flyToOverview,
         onArrive: isValidId(currentSelection)
             ? () => {
                 // unless the user already picked something else during the warp

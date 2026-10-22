@@ -1,7 +1,5 @@
 import * as THREE from "three";
 
-const zero = new THREE.Vector3();
-
 // Where the camera ends up after warping into a system: above and behind the star,
 // far enough back to see the whole system.
 // The scene is reset to full scale before measuring; otherwise switching systems while a
@@ -19,9 +17,9 @@ function computeWarpInCameraPosition(scene, systemGraph, target = new THREE.Vect
 // When arriving at a remembered selection, onArrive runs once the scene is at full size,
 // so the object is measured correctly. (A wall-clock timer can fire early, because gsap's
 // clock slows down during the heavy frames of building a new scene.)
-// Otherwise the camera glides to the overview position.
+// Otherwise flyToOverview(position) is asked to glide the camera to an overview.
 // Returns a function that cancels the warp.
-function startWarpIn({ scene, camera, systemGraph, onArrive = null }) {
+function startWarpIn({ scene, systemGraph, onArrive = null, flyToOverview }) {
     const destination = computeWarpInCameraPosition(scene, systemGraph);
 
     // a tiny scale rather than zero, which would make every world matrix non-invertible
@@ -39,17 +37,7 @@ function startWarpIn({ scene, camera, systemGraph, onArrive = null }) {
     ];
 
     if(!onArrive) {
-        tweens.push(gsap.to(camera.position, {
-            duration : 3,
-            delay: 1,
-            x: destination.x,
-            y: destination.y,
-            z: destination.z,
-            ease: 'power4.out',
-            onUpdate: () => {
-                camera.lookAt(zero);
-            },
-        }));
+        tweens.push(gsap.delayedCall(1, () => flyToOverview(destination)));
     }
 
     return () => tweens.forEach((tween) => tween.kill());

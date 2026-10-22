@@ -53,24 +53,35 @@ describe('startWarpIn', () => {
         const setTimeoutSpy = vi.spyOn(window, 'setTimeout');
         let scaleAtArrival = null;
 
-        startWarpIn({ scene, camera, systemGraph: system, onArrive: () => { scaleAtArrival = scene.scale.x; } });
+        startWarpIn({ scene, systemGraph: system, onArrive: () => { scaleAtArrival = scene.scale.x; } });
 
         expect(scaleAtArrival).toBe(1);
         expect(setTimeoutSpy).not.toHaveBeenCalled();
         setTimeoutSpy.mockRestore();
     });
 
-    it('glides the camera to the overview when there is no selection', () => {
-        const { scene, camera, system } = setup();
-        startWarpIn({ scene, camera, systemGraph: system });
-        expect(camera.position.y).toBeCloseTo(100);
-        expect(camera.position.z).toBeCloseTo(150);
+    it('asks for an overview flight when there is no selection', () => {
+        const { scene, system } = setup();
+        const flyToOverview = vi.fn();
+        startWarpIn({ scene, systemGraph: system, flyToOverview });
+        expect(flyToOverview).toHaveBeenCalledTimes(1);
+        const destination = flyToOverview.mock.calls[0][0];
+        expect(destination.y).toBeCloseTo(100);
+        expect(destination.z).toBeCloseTo(150);
+    });
+
+    it('does not fly to the overview when arriving at a selection', () => {
+        const { scene, system } = setup();
+        const flyToOverview = vi.fn();
+        startWarpIn({ scene, systemGraph: system, flyToOverview, onArrive: () => {} });
+        expect(flyToOverview).not.toHaveBeenCalled();
     });
 
     it('returns a cancel function that kills its tweens', () => {
-        const { scene, camera, system } = setup();
-        const cancel = startWarpIn({ scene, camera, systemGraph: system });
+        const { scene, system } = setup();
+        const cancel = startWarpIn({ scene, systemGraph: system, flyToOverview: () => {} });
         cancel();
-        gsap.to.mock.results.forEach((result) => expect(result.value.kill).toHaveBeenCalled());
+        [...gsap.to.mock.results, ...gsap.delayedCall.mock.results]
+            .forEach((result) => expect(result.value.kill).toHaveBeenCalled());
     });
 });
