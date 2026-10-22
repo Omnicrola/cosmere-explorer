@@ -212,7 +212,7 @@ const star = createStarData({
     description: `The Rosharan sun is a larger main sequence star that burns brighter than most inhabited systems and emits a more white toned light.`
 });
 
-const rosharStellarSystem = createStellarData({
+const rosharSystemData = createStellarData({
     id: 'roshar-star',
     name : "Rosharan System",
     skyboxTexture : 'Roshar/sky_roshar',
@@ -242,4 +242,4 @@ const rosharStellarSystem = createStellarData({
     ]
 });
 
-export { rosharStellarSystem };
+export { rosharSystemData };

@@ -66,6 +66,30 @@ describe.each(allStellarSystems.map((s) => [s.name, s]))('%s', (_name, system) =
     });
 });
 
+describe('system data file conventions', () => {
+    const dataDir = path.join(ROOT, 'src/data');
+    const systemFiles = fs.readdirSync(dataDir).filter((f) => f.endsWith('-system-data.js'));
+
+    it('names every system file [name]-system-data.js', () => {
+        const strays = fs.readdirSync(dataDir).filter((f) => /system/i.test(f) && !f.endsWith('-system-data.js') && f !== 'all-systems.js');
+        expect(strays).toEqual([]);
+    });
+
+    it.each(systemFiles)('%s exports [name]SystemData', async (file) => {
+        const name = file.replace('-system-data.js', '');
+        const module = await import(`../../src/data/${file}`);
+        expect(Object.keys(module)).toEqual([`${name}SystemData`]);
+    });
+
+    it('lists every system except the default test system', async () => {
+        const listed = new Set(allStellarSystems);
+        for(const file of systemFiles.filter((f) => f !== 'default-system-data.js')) {
+            const module = await import(`../../src/data/${file}`);
+            expect(listed.has(Object.values(module)[0]), file).toBe(true);
+        }
+    });
+});
+
 describe('findSystemById', () => {
     it('finds systems by id and returns null for unknown ids', () => {
         expect(findSystemById(allStellarSystems[0].id)).toBe(allStellarSystems[0]);
