@@ -18,15 +18,8 @@ export class ParticulateRing extends StellarObject {
         });
 
         const geometry = new THREE.TorusGeometry(objData.ringDiameter, objData.ringRadius, 64, 32);
-        const ringMesh = new THREE.Mesh(geometry, ringMaterial);        
+        const ringMesh = new THREE.Mesh(geometry, ringMaterial);
 
-
-        ringMesh.name = objData.id;
-        ringMesh.userData = {
-            info : objData,
-            isSelectable : true,
-        };
-
-        this.addStellarObject(ringMesh);
+        this.createBody([ringMesh]);
     }
 }

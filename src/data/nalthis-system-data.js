@@ -4,7 +4,6 @@ import { createMoonData, createPlanetData, createStellarData, createRingData, cr
 const nalthis = createPlanetData({
     id: 'nalthis',
     name : "Nalthis",
-    planetRadius : 1,
     color : 0x8888ff,
     icon : 'Nalthis/icon-nalthis.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -56,7 +55,6 @@ const farkeeper = createPlanetData({
     id: 'farkeeper',
     name: 'Farkeeper the Bright',
     icon : 'Nalthis/icon-farkeeper.png',
-    planetRadius : 7.42,
     color: 0xFF5555,
     textureMap: 'Nalthis/p_nalthis_farkeeper.png',
     icon : 'Nalthis/icon-farkeeper.png',
@@ -166,7 +164,6 @@ const nightstar = createPlanetData({
     id: 'nightstar',
     name: 'Nightstar the Hidden',
     icon : 'Nalthis/icon-nightstar.png',
-    planetRadius : 1.52,
     color: 0xFF44FF,
     textureMap: 'Nalthis/p_nalthis_nightstar.png',
     icon : 'Nalthis/icon-nightstar.png',

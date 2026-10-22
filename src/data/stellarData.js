@@ -13,7 +13,6 @@ const STELLAR_OBJECT = Object.freeze({
 
 const MODIFIER_NAME = Object.freeze({
     AUTO_FACE: 1,
-    SPINNER: 2,
 });
 
 function assertValidId(id) {
@@ -81,6 +80,7 @@ function createMoonData({
     orbitalEccentricity = 0,
     orbitalIncline = new THREE.Vector2(0,0),
     axialTilt = 0,
+    spinRate = 0,                   // degrees per second; most moons are tidally locked
     radius = 1.0,
     orbitalSpeed = 1.0,
     gravity = 0,
@@ -103,6 +103,7 @@ function createMoonData({
         orbitalEccentricity,
         orbitalIncline,
         axialTilt,
+        spinRate,
         radius,
         gravity,
         orbitalSpeed,
@@ -170,7 +171,6 @@ function createCognitiveAnomalyData({
 function createPlanetData({
     id,
     system = '',
-    planetRadius = 1,
     showOrbitalPath = true,
     color = 0xffffff,
     textureMap = null,
@@ -182,7 +182,7 @@ function createPlanetData({
     orbitalEccentricity = 0,
     axialTilt = 10,
     orbitalIncline = new THREE.Vector2(0,0),
-    spinRate = 1,
+    spinRate = 1,                   // degrees per second
     radius,
     gravity,
     perpendicularity,
@@ -201,7 +201,6 @@ function createPlanetData({
         showOrbitalPath,
         system,
         description,
-        planetRadius,
         orbitStart,
         color,
         textureMap,
@@ -229,7 +228,6 @@ function createRingData({
     visible = false,
     albedoMap = null,
     alphaMap = null,
-    opacity = 1.0, 
     radius = 1.5, 
     spread = 0.5,
     inclination = 0,
@@ -238,7 +236,6 @@ function createRingData({
         visible,
         albedoMap,
         alphaMap,
-        opacity,
         radius,
         spread,
         inclination
@@ -267,7 +264,6 @@ function createBinarySet({
     return {
         stellarObjectType: STELLAR_OBJECT.BINARY_SET,
         children,
-        separationDistance,
         orbitStart,
         orbitalRadius,
         orbitalEccentricity,
@@ -290,7 +286,6 @@ function createParticulateRing({
     ringDiameter = 1,
     ringRadius = 2,
     color = 0xffffff,
-    opacity = 1,
     modifiers = [],
     children = []
 }) {
@@ -310,7 +305,6 @@ function createParticulateRing({
         ringDiameter,
         ringRadius,
         color,
-        opacity,
         modifiers,
         children,
     };

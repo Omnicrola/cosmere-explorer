@@ -90,10 +90,10 @@ describe('tumble material', () => {
     });
 });
 
-describe('Spinner (regression: module failed to import)', () => {
-    it('rotates its parent object at spinRate degrees per second', () => {
-        const parentObj = new THREE.Object3D();
-        new Spinner(90).update(2, { parentObj });
-        expect(parentObj.rotation.y).toBeCloseTo(Math.PI);
+describe('Spinner', () => {
+    it('rotates its target at spinRate degrees per second', () => {
+        const target = new THREE.Object3D();
+        new Spinner(90, target).update(2);
+        expect(target.rotation.y).toBeCloseTo(Math.PI);
     });
 });
