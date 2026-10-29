@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { loadAsteroidMeshes } from '../data/fileResources.js';
+import { markSceneGraphChanged } from '../core/updateList.js';
 import { createTumbleMaterial, advanceTumble, TUMBLE_SPEED_ATTRIBUTE } from '../rendering/tumbleMaterial.js';
 
 const MIN_ASTEROID_SCALE = 0.2;
@@ -12,6 +13,7 @@ export class AsteroidBelt extends THREE.Group {
         loadAsteroidMeshes().forEach((p) => {
             p.then((mesh) => {
                 this.add(AsteroidBelt.createInstancedGroup(mesh, asteroidData.density, asteroidData));
+                markSceneGraphChanged(); // its tumble update needs to join the per-frame update list
             }).catch((err) => console.error('Failed to load asteroid mesh', err));
         });
     }

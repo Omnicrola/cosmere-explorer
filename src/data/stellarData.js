@@ -1,20 +1,19 @@
 import * as THREE from 'three';
 
 
-const STELLAR_OBJECT = {
-    get STAR () {return 1;},
-    get PLANET () {return 2;},
-    get MOON () {return 3;},
-    get ASTEROID_BELT  ()  {return 4;},
-    get COGNITIVE_ANOMOLY () {return 5;},
-    get BINARY_SET () {return 6;},
-    get PARTICULATE_RING () {return 7;},
-}
+const STELLAR_OBJECT = Object.freeze({
+    STAR: 1,
+    PLANET: 2,
+    MOON: 3,
+    ASTEROID_BELT: 4,
+    COGNITIVE_ANOMALY: 5,
+    BINARY_SET: 6,
+    PARTICULATE_RING: 7,
+});
 
-const MODIFIER_NAME = {
-    get AUTO_FACE () {return 1;},
-    get SPINNER () {return 2;},
-}
+const MODIFIER_NAME = Object.freeze({
+    AUTO_FACE: 1,
+});
 
 function assertValidId(id) {
     if(id === null || id === undefined || id < 0) {
@@ -81,6 +80,7 @@ function createMoonData({
     orbitalEccentricity = 0,
     orbitalIncline = new THREE.Vector2(0,0),
     axialTilt = 0,
+    spinRate = 0,                   // degrees per second; most moons are tidally locked
     radius = 1.0,
     orbitalSpeed = 1.0,
     gravity = 0,
@@ -103,6 +103,7 @@ function createMoonData({
         orbitalEccentricity,
         orbitalIncline,
         axialTilt,
+        spinRate,
         radius,
         gravity,
         orbitalSpeed,
@@ -129,9 +130,9 @@ function createAsteroidBeltData({
     };
 }
 
-function createCognitiveAnomolyData({
+function createCognitiveAnomalyData({
     id,
-    name = 'anomoly',
+    name = 'anomaly',
     radius = 1,
     orbitalRadius = 10,
     orbitalSpeed = 1,
@@ -151,7 +152,7 @@ function createCognitiveAnomolyData({
     assertValidId(id);
     return {
         id,
-        stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMOLY,
+        stellarObjectType : STELLAR_OBJECT.COGNITIVE_ANOMALY,
         name,
         radius,
         orbitalRadius,
@@ -170,7 +171,6 @@ function createCognitiveAnomolyData({
 function createPlanetData({
     id,
     system = '',
-    planetRadius = 1,
     showOrbitalPath = true,
     color = 0xffffff,
     textureMap = null,
@@ -182,7 +182,7 @@ function createPlanetData({
     orbitalEccentricity = 0,
     axialTilt = 10,
     orbitalIncline = new THREE.Vector2(0,0),
-    spinRate = 1,
+    spinRate = 1,                   // degrees per second
     radius,
     gravity,
     perpendicularity,
@@ -201,7 +201,6 @@ function createPlanetData({
         showOrbitalPath,
         system,
         description,
-        planetRadius,
         orbitStart,
         color,
         textureMap,
@@ -229,7 +228,6 @@ function createRingData({
     visible = false,
     albedoMap = null,
     alphaMap = null,
-    opacity = 1.0, 
     radius = 1.5, 
     spread = 0.5,
     inclination = 0,
@@ -238,7 +236,6 @@ function createRingData({
         visible,
         albedoMap,
         alphaMap,
-        opacity,
         radius,
         spread,
         inclination
@@ -267,7 +264,6 @@ function createBinarySet({
     return {
         stellarObjectType: STELLAR_OBJECT.BINARY_SET,
         children,
-        separationDistance,
         orbitStart,
         orbitalRadius,
         orbitalEccentricity,
@@ -290,7 +286,6 @@ function createParticulateRing({
     ringDiameter = 1,
     ringRadius = 2,
     color = 0xffffff,
-    opacity = 1,
     modifiers = [],
     children = []
 }) {
@@ -310,7 +305,6 @@ function createParticulateRing({
         ringDiameter,
         ringRadius,
         color,
-        opacity,
         modifiers,
         children,
     };
@@ -350,7 +344,7 @@ export {
     createPlanetData,
     createStellarData,
     createRingData,
-    createCognitiveAnomolyData,
+    createCognitiveAnomalyData,
     createBinarySet,
     createParticulateRing,
     STELLAR_OBJECT,

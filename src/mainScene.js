@@ -7,6 +7,7 @@ import { createStellarSystem } from "./generators/createStellarSystem.js";
 import { sceneContext } from "./core/sceneContext.js";
 import { createCameraControls, updateCamera, jumpTo, flyToOverview, setCameraObstacles } from "./core/cameraRig.js";
 import { startWarpIn } from "./core/warpIn.js";
+import { createUpdateList } from "./core/updateList.js";
 import { attachPointerHandlers, focusOnStellarObject, setSelectableObjects } from "./ui/interactions.js";
 import { collectSelectableObjects } from "./ui/selection.js";
 import { ui } from "./ui/userInterface.js";
@@ -27,6 +28,8 @@ let scene, camera, renderer, cameraControls;
 let finalComposer, bloomComposer, clock;
 let transmissionMeshes = [];
 let cancelWarpIn = null;
+const updateList = createUpdateList();
+const frameContext = { clock: null, camera: null }; // reused every frame
 let loadedSystem = null;
 
 const params = {
@@ -101,7 +104,12 @@ function animate() {
 
     const delta = clock.getDelta();
 
-    scene.traverse(objectUpdate(delta, clock));
+    // let scene objects run their per-frame update (orbits, spin, modifiers, asteroids)
+    frameContext.clock = clock;
+    frameContext.camera = camera;
+    for(const obj of updateList.get(scene)) {
+        obj.userData.update(delta, frameContext);
+    }
 
     // camera
     updateCamera(delta);
@@ -133,15 +141,6 @@ function onWindowResize() {
     });
 }
 
-// allows individual scene objects to run an update function
-function objectUpdate(delta, clock) {
-    return (obj) => {
-        if(obj.userData.update) {
-            obj.userData.update(delta, {clock, camera});
-        }
-    }
-}
-
 // stars, planets and moons: things the camera should fly around rather than through
 // (rings and cognitive anomalies span large, mostly empty regions)
 const SOLID_BODY_TYPES = [STELLAR_OBJECT.STAR, STELLAR_OBJECT.PLANET, STELLAR_OBJECT.MOON];
@@ -162,6 +161,7 @@ function resetScene(stellarSystem) {
 
     // remove everything, freeing the GPU memory held by the previous system
     disposeObject3D(scene);
+    updateList.invalidate();
     scene.background = null;
     scene.clear();
     scene.add(camera);

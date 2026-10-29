@@ -17,14 +17,7 @@ export class Star extends StellarObject {
         // glowy sun center
         const starGeo = new THREE.IcosahedronGeometry(starData.radius, 6);
         const starMesh = new THREE.Mesh(starGeo, sunMat);
-        
-        starMesh.name = starData.id;
-        starMesh.userData = {
-            isSelectable: true,
-            info: starData
-        };
-        this.addStellarObject(starMesh);
-        
+
         // turbulent sun surface
         const coronaGeo = new THREE.IcosahedronGeometry(starData.radius * 0.98, 7);
         const coronaMaterial = new THREE.MeshStandardMaterial({
@@ -33,8 +26,8 @@ export class Star extends StellarObject {
             side: THREE.BackSide,
         });
         const coronaMesh = new THREE.Mesh(coronaGeo, coronaMaterial);
-        this.addStellarObject(coronaMesh);
 
+        this.createBody([starMesh, coronaMesh]);
         this.addModifier(new GeoNoise(coronaGeo, starData.radius, starData.coronaStyle));
         
     }

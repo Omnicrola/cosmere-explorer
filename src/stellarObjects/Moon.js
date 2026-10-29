@@ -1,29 +1,14 @@
 import * as THREE from 'three';
 import { StellarObject } from "./StellarObject.js";
-import { createPlanetMaterial} from '../rendering/materials.js';
+import { createPlanetMaterial } from '../rendering/materials.js';
 
 export class Moon extends StellarObject {
     constructor(moonData) {
         super(moonData);
 
-        const moonMat = createPlanetMaterial(moonData);
-    
         const moonGeo = new THREE.IcosahedronGeometry(moonData.radius, 6);
-        const moon = new THREE.Mesh(moonGeo, moonMat);
-        moon.name = moonData.id;
-                
-        let _showOrbitalRing = false;
-        moon.userData = {
-            isSelectable: true,
-            info: moonData,
-            // hasOrbitalRing: true,
-            // get showOrbitalRing() { return _showOrbitalRing; },
-            // set showOrbitalRing(val) {
-            //     _showOrbitalRing = val;
-            //     orbitalRing.visible = val;
-            // },
-        }
+        const moon = new THREE.Mesh(moonGeo, createPlanetMaterial(moonData));
 
-        this.addStellarObject(moon);
+        this.createBody([moon]);
     }
 }

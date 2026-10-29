@@ -64,7 +64,7 @@ function makePlanetStats(info) {
     `;
 }
 
-function makeCognitiveAnomolyStats(info) {
+function makeCognitiveAnomalyStats(info) {
     return `
     <ul class="stats">
         ${statLine('Location', `${formatStat(info.orbitalRadius, { scale: 1000 })} million km from primary star`)}
@@ -100,8 +100,8 @@ function makeStatsForObject(info) {
         case STELLAR_OBJECT.PLANET :
         case STELLAR_OBJECT.MOON :
             return makePlanetStats(info);
-        case STELLAR_OBJECT.COGNITIVE_ANOMOLY :
-            return makeCognitiveAnomolyStats(info);
+        case STELLAR_OBJECT.COGNITIVE_ANOMALY :
+            return makeCognitiveAnomalyStats(info);
         default :
             return makeGenericDescriptionPanel(info);
     }

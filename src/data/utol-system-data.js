@@ -4,7 +4,6 @@ import { createMoonData, createPlanetData, createStellarData, createRingData, cr
 const utol = createPlanetData({
     id: 'utol',
     name : "UTol",
-    planetRadius : 1.15,
     color : 0x8888ff,
     icon : 'UTol/icon-utol.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -16,7 +15,6 @@ const utol = createPlanetData({
 const komashi = createPlanetData({
     id: 'komashi',
     name: 'Komashi',
-    planetRadius : 1.12,
     color: 0x8888ff,
     icon : 'UTol/icon-komashi.png',
     atmosphericColor: new THREE.Vector3(0.4, 0.4, 1.0),

@@ -1,10 +1,9 @@
 import * as THREE from 'three';
-import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomolyData, createStarData } from "./stellarData.js";
+import { createMoonData, createPlanetData, createStellarData, createRingData, createAsteroidBeltData, createCognitiveAnomalyData, createStarData } from "./stellarData.js";
 
 const nalthis = createPlanetData({
     id: 'nalthis',
     name : "Nalthis",
-    planetRadius : 1,
     color : 0x8888ff,
     icon : 'Nalthis/icon-nalthis.png',
     atmosphericColor : new THREE.Vector3(0.4, 0.4, 1.0),
@@ -32,10 +31,10 @@ const nalthis = createPlanetData({
         }),    ]
 });
 
-const cognitiveAnomoly = createCognitiveAnomolyData({
-    id: 'nalthis-anomoly',
-    name: 'Cognitive Anomoly',
-    icon : 'Nalthis/icon-anomoly.png',
+const cognitiveAnomaly = createCognitiveAnomalyData({
+    id: 'nalthis-anomaly',
+    name: 'Cognitive Anomaly',
+    icon : 'Nalthis/icon-anomaly.png',
     radius: 2,
     orbitalRadius: 175,
     orbitStart: 51,
@@ -46,8 +45,8 @@ const cognitiveAnomoly = createCognitiveAnomolyData({
         noiseSpeed : 8.0,
         noiseScale : 2.0
     }, 
-    icon: 'Nalthis/icon-cognitive-anomoly.png',
-    description: `This unexplored cognitive anomoly occupies the same orbital path as Nalthis.`,
+    icon: 'Nalthis/icon-cognitive-anomaly.png',
+    description: `This unexplored cognitive anomaly occupies the same orbital path as Nalthis.`,
     coppermind : "https://coppermind.net/wiki/Nalthis",
 });
 
@@ -56,7 +55,6 @@ const farkeeper = createPlanetData({
     id: 'farkeeper',
     name: 'Farkeeper the Bright',
     icon : 'Nalthis/icon-farkeeper.png',
-    planetRadius : 7.42,
     color: 0xFF5555,
     textureMap: 'Nalthis/p_nalthis_farkeeper.png',
     icon : 'Nalthis/icon-farkeeper.png',
@@ -166,7 +164,6 @@ const nightstar = createPlanetData({
     id: 'nightstar',
     name: 'Nightstar the Hidden',
     icon : 'Nalthis/icon-nightstar.png',
-    planetRadius : 1.52,
     color: 0xFF44FF,
     textureMap: 'Nalthis/p_nalthis_nightstar.png',
     icon : 'Nalthis/icon-nightstar.png',
@@ -217,7 +214,7 @@ const nalthisSystemData = createStellarData({
     stellarObjects: [
         star,
         cometBelt,
-        cognitiveAnomoly,
+        cognitiveAnomaly,
         nalthis, 
         farkeeper,
         nightstar

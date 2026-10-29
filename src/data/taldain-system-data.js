@@ -5,7 +5,6 @@ import { createMoonData, createPlanetData, createStellarData, createStarData, cr
 const taldain = createPlanetData({
     id: 'taldain',
     name : "Taldain",
-    planetRadius : 1.521,
     color : 0x86684c, 
     textureMap: 'Taldain/p_taldain_taldain.jpg',
     icon : 'Taldain/icon-taldain.png',
@@ -76,7 +75,6 @@ const particulateRing = createParticulateRing({
     ringDiameter: 250,
     ringRadius: 75,
     color: 0x00ffaa,
-    opacity: 0.5
 });
 
 // IRL reference : Procyon B

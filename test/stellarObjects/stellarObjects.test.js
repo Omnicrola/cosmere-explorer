@@ -90,10 +90,29 @@ describe('tumble material', () => {
     });
 });
 
-describe('Spinner (regression: module failed to import)', () => {
-    it('rotates its parent object at spinRate degrees per second', () => {
-        const parentObj = new THREE.Object3D();
-        new Spinner(90).update(2, { parentObj });
-        expect(parentObj.rotation.y).toBeCloseTo(Math.PI);
+describe('AsteroidBelt loading', () => {
+    it('marks the scene graph changed once its meshes are added, so they get updated', async () => {
+        vi.resetModules();
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshPhongMaterial());
+        vi.doMock('../../src/data/fileResources.js', () => ({ loadAsteroidMeshes: () => [Promise.resolve(mesh)] }));
+        const { AsteroidBelt: FreshBelt } = await import('../../src/stellarObjects/AsteroidBelt.js');
+        const { createUpdateList } = await import('../../src/core/updateList.js');
+
+        const belt = new FreshBelt({ density: 5, orbitalRadius: 10, orbitalSpread: 1, orbitalSpeed: 1 });
+        const list = createUpdateList();
+        expect(list.get(belt)).toEqual([]);
+
+        await Promise.resolve();
+        await Promise.resolve();
+        expect(list.get(belt).length).toBe(2); // the belt's orbit group and its tumbling instances
+        vi.doUnmock('../../src/data/fileResources.js');
+    });
+});
+
+describe('Spinner', () => {
+    it('rotates its target at spinRate degrees per second', () => {
+        const target = new THREE.Object3D();
+        new Spinner(90, target).update(2);
+        expect(target.rotation.y).toBeCloseTo(Math.PI);
     });
 });

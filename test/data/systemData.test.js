@@ -66,6 +66,55 @@ describe.each(allStellarSystems.map((s) => [s.name, s]))('%s', (_name, system) =
     });
 });
 
+describe('system data file conventions', () => {
+    const dataDir = path.join(ROOT, 'src/data');
+    const systemFiles = fs.readdirSync(dataDir).filter((f) => f.endsWith('-system-data.js'));
+
+    it('names every system file [name]-system-data.js', () => {
+        const strays = fs.readdirSync(dataDir).filter((f) => /system/i.test(f) && !f.endsWith('-system-data.js') && f !== 'all-systems.js');
+        expect(strays).toEqual([]);
+    });
+
+    it.each(systemFiles)('%s exports [name]SystemData', async (file) => {
+        const name = file.replace('-system-data.js', '');
+        const module = await import(`../../src/data/${file}`);
+        expect(Object.keys(module)).toEqual([`${name}SystemData`]);
+    });
+
+    it('lists every system except the default test system', async () => {
+        const listed = new Set(allStellarSystems);
+        for(const file of systemFiles.filter((f) => f !== 'default-system-data.js')) {
+            const module = await import(`../../src/data/${file}`);
+            expect(listed.has(Object.values(module)[0]), file).toBe(true);
+        }
+    });
+});
+
+describe('deployment', () => {
+    const config = fs.readFileSync(path.join(ROOT, '_config.yml'), 'utf-8');
+
+    it.each(['source-art/', 'tools/', 'test/'])('keeps %s out of the published site', (folder) => {
+        expect(config).toMatch(new RegExp(`^\\s*-\\s*${folder}\\s*$`, 'm'));
+    });
+
+    it('keeps source artwork out of the deployed resources folder', () => {
+        const strays = [];
+        const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+            const full = path.join(dir, entry.name);
+            if(entry.isDirectory()) walk(full);
+            else if(/\.(psd|blend)$/i.test(entry.name)) strays.push(path.relative(ROOT, full));
+        });
+        walk(path.join(ROOT, 'resources'));
+        expect(strays).toEqual([]);
+    });
+
+    it('stores source artwork in Git LFS', () => {
+        const attributes = fs.readFileSync(path.join(ROOT, '.gitattributes'), 'utf-8');
+        expect(attributes).toMatch(/^\*\.psd filter=lfs/m);
+        expect(attributes).toMatch(/^\*\.blend filter=lfs/m);
+    });
+});
+
 describe('findSystemById', () => {
     it('finds systems by id and returns null for unknown ids', () => {
         expect(findSystemById(allStellarSystems[0].id)).toBe(allStellarSystems[0]);

@@ -118,7 +118,7 @@ let pluto = createPlanetData({
 
 
 
-let defaultStellarSystem = createStellarData({
+let defaultSystemData = createStellarData({
     id: 'terran',
     key: 'terran',
     name : 'Terran System (test)',
@@ -138,4 +138,4 @@ let defaultStellarSystem = createStellarData({
         pluto
     ]
 });
-export { defaultStellarSystem };
+export { defaultSystemData };
